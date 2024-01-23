@@ -7,7 +7,7 @@ export default function App() {
     return (
         <>
         {/* <NavbarMain /> */}
-        <Group/>
+        
         <Outlet className='outlet-body'/>
         {/* <Footer /> */}
         </>
