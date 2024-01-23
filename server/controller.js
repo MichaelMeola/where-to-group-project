@@ -21,25 +21,30 @@ const handlerFunctions = {
     res.send(allWinners);
   },
 
-  register: async (req, res) => {
-    const { firstName, lastName, password, email } = req.body;
-
-    const findUser = await User.findOne({ where: { email: email } });
-    // console.log(findUser);
-    if (findUser) {
-      res.send({ success: false, message: "user already exists" });
-      console.log(findUser);
+  addUser: async (req, res) => {
+    const { firstName, lastName, password, email, age } = req.body;
+  
+    const existingUser = await User.findOne({ email });
+    
+    if (existingUser) {
+      res.send({ success: false, message: "User already exists" });
     } else {
-      await User.create({
-        firstName,
-        lastName,
-        password,
-        email,
-      });
-      console.log("created");
-      res.send({ success: true, message: "user created" });
+      await User.create({ firstName, lastName, password, email, age });
+      res.send({ success: true, message: "User created" });
     }
   },
+
+  addGroup: async (req, res) => {
+    await Event.create({})
+    const allGroups = await Event.findAll()
+    res.send(allGroups)
+  },
+
+  addEvent: async (req, res) => {
+    await Event.create({})
+    const allEvents = await Event.findAll()
+    res.send(allEvents)
+  }
 };
 
 export default handlerFunctions;
