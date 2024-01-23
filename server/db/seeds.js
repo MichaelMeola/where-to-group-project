@@ -4,7 +4,8 @@ const user1 = await User.create({
     firstName: 'Michael',
     lastName: 'Meola',
     email: 'meolaadonai@gmail.com',
-    password: 'password'
+    password: 'password',
+    age: 22
 })
 
 const group1 = await Group.create({
