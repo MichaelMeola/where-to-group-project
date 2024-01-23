@@ -1,10 +1,11 @@
-import SignUp from "./Register";
+import SignUp from "./SignUp";
+import Login from "./Login";
 
 export default function LandingPage() {
                         
     return(
         <>
-        <SignUp />
+        <Login />
         </>
     )
     
