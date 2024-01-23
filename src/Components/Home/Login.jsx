@@ -50,9 +50,11 @@ export default function Login() {
     if(!res.data.success) {
         alert(res.data.message)
     }
-    if(res.data.sucesss) {
+    if(res.data.success) {
+        // console.log('hit');
         navigate('/groups')
     }
+    console.log(res.data);
   };
 
   return (
@@ -108,7 +110,6 @@ export default function Login() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick
             >
               Sign In
             </Button>

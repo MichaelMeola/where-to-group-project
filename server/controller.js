@@ -45,11 +45,11 @@ const handlerFunctions = {
     const findUser = await User.findOne({ where: { email: email, password: password } });
     if(findUser){
         console.log(findUser);
-        // res.send({success: true, message: "user exists"})
+        res.send({ success: true, message: "user exists"})
     } 
-    // else {
-    //     res.send({success: false, message: "user does not exist"})
-    // }
+    else {
+        res.send({success: false, message: "user does not exist"})
+    }
   }  
 };
 
