@@ -1,11 +1,11 @@
-import SignUp from "./Register";
-import { useState } from "react";
+import SignUp from "./SignUp";
+import Login from "./Login";
+
 export default function LandingPage() {
-    const [toggleBtn, setToggleBtn] = useState(false)
                         
     return(
         <>
-        <SignUp />
+        <Login />
         </>
     )
     

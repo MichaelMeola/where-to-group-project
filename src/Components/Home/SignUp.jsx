@@ -42,7 +42,8 @@ export default function SignUp() {
     
     const handleReg = async (e) => {
             e.preventDefault();
-            const data = {firstName: firstNameValue, 
+            const data = {
+                firstName: firstNameValue, 
                 lastName: lastNameValue,
                 email: emailValue, 
                 password: passwordValue
