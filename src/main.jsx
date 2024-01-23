@@ -4,17 +4,18 @@ import App from './App.jsx'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css'
-import Home from './Components/Home/Home.jsx'
 import Group from './Components/Group.jsx'
-
-// import Home from './Components/Home/Home.jsx'
 import LandingPage from './Components/Home/LandingPage.jsx'
+import Home from './Components/Home/Home.jsx'
+
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route index element={<Home />}/>
-      {/* <Route path='/logIn' element={<LogIn />}/> */}
       <Route path='/groups' element={<Group />}/>
+
+      <Route path='/login' element={<LandingPage/>}/>
     </Route>
   )
 )

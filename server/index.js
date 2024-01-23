@@ -9,7 +9,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 
-import handlerFunctions from './controller.js';
+
 
 const { getUsers, getGroups, getEvents, getWinners } = handlerFunctions
 
