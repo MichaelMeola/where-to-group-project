@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
+import axios from 'axios';
+
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -31,19 +33,23 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-        const handleSubmit = (event) => {
-                event.preventDefault();
-                const data = new FormData(event.currentTarget);
-                console.log({
-                        email: data.get('email'),
-                        password: data.get('password'),
-                });
-        };
+    
+    const [firstNameValue, setFirstNameValue] = useState('');
+    const [lastNameValue, setLastNameValue] = useState('');
+    const [emailValue, setEmailValue] = useState('');
+    const [passwordValue, setPasswordValue] = useState('');
+    // console.log(firstNameValue, lastNameValue, emailValue, passwordValue);
+    
+    const handleReg = async (e) => {
+            e.preventDefault();
+            const data = {firstName: firstNameValue, 
+                lastName: lastNameValue,
+                email: emailValue, 
+                password: passwordValue
+            }
 
-        const [firstNameValue, setFirstNameValue] = useState('');
-        const [lastNameValue, setLastNameValue] = useState('');
-        const [emailValue, setEmailValue] = useState('');
-        const [passwordValue, setPasswordValue] = useState('');
+            let res = axios.post('/register', data)
+    };
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -63,7 +69,7 @@ export default function SignUp() {
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <Box component="form" noValidate onSubmit={handleReg} sx={{ mt: 3 }}>
                                 
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
