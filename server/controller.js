@@ -22,23 +22,18 @@ const handlerFunctions = {
   },
 
   register: async (req, res) => {
-    const { firstName, lastName, password, email } = req.body;
+    const { firstName, lastName, password, email, age } = req.body;
 
     const findUser = await User.findOne({ where: { email: email } });
+    // console.log(findUser);
     if (findUser) {
-      res.send({ success: false, message: "user already exists" });
       console.log(findUser);
+      res.send({ success: true, message: "user exists" });
     } else {
-      await User.create({
-        firstName,
-        lastName,
-        password,
-        email,
-      });
-      console.log("created");
-      res.send({ success: true, message: "user created" });
+      res.send({ success: false, message: "user does not exist" });
     }
   },
+  
   login: async (req, res) => {
     const { email, password } = req.body;
     console.log(req.body);

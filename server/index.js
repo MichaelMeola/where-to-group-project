@@ -12,14 +12,13 @@ app.use(morgan("dev"));
 
 
 
-const { getUsers, getGroups, getEvents, getWinners, register, login } = handlerFunctions
+const { getUsers, getGroups, getEvents, getWinners, register } = handlerFunctions
 
 app.get("/api/users", getUsers);
 app.get("/api/groups", getGroups);
 app.get("/api/events", getEvents);
 app.get("/api/winners", getWinners);
 app.post("/register", register);
-app.post("/login", login);
 
 ViteExpress.listen(app, 9999, () =>
   console.log(`Server running on http://localhost:9999`)
