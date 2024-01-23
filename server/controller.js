@@ -33,6 +33,7 @@ const handlerFunctions = {
       res.send({ success: false, message: "user does not exist" });
     }
   },
+  
   login: async (req, res) => {
     const { email, password } = req.body;
     console.log(req.body);
