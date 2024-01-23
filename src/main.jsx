@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 import Home from './Components/Home/Home.jsx'
 import Group from './Components/Group.jsx'
 
+// import Home from './Components/Home/Home.jsx'
+import LandingPage from './Components/Home/LandingPage.jsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>

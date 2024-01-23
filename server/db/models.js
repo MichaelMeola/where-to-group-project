@@ -29,6 +29,7 @@ User.init(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.TEXT,
@@ -59,8 +60,8 @@ Group.init(
     },
     creatorId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      references: { model: User, key: "userId" },
+      allowNull: true,
+      references: { model: User, key: "user_id" },
     },
     name: {
       type: DataTypes.STRING,
@@ -92,14 +93,14 @@ Event.init(
     groupId: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      references: { model: Group, key: "groupId" },
+      references: { model: Group, key: "group_id" },
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     date: {
-      type: DataTypes.DATETIME,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     description: {
@@ -135,25 +136,28 @@ Winner.init(
   {
     winnerId: {
       type: DataTypes.INTEGER,
-      autoIncrement:true,
-      primaryKey: true
+      autoIncrement: true,
+      primaryKey: true,
     },
     groupId: {
       type: DataTypes.INTEGER,
-      references: { model: Group, key: "groupId" },
-      allowNull: false
+      references: { model: Group, key: "group_id" },
+      allowNull: false,
     },
     eventId: {
       type: DataTypes.INTEGER,
-      references: { model: Event, key: "eventId" },
-      allowNull: false
+      references: { model: Event, key: "event_id" },
+      allowNull: false,
     },
     winningVotes: {
       type: DataTypes.INTEGER,
-      allowNull: false
-    }
+      allowNull: false,
+    },
+  },
+  {
+    sequelize: db,
   }
-)
+);
 
 if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
   console.log("Syncing database...");

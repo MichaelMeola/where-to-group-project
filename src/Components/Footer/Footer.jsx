@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import './footer.css'
 
 
-export default function Footer() {
+const Footer= () => {
   return (
     <footer className="page-footer font-small blue pt-4 footer-style" style={{ backgroundColor: 'blue', padding: '0px 0px 0px 0px'}}>
       <div className="text-center m-auto">
@@ -28,3 +28,4 @@ export default function Footer() {
     </footer>
   );
 }
+export default Footer
