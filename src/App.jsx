@@ -19,6 +19,9 @@ export default function App() {
         case '/login':
             landingNav = null
             landingFooter = null
+        case '/signup':
+            landingNav = null
+            landingFooter = null
     }
     return (
         <>
