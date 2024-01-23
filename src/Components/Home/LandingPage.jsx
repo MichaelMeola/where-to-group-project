@@ -48,7 +48,13 @@ export default function SignUp() {
                 password: passwordValue
             }
 
-            let res = axios.post('/register', data)
+            const res = await axios.post('/register', data)
+            if(!res.data.success) {
+                alert(res.data.message)
+            }
+            if(res.data.sucesss) {
+                console.log(res.data.message)
+            }
     };
 
     return (
