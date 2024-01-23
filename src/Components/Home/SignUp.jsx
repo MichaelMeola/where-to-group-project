@@ -42,7 +42,8 @@ export default function SignUp() {
     
     const handleReg = async (e) => {
             e.preventDefault();
-            const data = {firstName: firstNameValue, 
+            const data = {
+                firstName: firstNameValue, 
                 lastName: lastNameValue,
                 email: emailValue, 
                 password: passwordValue
@@ -89,6 +90,8 @@ export default function SignUp() {
                                     autoFocus
                                     onChange={(e) => setFirstNameValue(e.target.value)}
                                     value={firstNameValue}
+                                    error={firstNameValue.length < 2}
+                                    helperText={firstNameValue.length < 2 ? null : 'First name must be at least 2 characters'}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -139,7 +142,7 @@ export default function SignUp() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/login" variant="body2">
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>

@@ -35,6 +35,10 @@ User.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     friends: {
       type: DataTypes.STRING,
       allowNull: true,

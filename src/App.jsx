@@ -6,11 +6,28 @@ import './App.css'
 
 
 export default function App() {
+
+    const location = useLocation();
+    
+    let landingNav = <Navbar/>
+    let landingFooter = <Footer/>
+
+    switch (location.pathname) {
+        case '/':
+            landingNav = null
+            landingFooter = null
+        case '/login':
+            landingNav = null
+            landingFooter = null
+        case '/signup':
+            landingNav = null
+            landingFooter = null
+    }
     return (
         <>
-        <Navbar />
+        {landingNav}
         <Outlet className='outlet-body'/>
-        <Footer />
+        {landingFooter}
         </>
     )
 }
