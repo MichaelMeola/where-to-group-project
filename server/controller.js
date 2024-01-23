@@ -21,7 +21,7 @@ const handlerFunctions = {
     res.send(allWinners);
   },
 
-  addUser: async (req, res) => {
+  register: async (req, res) => {
     const { firstName, lastName, password, email, age } = req.body;
 
     const findUser = await User.findOne({ where: { email: email } });
