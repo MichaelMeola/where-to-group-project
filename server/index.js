@@ -9,14 +9,16 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 
-const { getUsers, getGroups, getEvents, getWinners, addUser } =
-  handlerFunctions;
+
+
+
+const { getUsers, getGroups, getEvents, getWinners, register } = handlerFunctions
 
 app.get("/api/users", getUsers);
 app.get("/api/groups", getGroups);
 app.get("/api/events", getEvents);
 app.get("/api/winners", getWinners);
-app.post("/register", addUser);
+app.post("/register", register);
 
 ViteExpress.listen(app, 9999, () =>
   console.log(`Server running on http://localhost:9999`)
