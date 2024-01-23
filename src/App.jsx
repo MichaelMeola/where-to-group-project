@@ -1,13 +1,13 @@
 import { Outlet } from 'react-router-dom'
-// import NavbarMain from './Components/Navbar/NavbarMain.jsx'
+import Navbar from './Components/Navbar/Navbar.jsx'
 import Footer from './Components/Footer/Footer.jsx'
 import './App.css'
-// import Group from './Components/Group.jsx'
+
+
 export default function App() {
     return (
         <>
-        {/* <NavbarMain /> */}
-        
+        <Navbar />
         <Outlet className='outlet-body'/>
         <Footer />
         </>
