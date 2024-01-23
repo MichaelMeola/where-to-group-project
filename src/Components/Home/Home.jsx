@@ -8,7 +8,7 @@ export default function Home() {
     return(
         <>
             <h1>Home</h1>
-            <Button onClick={() => navigate('/login')}>Login</Button>
+            <Button onClick={() => navigate('/login')}>Get Started</Button>
         </>
     )
 
