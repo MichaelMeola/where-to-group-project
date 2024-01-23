@@ -1,34 +1,30 @@
-import React from 'react'
+import React from "react";
+import { Link } from 'react-router-dom'
+import './footer.css'
+
 
 export default function Footer() {
   return (
-    <footer>
-      <div className='container-fluid font-small pt-4'>
-        <div className='row'>
-          
-          <div className='col-md-3 mt-md-0 mt-3'>
-            <ul className='list-unstyled'>
-              <li><a className='footer-link' href="">Events</a></li>
-            </ul>
+    <footer className="page-footer font-small blue pt-4 footer-style" style={{ backgroundColor: 'blue', padding: '0px 0px 0px 0px'}}>
+      <div className="text-center m-auto">
+        <div className="row" >
+          <div className="col-4 m-auto" style={{ backgroundColor: 'white'}}>
+            <Link to="/">
+            <i className="material-icons cart-icon">home</i>
+            </Link>
           </div>
-
-          <div className='col-md-3 mt-md-0 mt-3'>
-            <ul className='list-unstyled'>
-              <li><a className='footer-link' href="">Home</a></li>
-            </ul>
+          <div className="col-4 m-auto">
+            <Link to="/">
+            <i className="material-icons cart-icon">search</i>
+            </Link>
           </div>
-
-          <div className='col-md-3 mt-md-0 mt-3' >
-            <ul className='list-unstyled'>
-              <li><a className='footer-link' href="">Groups</a></li>
-            </ul>
+          <div className="col-4 m-auto">
+            <Link to="/">
+            <i className="material-icons cart-icon">group</i>
+            </Link>
           </div>
         </div>
       </div>
-
-      <div className='footer-copyright text-center py-3 copyright-div'> © 2023 Copyright:
-        <a className='footer-link' href="https://www.linkedin.com/in/richard-webber-b1a052276/">MGR.LLC</a>
-      </div>
     </footer>
-  )
+  );
 }
