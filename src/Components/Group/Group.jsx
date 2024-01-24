@@ -6,7 +6,7 @@ const groups = [
 Group(groups);
 export default function Group(props) {
     
-    console.log(groups);
+    // console.log(groups);
     const mappedGroup = groups.map((group) => {
         return (
             <div key={group.groupId}>
