@@ -116,6 +116,14 @@ Liked.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    likeCount: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     sequelize: db,

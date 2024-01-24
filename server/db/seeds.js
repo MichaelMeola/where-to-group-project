@@ -16,7 +16,7 @@ const user2 = await User.create({
 
 const user3 = await User.create({
     username: 'PibleJib',
-    email: 'rikkiwebber@gmail.com',
+    email: 'rikki.webber@gmail.com',
     password: 'password',
     age: 27
 });
@@ -26,5 +26,6 @@ const event1 = await Event.create({
     name: `Rikki's House Party`,
     date: new Date('2024-12-31'),
     description: 'It will be a good time',
-    ages: 21
+    ages: 21,
+    createdBy: 'PibleJib'
 });
