@@ -18,11 +18,7 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lastName: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -37,43 +33,12 @@ User.init(
     },
     age: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    friends: {
-      type: DataTypes.STRING,
       allowNull: true,
     },
-  },
-  {
-    sequelize: db,
-  }
-);
-
-class Group extends Model {
-  [util.inspect.custom]() {
-    return this.toJSON();
-  }
-}
-
-Group.init(
-  {
-    groupId: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    creatorId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: { model: User, key: "user_id" },
-    },
-    name: {
+    profilePic: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    zip: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      defaultValue: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
     },
   },
   {
@@ -94,10 +59,9 @@ Event.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    groupId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: { model: Group, key: "group_id" },
+    createdBy: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     name: {
       type: DataTypes.STRING,
@@ -115,7 +79,7 @@ Event.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    votes: {
+    likes: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
@@ -130,38 +94,32 @@ Event.init(
   }
 );
 
-class Winner extends Model {
+class Liked extends Model {
   [util.inspect.custom]() {
     return this.toJSON();
   }
 }
 
-Winner.init(
-  {
-    winnerId: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    groupId: {
-      type: DataTypes.INTEGER,
-      references: { model: Group, key: "group_id" },
-      allowNull: false,
-    },
-    eventId: {
-      type: DataTypes.INTEGER,
-      references: { model: Event, key: "event_id" },
-      allowNull: false,
-    },
-    winningVotes: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+Liked.init({
+  likeId: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
   },
-  {
-    sequelize: db,
-  }
-);
+  likeCount: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+});
+
+Event.hasMany(Liked, { foreignKey: "eventId" });
+Liked.belongsTo(Event, { foreignKey: "eventId" });
+User.belongsToMany(Event, { through: "saved_events" });
+Event.belongsToMany(User, { through: "saved_events" });
 
 if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
   console.log("Syncing database...");
@@ -169,4 +127,4 @@ if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
   console.log("Finished syncing database!");
 }
 
-export { User, Group, Event, Winner };
+export { User, Event, Liked };

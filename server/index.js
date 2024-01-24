@@ -12,12 +12,10 @@ app.use(morgan("dev"));
 
 
 
-const { getUsers, getGroups, getEvents, getWinners, register } = handlerFunctions
+const { getUsers, getEvents, register } = handlerFunctions
 
 app.get("/api/users", getUsers);
-app.get("/api/groups", getGroups);
 app.get("/api/events", getEvents);
-app.get("/api/winners", getWinners);
 app.post("/register", register);
 
 ViteExpress.listen(app, 9999, () =>
