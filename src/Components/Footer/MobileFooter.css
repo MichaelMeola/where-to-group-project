@@ -1,11 +1,12 @@
 .page-footer {
+    background-color: rgb(131, 131, 131);
     color: white; /* Set text color if needed */
     padding: 20px; /* Adjust padding as needed */
     width: 100%;
     position: fixed;
     bottom: 0;
     left: 0;
-    height: 130px;
+    height: 110px;
 }
 
 .ul-link {
@@ -23,9 +24,9 @@
 }
 
 .cart-icon {
-    font-size: 65px;
+    font-size: 55px;
 }
 
 .row {
-    padding: 10px 0px 0px 0px;
+    padding: 3px 0px 0px 0px;
 }
