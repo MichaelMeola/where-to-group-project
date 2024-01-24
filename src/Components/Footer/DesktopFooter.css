@@ -1,5 +1,13 @@
 .desktop-footer-style {
     text-decoration: none;
+    background-color: rgb(131, 131, 131);
+    color: white; /* Set text color if needed */
+    padding: 20px; /* Adjust padding as needed */
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 120px;
 }
 
 .desktop-ul-link {
@@ -8,7 +16,7 @@
 }
 
 .desktop-footer-link:hover {
-    color: green;
+    color: rgb(217, 216, 216);
     text-decoration: none;
 }
 

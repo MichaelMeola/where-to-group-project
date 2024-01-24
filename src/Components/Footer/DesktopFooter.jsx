@@ -3,7 +3,7 @@ import "./DesktopFooter.css";
 
 export default function DesktopFooter() {
   return (
-    <footer className="page-footer font-small blue pt-4 desktop-footer-style">
+    <footer className="font-small blue pt-4 desktop-footer-style">
       <div className="container-fluid text-center text-md-left">
         <div className="row desktop-row">
           <div className="col-md-3 mt-md-0 mt-3 desktop-footer-links-div">
