@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useProfileStore } from "../../globalState.jsx";
 
 function Copyright(props) {
   return (
@@ -41,6 +42,7 @@ const defaultTheme = createTheme();
 export default function Login() {
   const navigate = useNavigate();
 
+  const {profile, setProfile} = useProfileStore()
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
 
@@ -55,10 +57,12 @@ export default function Login() {
       alert(res.data.message);
     }
     if (res.data.success) {
-      // console.log('hit');
+      setProfile(res.data.profile)
       navigate("/groups");
     }
-    console.log(res.data);
+    console.log(res.data.profile);
+    console.log('zussy', profile);
+    
   };
 
   return (

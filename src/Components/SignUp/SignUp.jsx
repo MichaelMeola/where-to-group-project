@@ -14,8 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import axios from 'axios';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Form from 'react-bootstrap/Form';
+import InputAdornment from '@mui/material/InputAdornment';
 
 function Copyright(props) {
     return (
@@ -79,8 +78,8 @@ export default function SignUp() {
                     <Box component="form" noValidate onSubmit={handleReg} sx={{ mt: 3 }}>
                                 
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                {/* <TextField
+                            <Grid item xs={12}>
+                                <TextField
                                     autoComplete="given-name"
                                     name="username"
                                     required
@@ -90,25 +89,15 @@ export default function SignUp() {
                                     autoFocus
                                     onChange={(e) => setUsernameValue(e.target.value)}
                                     value={usernameValue}
-                                    error={usernameValue.length < 2}
-                                    helperText={usernameValue.length < 2 ? null : 'First name must be at least 2 characters'}
-                                /> */}
-                                <InputGroup className="mb-3">
-                                    <InputGroup.Text id="basic-addon1" className='signup-inputgroup-text'>@</InputGroup.Text>
-                                    <Form.Control
-                                    required
-                                    fullWidth
-                                    id="username"
-                                    label="Username"
-                                    placeholder="Username"
-                                    aria-label="Username"
-                                    aria-describedby="basic-addon1"
-                                    onChange={(e) => setUsernameValue(e.target.value)}
-                                    value={usernameValue}
-                                    error={usernameValue.length < 2}
-                                    helperText={usernameValue.length < 2 ? null : 'First name must be at least 2 characters'}
-                                    />
-                                </InputGroup>
+                                    error={usernameValue.length < 5}
+                                    helperText={usernameValue.length < 5 ? 'Username must be at least 4 characters' : null }
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">@</InputAdornment>
+                                        ),
+                                    
+                                    }}
+                                />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField

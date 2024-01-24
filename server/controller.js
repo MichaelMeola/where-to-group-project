@@ -31,7 +31,7 @@ const handlerFunctions = {
 
     if(findUser){
         console.log(findUser);
-        res.send({ success: true, message: "user exists"})
+        res.send({ success: true, message: "user exists", profile: findUser})
     } 
     else {
         res.send({success: false, message: "user does not exist"})
