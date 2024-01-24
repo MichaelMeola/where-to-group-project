@@ -39,7 +39,8 @@ User.init(
     profilePic: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+      defaultValue:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     },
   },
   {
@@ -101,21 +102,30 @@ class Liked extends Model {
   }
 }
 
-Liked.init({
-  likeId: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
+Liked.init(
+  {
+    likeId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    likeCount: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    likeCount: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
-  likeCount: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  }, 
-},
   {
     sequelize: db,
   }

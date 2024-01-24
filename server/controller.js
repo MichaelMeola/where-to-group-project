@@ -36,7 +36,8 @@ const handlerFunctions = {
     else {
         res.send({success: false, message: "user does not exist"})
     }
-  }  
+  },
+
 };
 
 export default handlerFunctions;
