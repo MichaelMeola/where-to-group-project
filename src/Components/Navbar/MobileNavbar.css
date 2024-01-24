@@ -1,0 +1,25 @@
+.mobile-navbar-container {
+    height: 60px;
+}
+
+.mobile-navbar-profilepic {
+    width: 60px;
+    height: 60px;
+}
+
+.mobile-navbar-image-nav {
+    background-color: red;
+}
+
+.mobile-navbar-image-logo {
+    height: 190px;
+    margin: 0px 0px 120px 40px
+}
+
+/* .mobile-navbar-nav {
+    padding: 0px 0px 140px 0px
+}  */
+
+.mobile-navbar-nav-logo {
+    margin: 0px 0px 0px 0px
+}

@@ -10,6 +10,7 @@ export const useEvents = create((set) => ({
 
 export const useProfileStore = create((set) => ({
   profile: {},
+  profile: {},
 
   setProfile: (newProfile) => set({ profile: newProfile }),
 }));
