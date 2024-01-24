@@ -113,8 +113,12 @@ Liked.init({
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-  },
-});
+  }, 
+},
+  {
+    sequelize: db,
+  }
+);
 
 Event.hasMany(Liked, { foreignKey: "eventId" });
 Liked.belongsTo(Event, { foreignKey: "eventId" });

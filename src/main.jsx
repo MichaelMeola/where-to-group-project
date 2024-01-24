@@ -5,9 +5,9 @@ import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import Group from './Components/Group/Group.jsx'
-import Login from './Components/Home/Login.jsx'
+import Login from './Components/LogIn/Login.jsx'
 import Home from './Components/Home/Home.jsx'
-import SignUp from './Components/Home/SignUp.jsx'
+import SignUp from './Components/SignUp/SignUp.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
