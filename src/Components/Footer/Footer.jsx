@@ -1,31 +1,29 @@
-import React from "react";
-import { Link } from 'react-router-dom'
-import './footer.css'
+import React, { useState, useEffect } from 'react';
+import MobileFooter from './MobileFooter';
+import DesktopFooter from './DesktopFooter';
 
 
-const Footer= () => {
+const Footer = () => {
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 767 && window.innerHeight > 400);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 767 && window.innerHeight > 400)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+
   return (
-    <footer className="page-footer font-small blue pt-4 footer-style" style={{ backgroundColor: 'blue', padding: '0px 0px 0px 0px'}}>
-      <div className="text-center m-auto">
-        <div className="row" >
-          <div className="col-4 m-auto" style={{ backgroundColor: 'white'}}>
-            <Link to="/">
-            <i className="material-icons cart-icon">home</i>
-            </Link>
-          </div>
-          <div className="col-4 m-auto">
-            <Link to="/">
-            <i className="material-icons cart-icon">search</i>
-            </Link>
-          </div>
-          <div className="col-4 m-auto">
-            <Link to="/">
-            <i className="material-icons cart-icon">group</i>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <div>
+      {isDesktop ? <DesktopFooter /> : <MobileFooter />}
+    </div>
   );
-}
-export default Footer
+};
+
+export default Footer;
