@@ -14,6 +14,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import axios from 'axios';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Form from 'react-bootstrap/Form';
 
 function Copyright(props) {
     return (
@@ -34,8 +36,7 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
     
-    const [firstNameValue, setFirstNameValue] = useState('');
-    const [lastNameValue, setLastNameValue] = useState('');
+    const [usernameValue, setUsernameValue] = useState('');
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     // console.log(firstNameValue, lastNameValue, emailValue, passwordValue);
@@ -43,8 +44,7 @@ export default function SignUp() {
     const handleReg = async (e) => {
             e.preventDefault();
             const data = {
-                firstName: firstNameValue, 
-                lastName: lastNameValue,
+                username: usernameValue,
                 email: emailValue, 
                 password: passwordValue
             }
@@ -80,31 +80,35 @@ export default function SignUp() {
                                 
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
-                                <TextField
+                                {/* <TextField
                                     autoComplete="given-name"
-                                    name="firstName"
+                                    name="username"
                                     required
                                     fullWidth
-                                    id="firstName"
-                                    label="First Name"
+                                    id="username"
+                                    label="username"
                                     autoFocus
-                                    onChange={(e) => setFirstNameValue(e.target.value)}
-                                    value={firstNameValue}
-                                    error={firstNameValue.length < 2}
-                                    helperText={firstNameValue.length < 2 ? null : 'First name must be at least 2 characters'}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
+                                    onChange={(e) => setUsernameValue(e.target.value)}
+                                    value={usernameValue}
+                                    error={usernameValue.length < 2}
+                                    helperText={usernameValue.length < 2 ? null : 'First name must be at least 2 characters'}
+                                /> */}
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Text id="basic-addon1" className='signup-inputgroup-text'>@</InputGroup.Text>
+                                    <Form.Control
                                     required
                                     fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="family-name"
-                                    onChange={(e) => setLastNameValue(e.target.value)}
-                                    value={lastNameValue}
-                                />
+                                    id="username"
+                                    label="Username"
+                                    placeholder="Username"
+                                    aria-label="Username"
+                                    aria-describedby="basic-addon1"
+                                    onChange={(e) => setUsernameValue(e.target.value)}
+                                    value={usernameValue}
+                                    error={usernameValue.length < 2}
+                                    helperText={usernameValue.length < 2 ? null : 'First name must be at least 2 characters'}
+                                    />
+                                </InputGroup>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -116,6 +120,7 @@ export default function SignUp() {
                                     autoComplete="email"
                                     onChange={(e) => setEmailValue(e.target.value)}
                                     value={emailValue}
+
                                 />
                             </Grid>
                             <Grid item xs={12}>
