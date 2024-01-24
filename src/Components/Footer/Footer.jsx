@@ -3,7 +3,7 @@ import MobileFooter from './MobileFooter';
 import DesktopFooter from './DesktopFooter';
 
 
-const MyConditionalComponent = () => {
+const Footer = () => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 767 && window.innerHeight > 400);
 
   useEffect(() => {
@@ -26,4 +26,4 @@ const MyConditionalComponent = () => {
   );
 };
 
-export default MyConditionalComponent;
+export default Footer;

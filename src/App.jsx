@@ -3,6 +3,7 @@ import Navbar from './Components/Navbar/Navbar.jsx'
 import Footer from './Components/Footer/Footer.jsx'
 import DesktopFooter from './Components/Footer/DesktopFooter.jsx'
 import './App.css'
+import { useLocation } from 'react-router-dom'
 
 
 export default function App() {
