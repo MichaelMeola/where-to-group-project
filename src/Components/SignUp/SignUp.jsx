@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import axios from 'axios';
+import InputAdornment from '@mui/material/InputAdornment';
 
 function Copyright(props) {
     return (
@@ -34,8 +35,7 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
     
-    const [firstNameValue, setFirstNameValue] = useState('');
-    const [lastNameValue, setLastNameValue] = useState('');
+    const [usernameValue, setUsernameValue] = useState('');
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     // console.log(firstNameValue, lastNameValue, emailValue, passwordValue);
@@ -43,8 +43,7 @@ export default function SignUp() {
     const handleReg = async (e) => {
             e.preventDefault();
             const data = {
-                firstName: firstNameValue, 
-                lastName: lastNameValue,
+                username: usernameValue,
                 email: emailValue, 
                 password: passwordValue
             }
@@ -79,31 +78,25 @@ export default function SignUp() {
                     <Box component="form" noValidate onSubmit={handleReg} sx={{ mt: 3 }}>
                                 
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12}>
                                 <TextField
                                     autoComplete="given-name"
-                                    name="firstName"
+                                    name="username"
                                     required
                                     fullWidth
-                                    id="firstName"
-                                    label="First Name"
+                                    id="username"
+                                    label="username"
                                     autoFocus
-                                    onChange={(e) => setFirstNameValue(e.target.value)}
-                                    value={firstNameValue}
-                                    error={firstNameValue.length < 2}
-                                    helperText={firstNameValue.length < 2 ? null : 'First name must be at least 2 characters'}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="family-name"
-                                    onChange={(e) => setLastNameValue(e.target.value)}
-                                    value={lastNameValue}
+                                    onChange={(e) => setUsernameValue(e.target.value)}
+                                    value={usernameValue}
+                                    error={usernameValue.length < 5}
+                                    helperText={usernameValue.length < 5 ? 'Username must be at least 4 characters' : null }
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">@</InputAdornment>
+                                        ),
+                                    
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -116,6 +109,7 @@ export default function SignUp() {
                                     autoComplete="email"
                                     onChange={(e) => setEmailValue(e.target.value)}
                                     value={emailValue}
+
                                 />
                             </Grid>
                             <Grid item xs={12}>

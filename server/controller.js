@@ -12,7 +12,7 @@ const handlerFunctions = {
   },
 
   register: async (req, res) => {
-    const { firstName, lastName, password, email, age } = req.body;
+    const { username, password, email } = req.body;
 
     const findUser = await User.findOne({ where: { email: email } });
     // console.log(findUser);
@@ -26,16 +26,18 @@ const handlerFunctions = {
   
   login: async (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body);
     const findUser = await User.findOne({ where: { email: email, password: password } });
+    // console.log(findUser);
+
     if(findUser){
         console.log(findUser);
-        res.send({ success: true, message: "user exists"})
+        res.send({ success: true, message: "user exists", profile: findUser})
     } 
     else {
         res.send({success: false, message: "user does not exist"})
     }
-  }  
+  },
+
 };
 
 export default handlerFunctions;

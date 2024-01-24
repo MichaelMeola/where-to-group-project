@@ -7,3 +7,8 @@ export const useEvents = create((set) => ({
 
   addEvent: (event) => set({ events: [...set.events, event] }),
 }));
+
+export const useProfileStore = create((set) => ({
+  profile: {},
+  setProfile: (newProfile) => set({ profile: newProfile }),
+}));
