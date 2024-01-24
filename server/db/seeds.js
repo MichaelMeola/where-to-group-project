@@ -22,6 +22,7 @@ const user3 = await User.create({
 });
 
 const event1 = await Event.create({
+    createdBy: 'PibleJib',
     name: `Rikki's House Party`,
     date: new Date('2024-12-31'),
     description: 'It will be a good time',
