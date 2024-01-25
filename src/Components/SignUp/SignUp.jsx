@@ -131,12 +131,13 @@ export default function SignUp() {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            style={{ backgroundColor: '#99D5C9' }}
                         >
                             Sign Up
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/login" variant="body2">
+                                <Link href="/login" variant="body2" style={{color: '#99D5C9'}}>
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>
