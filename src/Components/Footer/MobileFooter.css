@@ -1,7 +1,6 @@
 .mobile-page-footer {
-    background-color: rgb(131, 131, 131);
     color: white; /* Set text color if needed */
-    padding: 20px; /* Adjust padding as needed */
+    padding: 10px; /* Adjust padding as needed */
     width: 100%;
     position: fixed;
     bottom: 0;
@@ -23,8 +22,9 @@
     text-decoration: underline; /* Add underline on hover if needed */
 }
 
-.cart-icon {
-    font-size: 55px;
+.mobile-icons {
+    font-size: 50px;
+    color: black;
 }
 
 .row {

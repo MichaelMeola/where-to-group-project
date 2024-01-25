@@ -3,13 +3,13 @@ import "./DesktopFooter.css";
 
 export default function DesktopFooter() {
   return (
-    <footer className="font-small blue pt-4 desktop-footer-style">
+    <footer className="font-small pt-4 desktop-footer-style">
       <div className="container-fluid text-center text-md-left">
         <div className="row desktop-row">
           <div className="col-md-3 mt-md-0 mt-3 desktop-footer-links-div">
             <ul className="list-unstyled desktop-ul-link">
               <li>
-                <a className="desktop-footer-link" href="#!">
+                <a className="desktop-footer-link" href="/about">
                   About
                 </a>
               </li>
@@ -19,7 +19,7 @@ export default function DesktopFooter() {
           <div className="col-md-3 mt-md-0 mt-3 desktop-footer-links-div">
             <ul className="list-unstyled desktop-ul-link">
               <li>
-                <a className="desktop-footer-link" href="#!">
+                <a className="desktop-footer-link" href="/goal">
                   Our Goal
                 </a>
               </li>
@@ -29,7 +29,7 @@ export default function DesktopFooter() {
           <div className="col-md-3 mb-md-0 mb-3 desktop-footer-links-div">
             <ul className="list-unstyled desktop-ul-link">
               <li>
-                <a className="desktop-footer-link" href="/qa">
+                <a className="desktop-footer-link" href="/team">
                   Our Team
                 </a>
               </li>
@@ -39,7 +39,7 @@ export default function DesktopFooter() {
           <div className="col-md-3 mb-md-0 mb-3 desktop-footer-links-div">
             <ul className="list-unstyled desktop-ul-link">
               <li>
-                <a className="desktop-footer-link" href="/admin">
+                <a className="desktop-footer-link" href="/contact">
                   Contact Us
                 </a>
               </li>

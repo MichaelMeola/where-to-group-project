@@ -9,18 +9,18 @@ export default function MobileFooter() {
       <div className="text-center m-auto">
         <div className="row" >
           <div className="col-4 m-auto">
-            <Link to="/">
-            <i className="material-icons cart-icon">home</i>
+            <Link to="/events">
+            <i className="material-icons mobile-icons">home</i>
             </Link>
           </div>
           <div className="col-4 m-auto">
-            <Link to="/">
-            <i className="material-icons cart-icon">search</i>
+            <Link to="/search">
+            <i className="material-icons mobile-icons">search</i>
             </Link>
           </div>
           <div className="col-4 m-auto">
-            <Link to="/">
-            <i className="material-icons cart-icon">group</i>
+            <Link to="/myCalendar">
+            <i className="material-icons mobile-icons">calendar_month</i>
             </Link>
           </div>
         </div>

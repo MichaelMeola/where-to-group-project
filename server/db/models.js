@@ -69,6 +69,10 @@ Event.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     date: {
       type: DataTypes.DATE,
       allowNull: false,
