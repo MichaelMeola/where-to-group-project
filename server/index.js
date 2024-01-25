@@ -14,8 +14,8 @@ const { getUsers, getEvents, register, login } = handlerFunctions;
 
 app.get("/api/users", getUsers);
 app.get("/api/events", getEvents);
-app.post("api/register", register);
-app.post("api/login", login)
+app.post("/api/register", register);
+app.post("/api/login", login)
 
 
 ViteExpress.listen(app, 9999, () =>

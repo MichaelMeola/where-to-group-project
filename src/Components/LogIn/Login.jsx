@@ -35,7 +35,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Login() {
-
+  const navigate = useNavigate();
   const {profile, setProfile} = useProfileStore()
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
@@ -46,6 +46,8 @@ export default function Login() {
         email: emailValue, 
         password: passwordValue
     }
+    const res = await axios.post('/api/login', data)
+
     if (res.data.success) {
       setProfile(res.data.profile)
       navigate("/events");
