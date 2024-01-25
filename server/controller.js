@@ -16,9 +16,8 @@ const handlerFunctions = {
     const { username, password, email } = req.body;
     console.log(email);
     const findUser = await User.findOne({ where: { email: email } });
-    console.log('user found, ', findUser);
+    console.log("user found, ", findUser);
     // console.log(findUser);
-
 
     if (findUser) {
       console.log(findUser);
@@ -31,15 +30,15 @@ const handlerFunctions = {
         password: hashedPassword,
         email: email,
       });
-      console.log('user created, ', newUser);
+      console.log("user created, ", newUser);
       res.send({ success: true, message: "registration successful" });
     }
   },
-  
+
   login: async (req, res) => {
     const { email, password } = req.body;
     const findUser = await User.findOne({ where: { email: email } });
-    const { username, age, profilePic, userId} = findUser;
+    const { username, age, profilePic, userId } = findUser;
     // console.log(findUser);
     bcrypt.compare(password, findUser.password, (err, result) => {
       if (err) {
@@ -47,13 +46,16 @@ const handlerFunctions = {
       }
       if (result) {
         console.log(result);
-        res.send({ success: true, message: "login successful", profile: {username, age, profilePic, userId} });
+        res.send({
+          success: true,
+          message: "login successful",
+          profile: { username, age, profilePic, userId },
+        });
       } else {
         res.send({ success: false, message: "login unsuccessful" });
       }
-    })
+    });
   },
-
 };
 
 export default handlerFunctions;
