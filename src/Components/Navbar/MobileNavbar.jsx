@@ -14,15 +14,15 @@ export default function MobileNavbar() {
         <Nav md={2} className="mobile-navbar-nav">
         </Nav>
         <Nav md={8} className="mobile-navbar-nav-logo">
-            <>
+            <figure className="mobile-navbar-figure">
             <Image 
                 className="mobile-navbar-image-logo"
                 src='../../pictures/whereto1.png'
                 />
-            </>
+            </figure>
         </Nav>
         <Nav md={2} className="mobile-navbar-image-nav mobile-navbar-nav">
-            <Link>
+            <Link >
             <Image className='mobile-navbar-profilepic' src={`${profile.profilePic}`} roundedCircle />
             </Link>
         </Nav>

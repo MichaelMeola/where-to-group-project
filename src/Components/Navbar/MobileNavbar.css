@@ -8,12 +8,14 @@
 }
 
 .mobile-navbar-image-nav {
-    background-color: red;
+    background-color: rgb(255, 255, 255);
 }
 
 .mobile-navbar-image-logo {
-    height: 190px;
-    margin: 0px 0px 120px 40px
+    margin: auto;
+    text-align: center;
+    height: auto;
+    width: 280px
 }
 
 /* .mobile-navbar-nav {
@@ -21,5 +23,16 @@
 }  */
 
 .mobile-navbar-nav-logo {
-    margin: 0px 0px 0px 0px
+    background-color: rgb(255, 255, 255);
+    padding: 29px 0px 0px 0px;
+    height: 40px;
+    width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.mobile-navbar-figure {
+    margin-left: 60px
 }

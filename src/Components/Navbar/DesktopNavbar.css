@@ -1,0 +1,21 @@
+.desktop-navbar-main {
+    height: 70px;
+    padding: 10px 0px 0px 0px
+}
+
+.desktop-nav-link {
+    margin-right: 90px;
+}
+
+.desktop-nav-link-search-icon {
+    font-size: 30px;
+}
+
+.desktop-nav-link-link {
+    font-size: medium;
+    text-decoration: none;
+}
+
+.desktop-navbar-brand-link {
+    padding: 40px 40px 0px 0px;
+}
