@@ -1,7 +1,7 @@
 .desktop-footer-style {
     text-decoration: none;
-    background-color: rgb(131, 131, 131);
-    color: white; /* Set text color if needed */
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0); /* Set text color if needed */
     padding: 20px; /* Adjust padding as needed */
     width: 100%;
     position: fixed;
@@ -22,7 +22,7 @@
 
 .desktop-footer-link {
     text-decoration: none;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .desktop-row {

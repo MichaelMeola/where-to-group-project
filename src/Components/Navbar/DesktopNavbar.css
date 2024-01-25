@@ -1,10 +1,16 @@
 .desktop-navbar-main {
     height: 70px;
-    padding: 10px 0px 0px 0px
+    padding: 10px 0px 0px 0px;
+    margin: 0px
 }
 
 .desktop-nav-link {
-    margin-right: 90px;
+    margin: 0px 90px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: rgb(48, 47, 47);
 }
 
 .desktop-nav-link-search-icon {
@@ -17,5 +23,16 @@
 }
 
 .desktop-navbar-brand-link {
-    padding: 40px 40px 0px 0px;
+    padding: 0px 0px 0px 30px;
+    margin: 20px 0px 0px 0px;
+    height: 60px;
+    width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.desktop-nav-link-profile-pic {
+    padding: 0px 20px 0px 0px
 }
