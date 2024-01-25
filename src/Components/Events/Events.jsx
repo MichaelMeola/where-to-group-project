@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import { useEventsStore } from "../../globalState.jsx";
+import { useEventsStore, useProfileStore } from "../../globalState.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Events = () => {
   const { events, setEvents } = useEventsStore();
-
+  const { profile } = useProfileStore();
+  const navigate = useNavigate();
+  console.log(profile);
   useEffect(() => {
     axios
       .get("/api/events")
@@ -15,6 +18,8 @@ const Events = () => {
         console.log(error);
       });
   }, [setEvents]);
+
+
 
   const eventCards = events.map((event) => (
     <div key={event.id}>
