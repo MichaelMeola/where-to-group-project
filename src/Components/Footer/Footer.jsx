@@ -8,7 +8,7 @@ const Footer = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktop(window.innerWidth > 767 && window.innerHeight > 400)
+      setIsDesktop(window.innerWidth > 1024 && window.innerHeight > 400)
     }
 
     window.addEventListener('resize', handleResize)

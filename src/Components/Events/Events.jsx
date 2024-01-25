@@ -2,7 +2,7 @@
 import { useProfileStore } from "../../globalState.jsx";
 
 
-export default function Group() {
+export default function Events() {
     const { profile } = useProfileStore()
     console.log(profile);
    
