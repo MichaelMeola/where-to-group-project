@@ -58,7 +58,7 @@ export default function Login() {
     }
     if (res.data.success) {
       setProfile(res.data.profile)
-      navigate("/groups");
+      navigate("/event");
     }
     console.log(res.data.profile);
     console.log('zussy', profile);
