@@ -89,8 +89,8 @@ export default function SignUp() {
                                     autoFocus
                                     onChange={(e) => setUsernameValue(e.target.value)}
                                     value={usernameValue}
-                                    error={usernameValue.length < 5}
-                                    helperText={usernameValue.length < 5 ? 'Username must be at least 4 characters' : null }
+                                    error={usernameValue.length <= 4}
+                                    helperText={usernameValue.length <= 4 ? 'Username must be at least 4 characters' : null }
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">@</InputAdornment>
