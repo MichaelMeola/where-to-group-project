@@ -48,3 +48,18 @@
     width: 45px;
     height: 45px;
 }
+
+.desktop-navbar-profilepic:hover {
+    border-radius: 50%;
+    border: 1px solid rgb(146, 146, 146);
+    
+}
+
+.desktop-navbar-dropdown-menu {
+    margin: 0px 20px 0px 0px;
+
+}
+
+.tooltip{
+    z-index: 100
+}
