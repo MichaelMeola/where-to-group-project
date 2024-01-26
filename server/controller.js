@@ -1,5 +1,6 @@
 import { User, Event } from "./db/models.js";
 import bcrypt from "bcrypt";
+import { Op } from "sequelize";
 
 const handlerFunctions = {
   getUsers: async (req, res) => {
@@ -15,13 +16,16 @@ const handlerFunctions = {
   register: async (req, res) => {
     const { username, password, email } = req.body;
     console.log(email);
-    const findUser = await User.findOne({ where: { email: email } });
-    console.log("user found, ", findUser);
-    // console.log(findUser);
-
+    const findUser = await User.findOne({
+      where: {
+        [Op.or]: [{ email: email }, { username: username }]
+      }
+    });
+    
     if (findUser) {
-      console.log(findUser);
-      res.send({ success: false, message: "email already in use!" });
+      console.log("user found, ", findUser);
+
+      res.send({ success: false, message: "email or username already in use!" });
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -30,32 +34,80 @@ const handlerFunctions = {
         password: hashedPassword,
         email: email,
       });
+      
+      console.log('find user', findUser);
       console.log("user created, ", newUser);
-      res.send({ success: true, message: "registration successful" });
+      res.send({
+        success: true,
+        message: "registration successful",
+        profile: { 
+          username: newUser.username,
+          age: newUser.age,
+          profilePic: newUser.profilePic,
+          userId: newUser.userId 
+        },
+      });
     }
   },
-
+  
   login: async (req, res) => {
     const { email, password } = req.body;
     const findUser = await User.findOne({ where: { email: email } });
-    const { username, age, profilePic, userId } = findUser;
-    // console.log(findUser);
-    bcrypt.compare(password, findUser.password, (err, result) => {
-      if (err) {
-        console.log(err);
-      }
-      if (result) {
-        console.log(result);
+    // const { username, age, profilePic, userId } = findUser;
+    console.log(findUser);
+    if(!findUser) {
+      console.log('hit');
+      res.send({ success: false, message: "login unsuccessful, no email found" });
+    }
+
+    if(findUser){
+      console.log(email);
+      bcrypt.compare(password, findUser.password, (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        if (result) {
+          console.log(result);
         res.send({
           success: true,
           message: "login successful",
-          profile: { username, age, profilePic, userId },
+          profile: { 
+            username: findUser.username,
+            age: findUser.age,
+            profilePic: findUser.profilePic,
+            userId: findUser.userId 
+          },
         });
       } else {
         res.send({ success: false, message: "login unsuccessful" });
       }
     });
+  } 
   },
+  deleteUser: async (req, res) => {
+    const { userId } = req.params;
+    const findUser = await User.findOne({ where: { userId: userId } });
+    if(!findUser) {
+      res.send({ success: false, message: "user not found" });
+    } else{
+    const deleteUser = await User.destroy({ where: { userId: userId } });
+    res.send({ success: true, message: "user deleted" });
+    }
+  },
+  editUser: async (req, res) => {
+    const { userId, username, password } = req.params;
+    const foundUser = await User.findOne({ where: { userId: userId } });
+    if (!foundUser) {
+      res.send({ success: false, message: "user not found" });
+    } else {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const editUser = await User.update(
+        { username: username, password: hashedPassword },
+        { where: { userId: userId } }
+      );
+      res.send({ success: true, message: "user updated" });
+    }
+  }
 };
 
 export default handlerFunctions;
