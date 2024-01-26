@@ -3,8 +3,8 @@
 }
 
 .mobile-navbar-profilepic {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
 }
 
 .mobile-navbar-image-nav {
@@ -18,13 +18,13 @@
     width: 280px
 }
 
-/* .mobile-navbar-nav {
-    padding: 0px 0px 140px 0px
-}  */
+.mobile-navbar {
+    background-color: white;
+}
 
 .mobile-navbar-nav-logo {
     background-color: rgb(255, 255, 255);
-    padding: 29px 0px 0px 0px;
+    padding: 28px 12px 0px 0px;
     height: 40px;
     width: 260px;
     display: flex;

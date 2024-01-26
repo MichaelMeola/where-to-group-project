@@ -1,7 +1,8 @@
 .desktop-navbar-main {
     height: 70px;
     padding: 10px 0px 0px 0px;
-    margin: 0px
+    margin: 0px;
+    background-color: white;
 }
 
 .desktop-nav-link {
@@ -13,17 +14,18 @@
     color: rgb(48, 47, 47);
 }
 
-.desktop-nav-link-search-icon {
-    font-size: 30px;
-}
-
 .desktop-nav-link-link {
     font-size: medium;
     text-decoration: none;
+    padding: 5px 0px 0px 0px;
+}
+
+.desktop-nav-link-link:hover {
+    color: rgb(146, 146, 146);
 }
 
 .desktop-navbar-brand-link {
-    padding: 0px 0px 0px 30px;
+    padding: 0px 0px 0px 40px;
     margin: 20px 0px 0px 0px;
     height: 60px;
     width: 260px;
@@ -34,5 +36,15 @@
 }
 
 .desktop-nav-link-profile-pic {
-    padding: 0px 20px 0px 0px
+    padding: 0px 20px 0px 0px;
+    margin: 0px 0px 0px 0px;
+}
+
+.desktop-navbar-brank-img {
+    width: 200px;
+}
+
+.desktop-navbar-profilepic {
+    width: 45px;
+    height: 45px;
 }

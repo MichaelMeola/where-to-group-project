@@ -3,8 +3,8 @@ import "./DesktopFooter.css";
 
 export default function DesktopFooter() {
   return (
-    <footer className="font-small pt-4 desktop-footer-style">
-      <div className="container-fluid text-center text-md-left">
+    <footer className="font-small desktop-footer-style">
+      <div className="">
         <div className="row desktop-row">
           <div className="col-md-3 mt-md-0 mt-3 desktop-footer-links-div">
             <ul className="list-unstyled desktop-ul-link">
@@ -51,10 +51,10 @@ export default function DesktopFooter() {
         © 2024 Copyright:
         <a
           className="desktop-footer-link"
-          href="https://www.linkedin.com/in/richard-webber-b1a052276/"
+          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
         >
           {" "}
-          MGR.LLC
+          MGR.COLLECTIVE
         </a>
       </div>
     </footer>

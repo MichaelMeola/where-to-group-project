@@ -1,11 +1,10 @@
 .desktop-footer-style {
     text-decoration: none;
     background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0); /* Set text color if needed */
-    padding: 20px; /* Adjust padding as needed */
+    color: rgb(0, 0, 0); 
+    padding: 20px; 
     width: 100%;
-    position: fixed;
-    bottom: 0;
+    position: absolute;
     left: 0;
     height: 120px;
 }
@@ -16,7 +15,7 @@
 }
 
 .desktop-footer-link:hover {
-    color: rgb(217, 216, 216);
+    color: rgb(146, 146, 146);
     text-decoration: none;
 }
 

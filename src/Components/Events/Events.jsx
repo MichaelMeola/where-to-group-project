@@ -24,7 +24,7 @@ const Events = () => {
     </div>
   ));
 
-  return <div>{eventCards}</div>;
+  return <div style={{padding: '70px 0px 0px 0px'}}>{eventCards}</div>;
 };
 
 export default Events;

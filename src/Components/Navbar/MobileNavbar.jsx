@@ -4,13 +4,13 @@ import React from "react";
 import "./MobileNavbar.css";
 import { useProfileStore } from "../../globalState.jsx";
 
+
 export default function MobileNavbar() {
   const { profile } = useProfileStore();
 
   return (
     <Navbar
       expand="md"
-      bg="light"
       data-bs-theme="navbar-main"
       fixed="top"
       className="mobile-navbar"
