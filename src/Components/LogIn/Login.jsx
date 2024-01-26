@@ -19,13 +19,18 @@ import { useProfileStore } from "../../globalState.jsx";
 
 function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -36,28 +41,25 @@ const defaultTheme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
-  const {profile, setProfile} = useProfileStore()
+  const { profile, setProfile } = useProfileStore();
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-        email: emailValue, 
-        password: passwordValue
-    }
-    const res = await axios.post('/api/login', data)
+      email: emailValue,
+      password: passwordValue,
+    };
+    const res = await axios.post("/api/login", data);
 
     if (res.data.success) {
-      setProfile(res.data.profile)
+      setProfile(res.data.profile);
       navigate("/events");
     }
-    if(!res.data.success) {
-      alert(res.data.message)
+    if (!res.data.success) {
+      alert(res.data.message);
     }
-    console.log(res.data.profile);
-    console.log('zussy', profile);
-    
   };
 
   return (
@@ -67,18 +69,23 @@ export default function Login() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
@@ -90,7 +97,7 @@ export default function Login() {
               autoFocus
               value={emailValue}
               onChange={(e) => setEmailValue(e.target.value)}
-              type='email'
+              type="email"
             />
             <TextField
               margin="normal"

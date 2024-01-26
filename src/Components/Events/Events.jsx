@@ -1,11 +1,17 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useEventsStore, useProfileStore } from "../../globalState.jsx";
+import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
-import Grid from "@mui/material/Grid";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import Grid from "@mui/material/Grid";
 
 const Events = () => {
   const { events, setEvents } = useEventsStore();
@@ -26,26 +32,40 @@ const Events = () => {
     <Grid container spacing={4}>
       {events.map((event) => (
         <Grid item key={event.eventId} xs={12} sm={6} md={4}>
-          <Card
-            sx={{ height: "100%", display: "flex", flexDirection: "column" }}
-          >
-            <CardMedia
-              component="div"
-              sx={{
-                // 16:9
-                pt: "56.25%",
-              }}
-              image={`${event.image}`}
+          <Card sx={{ maxWidth: 345, maxHeight: 450 }}>
+            <CardHeader
+              avatar={<Avatar></Avatar>}
+              sx={{ height: "60px" }}
+              title={`Host: ${event.createdBy}`}
             />
-            <CardContent sx={{ flexGrow: 1 }}>
-              <Typography gutterBottom variant="h5" component="h2">
+            <CardMedia
+              component="img"
+              height="200"
+              image={`${event.image}`}
+              alt="Event Image"
+            />
+            <CardContent>
+              <Typography variant="body1" color="text.primary">
                 {event.name}
               </Typography>
-              <Typography>{event.description}</Typography>
-              <Typography>{event.address}</Typography>
-              <Typography>{event.date}</Typography>
-              <Typography>{event.ages}+</Typography>
+              <Typography variant="body2" color="text.secondary">
+                {event.address}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {new Date(event.date).toLocaleString("en-US", {
+                  dateStyle: "long",
+                  timeStyle: "short",
+                })}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {event.description}
+              </Typography>
             </CardContent>
+            <CardActions disableSpacing>
+              <IconButton aria-label="add to favorites">
+                <FavoriteIcon />
+              </IconButton>
+            </CardActions>
           </Card>
         </Grid>
       ))}

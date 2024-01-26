@@ -43,7 +43,7 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const {profile, setProfile} = useProfileStore()
+  const { profile, setProfile } = useProfileStore();
   const [toggleModal, setToggleModal] = useState(false);
   const [usernameValue, setUsernameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
@@ -67,23 +67,21 @@ export default function SignUp() {
       alert(res.data.message);
     }
     if (res.data.success) {
-      modalChange()
+      modalChange();
       console.log(res.data.profile);
-      setProfile(res.data.profile)
+      setProfile(res.data.profile);
     }
     console.log(res.data.success);
   };
 
   function routeLogin() {
-    
     navigate("/events");
   }
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Modal show={toggleModal} onHide={modalChange}>
-        <Modal.Header closeButton>
-        </Modal.Header>
+        <Modal.Header closeButton></Modal.Header>
         <Modal.Body>Account created, proceed to login?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={modalChange}>
