@@ -1,12 +1,26 @@
 import React from "react";
-import { Container, Nav, Navbar, Image } from "react-bootstrap";
+import { Container, Nav, Navbar, Image, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./DesktopNavbar.css";
 import { useProfileStore } from "../../globalState.jsx";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownMenu from "react-bootstrap/DropdownMenu";
 
 export default function DesktopNavbar() {
   const { profile } = useProfileStore();
 
+  const customToggle = React.forwardRef(({ children, onClick }, ref) => (
+    <a
+      href=""
+      ref={ref}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick(e);
+      }}
+    >
+      {children}
+    </a>
+  ));
   return (
     <Navbar
       expand="md"
@@ -29,7 +43,10 @@ export default function DesktopNavbar() {
           <Link to="/events" className="desktop-nav-link desktop-nav-link-link">
             Events
           </Link>
-          <Link to="/myCalendar" className="desktop-nav-link desktop-nav-link-link">
+          <Link
+            to="/myCalendar"
+            className="desktop-nav-link desktop-nav-link-link"
+          >
             Calendar
           </Link>
           <Link to="/search" className="desktop-nav-link desktop-nav-link-link">
@@ -37,13 +54,47 @@ export default function DesktopNavbar() {
           </Link>
         </Nav>
         <Nav className="ms-auto">
-          <Link to="/profile" className="desktop-nav-link-profile-pic">
-            <Image
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="success"
+              id="dropdown-basic"
+              className="desktop-navbar-dropdown-toggle"
+              as={customToggle}
+            >
+              <Image
+                className="desktop-navbar-profilepic"
+                src={`${profile.profilePic}`}
+                roundedCircle
+              />
+      
+            </Dropdown.Toggle>
+
+            <DropdownMenu
+              align="end"
+              className="desktop-navbar-dropdown-menu-left"
+            >
+              <Dropdown.Header className="desktop-navbar-dropdown-header">
+                @{profile.username}
+              </Dropdown.Header>
+              <Dropdown.Item align="start" href="/profile">
+                Profile
+              </Dropdown.Item>
+              <Dropdown.Item href="/settings">
+                Settings
+              </Dropdown.Item>
+              <Dropdown.Item href="/">
+                Logout
+              </Dropdown.Item>
+            </DropdownMenu>
+
+          </Dropdown>
+          {/* <Link to="/profile" className="desktop-nav-link-profile-pic"> */}
+          {/* <Image
               className="desktop-navbar-profilepic"
               src={`${profile.profilePic}`}
               roundedCircle
-            />
-          </Link>
+            /> */}
+          {/* </Link> */}
         </Nav>
       </Container>
     </Navbar>
