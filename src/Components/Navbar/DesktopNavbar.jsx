@@ -29,11 +29,11 @@ export default function DesktopNavbar() {
           <Link to="/events" className="desktop-nav-link desktop-nav-link-link">
             Events
           </Link>
+          <Link to="/create" className="desktop-nav-link desktop-nav-link-link">
+            Create
+          </Link>
           <Link to="/myCalendar" className="desktop-nav-link desktop-nav-link-link">
             Calendar
-          </Link>
-          <Link to="/search" className="desktop-nav-link desktop-nav-link-link">
-            Search
           </Link>
         </Nav>
         <Nav className="ms-auto">

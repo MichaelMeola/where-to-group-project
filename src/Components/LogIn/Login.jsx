@@ -16,13 +16,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useProfileStore } from "../../globalState.jsx";
+import './Login.css'
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        whereto.com
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -30,7 +31,6 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
@@ -62,7 +62,7 @@ export default function Login() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" sx={{ backgroundColor: 'white', height: '500px'}}>
         <CssBaseline />
         <Box
           sx={{
@@ -110,6 +110,7 @@ export default function Login() {
             />
             <Button
               type="submit"
+              color="secondary"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
@@ -118,12 +119,12 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" style={{ color: '#d858fc', textDecoration: 'none'}}>
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link href="/signup" variant="body2" style={{ color: '#d858fc', textDecoration: 'none'}}>
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
