@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -43,7 +41,7 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const {profile, setProfile} = useProfileStore()
+  const { profile, setProfile } = useProfileStore();
   const [toggleModal, setToggleModal] = useState(false);
   const [usernameValue, setUsernameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
@@ -67,23 +65,21 @@ export default function SignUp() {
       alert(res.data.message);
     }
     if (res.data.success) {
-      modalChange()
+      modalChange();
       console.log(res.data.profile);
-      setProfile(res.data.profile)
+      setProfile(res.data.profile);
     }
     console.log(res.data.success);
   };
 
   function routeLogin() {
-    
     navigate("/events");
   }
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Modal show={toggleModal} onHide={modalChange}>
-        <Modal.Header closeButton>
-        </Modal.Header>
+        <Modal.Header closeButton></Modal.Header>
         <Modal.Body>Account created, proceed to login?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={modalChange}>
@@ -95,7 +91,11 @@ export default function SignUp() {
         </Modal.Footer>
       </Modal>
 
-      <Container component="main" maxWidth="xs">
+      <Container 
+      component="main" 
+      maxWidth="xs"
+      sx={{ height: '550px', backgroundColor: 'white'}}
+      >
         <CssBaseline />
         <Box
           sx={{
@@ -103,6 +103,7 @@ export default function SignUp() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            padding: '15px 0px 0px 0px'
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -111,7 +112,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleReg} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={handleReg} sx={{ mt: 3}}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
