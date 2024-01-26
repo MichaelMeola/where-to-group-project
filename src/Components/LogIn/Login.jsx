@@ -52,6 +52,9 @@ export default function Login() {
       setProfile(res.data.profile)
       navigate("/events");
     }
+    if(!res.data.success) {
+      alert(res.data.message)
+    }
     console.log(res.data.profile);
     console.log('zussy', profile);
     

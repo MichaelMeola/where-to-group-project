@@ -20,7 +20,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const Events = () => {
   const { events, setEvents } = useEventsStore();
-  const { profile } = useProfileStore();
 
   useEffect(() => {
     axios
@@ -32,6 +31,8 @@ const Events = () => {
         console.log(error);
       });
   }, [setEvents]);
+
+
 
   const eventCards = events.map((event) => (
     <Grid item key={event.eventId} xs={12} sm={6} md={4}>
@@ -67,7 +68,7 @@ const Events = () => {
 
   console.log(profile);
 
-  return <div>{eventCards}</div>;
+  return <div style={{padding: '70px 0px 0px 0px'}}>{eventCards}</div>;
 };
 
 export default Events;

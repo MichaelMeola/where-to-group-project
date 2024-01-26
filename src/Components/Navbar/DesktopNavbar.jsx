@@ -10,7 +10,6 @@ export default function DesktopNavbar() {
   return (
     <Navbar
       expand="md"
-      bg="light"
       data-bs-theme="light"
       fixed="top"
       className="desktop-navbar-main"
@@ -21,7 +20,7 @@ export default function DesktopNavbar() {
             <figure>
               <img
                 src="../../pictures/whereto1.png"
-                style={{ width: "200px" }}
+                className="desktop-navbar-brank-img"
               />
             </figure>
           </Link>
@@ -33,16 +32,14 @@ export default function DesktopNavbar() {
           <Link to="/myCalendar" className="desktop-nav-link desktop-nav-link-link">
             Calendar
           </Link>
-          <Link to="/search" className="desktop-nav-link">
-            <i className="material-icons desktop-nav-link-search-icon">
-              search
-            </i>
+          <Link to="/search" className="desktop-nav-link desktop-nav-link-link">
+            Search
           </Link>
         </Nav>
         <Nav className="ms-auto">
           <Link to="/profile" className="desktop-nav-link-profile-pic">
             <Image
-              className="mobile-navbar-profilepic"
+              className="desktop-navbar-profilepic"
               src={`${profile.profilePic}`}
               roundedCircle
             />
