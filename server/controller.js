@@ -13,6 +13,22 @@ const handlerFunctions = {
     res.send(allEvents);
   },
 
+  addEvent: async (req, res) => {
+    const { createdBy, name, date, address, description, image, ages } = req.body
+
+    const newEvent = await Event.create({
+      createdBy,
+      name,
+      date,
+      address,
+      description, 
+      image, 
+      ages
+    })
+
+    res.send(newEvent)
+  },
+
   register: async (req, res) => {
     const { username, password, email } = req.body;
     console.log(email);
