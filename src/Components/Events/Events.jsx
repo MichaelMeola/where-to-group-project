@@ -30,7 +30,7 @@ const Events = () => {
   }, []);
 
   return (
-    <Container sx={{ py: 8 }} maxWidth="md">
+    <Container sx={{ py: 8 }} maxWidth="md" elevation={3}>
     <Grid container spacing={4}>
       {events.map((event) => (
         <Grid item key={event.eventId} xs={12} sm={6} md={4}>
