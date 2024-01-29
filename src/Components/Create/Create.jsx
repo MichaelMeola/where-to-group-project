@@ -14,14 +14,16 @@ export default function Create() {
     }}
     noValidate
     autoComplete="on">
-      <TextField label='Event Name' sx={{ bgcolor: 'white', color: 'black'}}></TextField>
+      <TextField label='Event Name' sx={{ bgcolor: 'white'}}></TextField>
       <TextField label='Address' sx={{ bgcolor: 'white'}}></TextField>
       <TextField label='Description' sx={{ bgcolor: 'white'}}></TextField>
       <TextField label='Image' sx={{ bgcolor: 'white'}}></TextField>
       <TextField label='Ages' sx={{ bgcolor: 'white'}}></TextField>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Container components={['DatePicker']} >
-        <DatePicker label="Basic date picker" sx={{ bgcolor: 'white'}}/>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <Container maxWidth="l" sx={{ display: 'flex',alignItems: 'center', justifyContent: 'center' }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker label="Basic date picker" sx={{ bgcolor: 'white' }}/>
+        </LocalizationProvider>
       </Container>
     </LocalizationProvider>
     </Box>

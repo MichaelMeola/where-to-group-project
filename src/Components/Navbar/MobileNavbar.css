@@ -18,7 +18,8 @@ body {
     margin: auto;
     text-align: center;
     height: auto;
-    width: 280px
+    width: 280px;
+    height: 280px;
 }
 
 .mobile-navbar {
