@@ -1,3 +1,6 @@
+body {
+    padding-top:50px
+}
 .mobile-navbar-container {
     height: 60px;
 }
@@ -20,6 +23,7 @@
 
 .mobile-navbar {
     background-color: white;
+    z-index: 1;
 }
 
 .mobile-navbar-nav-logo {
@@ -33,6 +37,41 @@
     overflow: hidden;
 }
 
-.mobile-navbar-figure {
-    margin-left: 60px
+
+.dropdown-div{
+    position: fixed;
+    right: 0;
+    z-index: 1031;
+    top: 0px;
+    padding: 15px 12px;
+}
+
+.dropdown-parent{
+    position: absolute;
+    top: 100%;
+    height: 140px;
+    background-color: white;
+    display: flex;
+    border-radius: 5px;
+    border: solid;
+    border-width: 1px;
+    border-color: #AEB4B7;
+    flex-direction: column;
+    justify-content: center;
+    right: 7px;
+}
+
+.dropdown-items{
+    margin: 10px;
+    
+}
+
+.dropdown-username{
+    color: #AEB4B7;
+    text-decoration: none;
+}
+
+.dropdown-link {
+    color: black;
+    text-decoration: none;
 }
