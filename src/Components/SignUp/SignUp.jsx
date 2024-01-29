@@ -21,9 +21,10 @@ function Copyright(props) {
   return (
     <Typography
       variant="body2"
-      color="text.secondary"
+      color="primary"
       align="center"
       {...props}
+
     >
       {"Copyright Â© "}
       <Link color="inherit" href="https://mui.com/">
@@ -109,7 +110,7 @@ export default function SignUp() {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" color="black">
             Sign up
           </Typography>
           <Box component="form" noValidate onSubmit={handleReg} sx={{ mt: 3}}>
@@ -148,6 +149,19 @@ export default function SignUp() {
                   autoComplete="email"
                   onChange={(e) => setEmailValue(e.target.value)}
                   value={emailValue}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': {
+                        borderColor: 'black',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: 'red',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: 'purple',
+                      },
+                    },
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -161,6 +175,19 @@ export default function SignUp() {
                   autoComplete="new-password"
                   onChange={(e) => setPasswordValue(e.target.value)}
                   value={passwordValue}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': {
+                        borderColor: 'black',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: 'red',
+                      },
+                      '&.Mui-focused fieldset': {
+                        borderColor: 'purple',
+                      },
+                    },
+                  }}
                 />
               </Grid>
             </Grid>
@@ -169,7 +196,7 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              style={{ backgroundColor: "#99D5C9" }}
+              color="secondary"
             >
               Sign Up
             </Button>
@@ -178,7 +205,7 @@ export default function SignUp() {
                 <Link
                   href="/login"
                   variant="body2"
-                  style={{ color: "#99D5C9" }}
+                  style={{ color: '#d858fc', textDecoration: 'none'}}
                 >
                   Already have an account? Sign in
                 </Link>

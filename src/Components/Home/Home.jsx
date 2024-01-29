@@ -17,9 +17,10 @@ export default function Home() {
             <div className='home-get-started-button-div'>
             <Button 
             variant='contained' 
-            color='secondary'
+            color='primary'
             size='large'
             sx={{
+              ":hover": { bgcolor: 'secondary'}
             }}
             onClick={() => navigate('/login')}>Get Started
             </Button>

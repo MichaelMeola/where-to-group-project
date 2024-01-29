@@ -15,6 +15,8 @@ import About from './Components/About/About.jsx'
 import Goal from './Components/Goal/Goal.jsx'
 import Team from './Components/Team/Team.jsx'
 import Contact from './Components/Contact/Contact.jsx'
+import { createTheme, ThemeProvider } from '@mui/material'
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,8 +37,24 @@ const router = createBrowserRouter(
   )
 )
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#bf00ff'
+    },
+    secondary: {
+      main: '#ac00e6'
+    },
+    background: {
+      main: "#99D5C9"
+    }
+  }
+})
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <ThemeProvider theme={ theme }>
     <RouterProvider router={router}/>
+    </ThemeProvider>
   </React.StrictMode>,
 )

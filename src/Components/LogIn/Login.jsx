@@ -77,7 +77,7 @@ export default function Login() {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" color='black'>
             Sign in
           </Typography>
           <Box
@@ -98,6 +98,19 @@ export default function Login() {
               value={emailValue}
               onChange={(e) => setEmailValue(e.target.value)}
               type="email"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'black',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'red',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'purple',
+                  },
+                },
+              }}
             />
             <TextField
               margin="normal"
@@ -110,6 +123,19 @@ export default function Login() {
               autoComplete="current-password"
               onChange={(e) => setPasswordValue(e.target.value)}
               value={passwordValue}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'black',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'red',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'purple',
+                  },
+                },
+              }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
