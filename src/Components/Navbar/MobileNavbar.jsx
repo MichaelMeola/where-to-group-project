@@ -3,27 +3,39 @@ import { Link } from "react-router-dom";
 import React from "react";
 import "./MobileNavbar.css";
 import { useProfileStore } from "../../globalState.jsx";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownMenu from "react-bootstrap/DropdownMenu";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function MobileNavbar() {
   const { profile, logout } = useProfileStore();
-
-  const customToggle = React.forwardRef(({ children, onClick }, ref) => (
-    <a
-      href=""
-      ref={ref}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(e);
-      }}
-    >
-      {children}
-    </a>
-  ));
+  const [show, setShow] = useState(false);
+  let dropDown = null;
+  
+  console.log(show);
+  console.log(dropDown);
+  if(show){
+     dropDown = (
+      <div className="dropdown-parent">
+        <div className="dropdown-items">
+          <Link className="dropdown-username">
+            @{profile.username}
+          </Link>
+        </div>
+        <div className="dropdown-items">
+          <Link to="/profile" className="dropdown-link">
+            Settings
+          </Link>
+        </div>
+        <div className="dropdown-items">
+          <Link onClick={logout} className="dropdown-link">
+            Logout
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
+    <>
     <Navbar
       expand="md"
       data-bs-theme="navbar-main"
@@ -41,43 +53,19 @@ export default function MobileNavbar() {
           </figure>
         </Nav>
         <Nav md={2} className="mobile-navbar-image-nav mobile-navbar-nav">
-        <Dropdown className="mobile-navbar-dropdown">
-            <Dropdown.Toggle
-              variant="success"
-              id="dropdown-basic"
-              className="desktop-navbar-dropdown-toggle"
-              as={customToggle}
-            >
-              <a>
-                <Image
-                className="desktop-navbar-profilepic"
-                src={`${profile.profilePic}`}
-                roundedCircle
-                />
-              </a>
-            </Dropdown.Toggle>
-
-            <DropdownMenu
-              align="end"
-              className="desktop-navbar-dropdown-menu-left"
-            >
-              <Dropdown.Header className="desktop-navbar-dropdown-header">
-                @{profile.username}
-              </Dropdown.Header>
-              <Dropdown.Item align="start" href="/profile">
-                Profile
-              </Dropdown.Item>
-              <Dropdown.Item href="/settings">
-                Settings
-              </Dropdown.Item>
-              <Dropdown.Item href="/" onClick={logout}>
-                Logout
-              </Dropdown.Item>
-            </DropdownMenu> 
-
-           </Dropdown>
         </Nav>
       </Container>
     </Navbar>
+          <div className="dropdown-div">
+              <Image
+                className="mobile-navbar-profilepic"
+                src={profile.profilePic}
+                onClick={() => setShow(!show)}
+                roundedCircle
+
+              />
+              {dropDown}
+          </div>
+          </>
   );
   }
