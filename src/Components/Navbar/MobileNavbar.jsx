@@ -3,10 +3,25 @@ import { Link } from "react-router-dom";
 import React from "react";
 import "./MobileNavbar.css";
 import { useProfileStore } from "../../globalState.jsx";
-
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownMenu from "react-bootstrap/DropdownMenu";
+import { useNavigate } from "react-router-dom";
 
 export default function MobileNavbar() {
-  const { profile } = useProfileStore();
+  const { profile, logout } = useProfileStore();
+
+  const customToggle = React.forwardRef(({ children, onClick }, ref) => (
+    <a
+      href=""
+      ref={ref}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick(e);
+      }}
+    >
+      {children}
+    </a>
+  ));
 
   return (
     <Navbar
@@ -26,15 +41,43 @@ export default function MobileNavbar() {
           </figure>
         </Nav>
         <Nav md={2} className="mobile-navbar-image-nav mobile-navbar-nav">
-          <Link to='/profile'>
-            <Image
-              className="mobile-navbar-profilepic"
-              src={`${profile.profilePic}`}
-              roundedCircle
-            />
-          </Link>
+        <Dropdown className="mobile-navbar-dropdown">
+            <Dropdown.Toggle
+              variant="success"
+              id="dropdown-basic"
+              className="desktop-navbar-dropdown-toggle"
+              as={customToggle}
+            >
+              <a>
+                <Image
+                className="desktop-navbar-profilepic"
+                src={`${profile.profilePic}`}
+                roundedCircle
+                />
+              </a>
+            </Dropdown.Toggle>
+
+            <DropdownMenu
+              align="end"
+              className="desktop-navbar-dropdown-menu-left"
+            >
+              <Dropdown.Header className="desktop-navbar-dropdown-header">
+                @{profile.username}
+              </Dropdown.Header>
+              <Dropdown.Item align="start" href="/profile">
+                Profile
+              </Dropdown.Item>
+              <Dropdown.Item href="/settings">
+                Settings
+              </Dropdown.Item>
+              <Dropdown.Item href="/" onClick={logout}>
+                Logout
+              </Dropdown.Item>
+            </DropdownMenu> 
+
+           </Dropdown>
         </Nav>
       </Container>
     </Navbar>
   );
-}
+  }

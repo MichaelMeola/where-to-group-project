@@ -6,8 +6,10 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
 const Events = () => {
+  const navigate = useNavigate();
   const { events, setEvents } = useEventsStore();
   const { profile } = useProfileStore();
 
@@ -22,6 +24,12 @@ const Events = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if(!profile.username){
+      navigate('/')
+    }
+  }, []);
+  console.log(profile);
   return (
     <Grid container spacing={4}>
       {events.map((event) => (
