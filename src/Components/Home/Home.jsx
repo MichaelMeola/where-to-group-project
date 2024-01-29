@@ -18,9 +18,8 @@ export default function Home() {
             <Button 
             variant='contained' 
             color='secondary'
+            size='large'
             sx={{
-                width:300,
-                height: 70
             }}
             onClick={() => navigate('/login')}>Get Started
             </Button>
