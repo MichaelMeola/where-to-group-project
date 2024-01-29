@@ -8,7 +8,7 @@ import Events from './Components/Events/Events.jsx'
 import Login from './Components/LogIn/Login.jsx'
 import Home from './Components/Home/Home.jsx'
 import SignUp from './Components/SignUp/SignUp.jsx'
-import Search from './Components/Search/Search.jsx'
+import Create from './Components/Create/Create.jsx'
 import MyCalendar from './Components/MyCalendar/MyCalendar.jsx'
 import Profile from './Components/Profile/Profile.jsx'
 import About from './Components/About/About.jsx'
@@ -23,7 +23,7 @@ const router = createBrowserRouter(
       <Route path='/events' element={<Events />}/>
       <Route path='/signup' element={<SignUp/>}/>
       <Route path='/login' element={<Login/>}/>
-      <Route path='/search' element={<Search/>}/>
+      <Route path='/create' element={<Create/>}/>
       <Route path='/myCalendar' element={<MyCalendar/>}/>
       <Route path='/profile' element={<Profile/>}/>
       <Route path='/about' element={<About/>}/>

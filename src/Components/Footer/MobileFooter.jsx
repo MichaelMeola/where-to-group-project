@@ -14,8 +14,8 @@ export default function MobileFooter() {
             </Link>
           </div>
           <div className="col-4 m-auto">
-            <Link to="/search">
-            <i className="material-icons mobile-icons">search</i>
+            <Link to="/create">
+            <i className="material-icons mobile-icons">add</i>
             </Link>
           </div>
           <div className="col-4 m-auto">
