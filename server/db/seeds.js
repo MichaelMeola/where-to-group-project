@@ -30,6 +30,7 @@ const events = [
     description: "Join us for a sizzling summer barbecue!",
     image:
       "https://i0.wp.com/shopwithleslie.blog/wp-content/uploads/2021/02/barbecue-blog.png?resize=640%2C480&ssl=1",
+    likes: 30,
     ages: 18,
   },
   {
@@ -40,6 +41,7 @@ const events = [
     description: "Bring your blankets and join us for an outdoor movie night!",
     image:
       "https://liveheadwaters.com/wp-content/uploads/2018/11/movie-under-the-stars.jpg",
+    likes: 43,
     ages: 12,
   },
   {
@@ -50,6 +52,7 @@ const events = [
     description: "Unleash your creativity and join us for a fun art workshop!",
     image:
       "https://www.shutterstock.com/image-photo/art-wine-celebration-friends-painting-600nw-2341133585.jpg",
+    likes: 12,
     ages: 16,
   },
   {
@@ -100,6 +103,7 @@ const events = [
     address: "123 Pine Dr, Provo, Utah",
     description: "Groove to the music at our outdoor concert in the park!",
     image: "https://i.ytimg.com/vi/vbo0nljJ23Q/maxresdefault.jpg",
+    likes: 18,
     ages: 12,
   },
   {
