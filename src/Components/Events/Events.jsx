@@ -11,10 +11,12 @@ import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Grid from "@mui/material/Grid";
 
 const Events = () => {
+  const navigate = useNavigate();
   const { events, setEvents } = useEventsStore();
   const { profile } = useProfileStore();
 
@@ -29,6 +31,12 @@ const Events = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if(!profile.username){
+      navigate('/')
+    }
+  }, []);
+  console.log(profile);
   return (
     <Container sx={{ py: 8 }} maxWidth="md">
     <Grid container spacing={4}>

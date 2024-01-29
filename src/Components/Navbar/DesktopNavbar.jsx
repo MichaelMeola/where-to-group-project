@@ -7,7 +7,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownMenu from "react-bootstrap/DropdownMenu";
 
 export default function DesktopNavbar() {
-  const { profile } = useProfileStore();
+  const { profile, logout } = useProfileStore();
 
   const customToggle = React.forwardRef(({ children, onClick }, ref) => (
     <a
@@ -79,7 +79,7 @@ export default function DesktopNavbar() {
               <Dropdown.Item href="/settings">
                 Settings
               </Dropdown.Item>
-              <Dropdown.Item href="/">
+              <Dropdown.Item href="/" onClick={logout}>
                 Logout
               </Dropdown.Item>
             </DropdownMenu>
