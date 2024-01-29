@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEventsStore, useProfileStore } from "../../globalState.jsx";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
+import { Container } from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -29,10 +30,11 @@ const Events = () => {
   }, []);
 
   return (
+    <Container sx={{ py: 8 }} maxWidth="md">
     <Grid container spacing={4}>
       {events.map((event) => (
         <Grid item key={event.eventId} xs={12} sm={6} md={4}>
-          <Card sx={{ maxWidth: 345, maxHeight: 450 }}>
+          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             <CardHeader
               avatar={<Avatar></Avatar>}
               sx={{ height: "60px" }}
@@ -70,6 +72,7 @@ const Events = () => {
         </Grid>
       ))}
     </Grid>
+    </Container>
   );
 };
 
