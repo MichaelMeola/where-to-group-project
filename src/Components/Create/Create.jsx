@@ -1,31 +1,134 @@
-import React from 'react'
-import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { Container } from '@mui/material'
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { useEventsStore, useProfileStore } from "../../globalState.jsx";
 
 
 export default function Create() {
+  const { profile } = useProfileStore();
+  const [eventName, setEventName] = useState(`${profile.username}'s Event`);
+  const [address, setAddress] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [ages, setAges] = useState("");
+  const [description, setDescription] = useState("");
+  const [dateTime, setDateTime] = useState(null);
+
+
+  const handleCreateEvent = async () => {
+    const newEvent = {
+      hostName: profile.username,
+      hostPic: profile.profilePic,
+      name: eventName,
+      date: dateTime,
+      address,
+      description,
+      image: imageUrl,
+      ages: +ages,
+    };
+
+    try {
+      const response = await fetch("/api/events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newEvent),
+      });
+
+      if (response.ok) {
+        const createdEvent = await response.json();
+        console.log("Event created:", createdEvent);
+        setEventName("");
+        setAddress("");
+        setImageUrl("");
+        setAges("");
+        setDescription("");
+        setDateTime("");
+      } else {
+        console.error("Failed to create event:", response.status);
+      }
+    } catch (error) {
+      console.error("Error", error);
+    }
+  };
+
   return (
-    <Box component='form' sx={{
-      '& > :not(style)': { m: 2, s: 1, width: '30ch' },
-    }}
-    noValidate
-    autoComplete="on">
-      <TextField label='Event Name' sx={{ bgcolor: 'white'}}></TextField>
-      <TextField label='Address' sx={{ bgcolor: 'white'}}></TextField>
-      <TextField label='Description' sx={{ bgcolor: 'white'}}></TextField>
-      <TextField label='Image' sx={{ bgcolor: 'white'}}></TextField>
-      <TextField label='Ages' sx={{ bgcolor: 'white'}}></TextField>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <Container maxWidth="l" sx={{ display: 'flex',alignItems: 'center', justifyContent: 'center' }}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker label="Basic date picker" sx={{ bgcolor: 'white' }}/>
-        </LocalizationProvider>
-      </Container>
-    </LocalizationProvider>
-    </Box>
-  )
+    <Card sx={{ maxWidth: 800, mb: 20, mt: 2 }}>
+      <CardMedia
+        sx={{ height: 240 }}
+        image="https://img.freepik.com/premium-vector/event-planner-template-hand-drawn-cartoon-illustration-with-planning-schedule-calendar-concept_2175-7747.jpg"
+        title="green iguana"
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h3" component="div" >
+          {eventName}
+        </Typography>
+      </CardContent>
+
+      <Box
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, s: 1, width: "33ch" },
+        }}
+        noValidate
+        autoComplete="on"
+      >
+        <TextField
+        label='Event Name'
+        value={eventName}
+        onChange={(e) => setEventName(e.target.value)}
+        required
+        />
+        <TextField
+        label='Address'
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        required
+        />
+        <TextField
+        label='Image URL'
+        value={imageUrl}
+        onChange={(e) => setImageUrl(e.target.value)}
+        required
+        />
+        <TextField
+        label='Ages'
+        value={ages}
+        onChange={(e) => setAges(e.target.value)}
+        required
+        />
+        <TextField
+        label='Description'
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        required
+        />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimePicker
+            label="Date & Time"
+            value={dateTime}
+            onChange={(newValue) => setDateTime(newValue)}
+            />
+          </LocalizationProvider>
+      </Box>
+      <Button
+        type="submit"
+        color="secondary"
+        variant="contained"
+        size="large"
+        sx={{ mt: 3, mb: 5 }}
+        onClick={handleCreateEvent}
+        >
+        Create Event
+      </Button>
+    </Card>
+  );
 }

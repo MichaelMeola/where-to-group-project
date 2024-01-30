@@ -14,7 +14,7 @@ for (let i = 0; i < 5; i++) {
 
 const events = [
   {
-    createdBy: "PibleJib",
+    hostName: "PibleJib",
     name: `Rikki's House Party`,
     date: new Date("2024-12-31"),
     address: "123 Fake St, Salt Lake City, Utah",
@@ -24,37 +24,40 @@ const events = [
     ages: 21,
   },
   {
-    createdBy: "Assistant",
+    hostName: "Assistant",
     name: `Summer BBQ Bash`,
     date: new Date("2024-07-15"),
     address: "456 Main St, Park City, Utah",
     description: "Join us for a sizzling summer barbecue!",
     image:
       "https://i0.wp.com/shopwithleslie.blog/wp-content/uploads/2021/02/barbecue-blog.png?resize=640%2C480&ssl=1",
+    likes: 30,
     ages: 18,
   },
   {
-    createdBy: "JohnDoe",
+    hostName: "JohnDoe",
     name: `Movie Night Under the Stars`,
     date: new Date("2024-08-20"),
     address: "789 Oak Ave, Provo, Utah",
     description: "Bring your blankets and join us for an outdoor movie night!",
     image:
       "https://liveheadwaters.com/wp-content/uploads/2018/11/movie-under-the-stars.jpg",
+    likes: 43,
     ages: 12,
   },
   {
-    createdBy: "JaneSmith",
+    hostName: "JaneSmith",
     name: `Art Workshop`,
     date: new Date("2024-09-05"),
     address: "321 Elm St, Ogden, Utah",
     description: "Unleash your creativity and join us for a fun art workshop!",
     image:
       "https://www.shutterstock.com/image-photo/art-wine-celebration-friends-painting-600nw-2341133585.jpg",
+    likes: 12,
     ages: 16,
   },
   {
-    createdBy: "EventPlanner123",
+    hostName: "EventPlanner123",
     name: `Charity Gala`,
     date: new Date("2024-11-10"),
     address: "654 Pine Dr, Logan, Utah",
@@ -64,7 +67,7 @@ const events = [
     ages: 21,
   },
   {
-    createdBy: "EventOrganizer456",
+    hostName: "EventOrganizer456",
     name: `Fitness Bootcamp`,
     date: new Date("2024-06-05"),
     address: "987 Maple Ave, St. George, Utah",
@@ -74,7 +77,7 @@ const events = [
     ages: 18,
   },
   {
-    createdBy: "PartyMaster789",
+    hostName: "PartyMaster789",
     name: `Neon Glow Party`,
     date: new Date("2024-10-12"),
     address: "456 Oak St, Salt Lake City, Utah",
@@ -84,7 +87,7 @@ const events = [
     ages: 18,
   },
   {
-    createdBy: "ArtEnthusiast",
+    hostName: "ArtEnthusiast",
     name: `Paint and Sip`,
     date: new Date("2024-09-25"),
     address: "789 Elm Ave, Park City, Utah",
@@ -95,16 +98,17 @@ const events = [
     ages: 21,
   },
   {
-    createdBy: "MusicLover321",
+    hostName: "MusicLover321",
     name: `Concert in the Park`,
     date: new Date("2024-08-08"),
     address: "123 Pine Dr, Provo, Utah",
     description: "Groove to the music at our outdoor concert in the park!",
     image: "https://i.ytimg.com/vi/vbo0nljJ23Q/maxresdefault.jpg",
+    likes: 18,
     ages: 12,
   },
   {
-    createdBy: "FoodieGuru",
+    hostName: "FoodieGuru",
     name: `Food Festival`,
     date: new Date("2024-07-28"),
     address: "456 Oak Ave, Ogden, Utah",
@@ -115,7 +119,7 @@ const events = [
     ages: 18,
   },
   {
-    createdBy: "AdventureSeeker",
+    hostName: "AdventureSeeker",
     name: `Hiking Expedition`,
     date: new Date("2024-09-14"),
     address: "987 Elm St, Logan, Utah",
@@ -126,7 +130,7 @@ const events = [
     ages: 16,
   },
   {
-    createdBy: "BookClubMember",
+    hostName: "BookClubMember",
     name: `Literary Discussion`,
     date: new Date("2024-08-02"),
     address: "321 Maple Ave, St. George, Utah",
@@ -137,7 +141,7 @@ const events = [
     ages: 18,
   },
   {
-    createdBy: "TechEnthusiast",
+    hostName: "TechEnthusiast",
     name: `Hackathon`,
     date: new Date("2024-10-20"),
     address: "654 Pine Dr, Salt Lake City, Utah",
@@ -148,7 +152,7 @@ const events = [
     ages: 16,
   },
   {
-    createdBy: "YogaLover",
+    hostName: "YogaLover",
     name: `Sunrise Yoga`,
     date: new Date("2024-07-19"),
     address: "789 Elm Ave, Park City, Utah",

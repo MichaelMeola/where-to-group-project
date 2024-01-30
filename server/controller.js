@@ -14,10 +14,10 @@ const handlerFunctions = {
   },
 
   addEvent: async (req, res) => {
-    const { createdBy, name, date, address, description, image, ages } = req.body
+    const { hostName, name, date, address, description, image, ages } = req.body
 
     const newEvent = await Event.create({
-      createdBy,
+      hostName,
       name,
       date,
       address,

@@ -61,9 +61,13 @@ Event.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    createdBy: {
+    hostName: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    hostPic: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     name: {
       type: DataTypes.STRING,
