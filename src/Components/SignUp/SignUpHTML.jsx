@@ -19,9 +19,23 @@ import Modal from 'react-bootstrap/Modal';
 import SignUpHTML from './SignUpHTML.jsx';
 
 
+const defaultTheme = createTheme({
+    palette: {
+      primary: {
+        main: '#bf00ff'
+      },
+      secondary: {
+        main: '#ac00e6'
+      },
+      background: {
+        main: "#99D5C9"
+      }
+    }
+  });
 
 
 export default function SignUpHTML() {
+
     return (
         <ThemeProvider theme={defaultTheme}>
             
@@ -35,7 +49,7 @@ export default function SignUpHTML() {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
@@ -103,7 +117,7 @@ export default function SignUpHTML() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/login" variant="body2" style={{color: '#99D5C9'}}>
+                                <Link href="/login" variant="body2" >
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>

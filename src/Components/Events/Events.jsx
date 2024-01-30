@@ -59,10 +59,10 @@ const Events = () => {
 
   return (
     <>
-      <Box display="flex" justifyContent="center" paddingTop={8}>
+      <Box display="flex" justifyContent="center" paddingTop={6}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Container components={["DatePicker"]}>
-            <DatePicker label="Event Date" onChange={handleDateChange} sx={{ bgcolor: 'white'}}/>
+            <DatePicker label="Event Date" onChange={handleDateChange} />
           </Container>
         </LocalizationProvider>
       </Box>
