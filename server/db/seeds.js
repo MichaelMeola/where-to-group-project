@@ -1,8 +1,9 @@
 import { User, Event } from "./models.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 for (let i = 0; i < 5; i++) {
-  const hashedPassword = await bcrypt.hash("test", 10);
+  const salt = bcrypt.genSaltSync(10);
+  const hashedPassword = bcrypt.hashSync("test", salt);
   await User.create({
     username: `user${i}`,
     email: `user${i}@gmail.com`,

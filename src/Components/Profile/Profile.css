@@ -1,0 +1,58 @@
+.profile-img-card{
+    width: 80vw;;
+    margin: 30px;
+    padding: 0;
+    background-color: white;
+    display: flex;
+    border-radius: 5px;
+    flex-direction: column;
+}
+
+.profile-info-card{
+    width: 80vw;
+    height: 225px;
+    margin: 30px;
+    padding: 0;
+    background-color: white;
+    display: flex;
+    border-radius: 5px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.profile-pic{
+    display: flex;
+    height: 80px;
+    width: 80px;
+    padding: 10px
+}
+
+.profile-username{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    position: relative ;
+    padding: 10px;
+}
+
+.profile-template-text{
+    /* bottom: 5px; */
+    position: relative;
+    /* left: 5px; */
+    padding: 5px;
+}
+
+.profile-pic-btn {
+    display: flex;
+}
+
+.edit-hover:hover{
+    background-color: rgb(227, 227, 227);
+    border-radius: 8px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+

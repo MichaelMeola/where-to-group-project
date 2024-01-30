@@ -34,7 +34,7 @@ export default function DesktopNavbar() {
             <figure>
               <img
                 src="../../pictures/whereto1.png"
-                className="desktop-navbar-brank-img"
+                className="desktop-navbar-brand-img"
               />
             </figure>
           </Link>
@@ -59,7 +59,7 @@ export default function DesktopNavbar() {
               as={customToggle}
             >
               <Image
-                className="desktop-navbar-profilepic"
+                className="profilepic"
                 src={`${profile.profilePic}`}
                 roundedCircle
               />
@@ -73,10 +73,7 @@ export default function DesktopNavbar() {
               <Dropdown.Header className="desktop-navbar-dropdown-header">
                 @{profile.username}
               </Dropdown.Header>
-              <Dropdown.Item align="start" href="/profile">
-                Profile
-              </Dropdown.Item>
-              <Dropdown.Item href="/settings">
+              <Dropdown.Item href="/profile">
                 Settings
               </Dropdown.Item>
               <Dropdown.Item href="/" onClick={logout}>

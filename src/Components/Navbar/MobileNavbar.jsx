@@ -58,7 +58,7 @@ export default function MobileNavbar() {
     </Navbar>
           <div className="dropdown-div">
               <Image
-                className="mobile-navbar-profilepic"
+                className="profilePic"
                 src={profile.profilePic}
                 onClick={() => setShow(!show)}
                 roundedCircle
