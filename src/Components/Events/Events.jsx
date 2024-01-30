@@ -3,7 +3,14 @@ import axios from "axios";
 import { useEventsStore, useProfileStore } from "../../globalState.jsx";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
-import { Container, Box } from "@mui/material";
+import {
+  Container,
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -17,19 +24,44 @@ import Grid from "@mui/material/Grid";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
 const Events = () => {
   const navigate = useNavigate();
   const { events, setEvents } = useEventsStore();
   const { profile } = useProfileStore();
   const [selectedDate, setSelectedDate] = useState(null);
-  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [sortBy, setSortBy] = useState("likes");
+
+  const sortEvents = (events, sortBy) => {
+    events.sort((a, b) => {
+      if (sortBy === "date") {
+        return new Date(a.date) - new Date(b.date);
+      } else {
+        return b.likes - a.likes;
+      }
+    });
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleSortByChange = (event) => {
+    setSortBy(event.target.value);
+  };
 
   useEffect(() => {
     axios
       .get("/api/events")
       .then((response) => {
-        setEvents(response.data);
+        let fetchedEvents = response.data;
+        sortEvents(fetchedEvents, sortBy);
+        setEvents(fetchedEvents);
       })
       .catch((error) => {
         console.log(error);
@@ -41,82 +73,130 @@ const Events = () => {
   }, []);
 
   useEffect(() => {
+    let filteredEvents = events;
     if (selectedDate) {
-      const filteredEvents = events.filter(
+      filteredEvents = events.filter(
         (event) =>
           new Date(event.date).toLocaleDateString() ===
           selectedDate.$d.toLocaleDateString()
       );
-      setFilteredEvents(filteredEvents);
-    } else {
-      setFilteredEvents(events);
     }
-  }, [selectedDate, events]);
+    sortEvents(filteredEvents, sortBy);
+    setEvents(filteredEvents);
+  }, [selectedDate, sortBy]);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
+  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+  const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
   return (
     <>
-      <Box display="flex" justifyContent="center" paddingTop={6}>
+      <Box display="flex" justifyContent="center" alignItems="center" py={1}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Container components={["DatePicker"]}>
-            <DatePicker label="Event Date" onChange={handleDateChange} />
+            <DatePicker label="Choose Event Date" onChange={handleDateChange} />
           </Container>
         </LocalizationProvider>
       </Box>
+      <Box display="flex" justifyContent="center" alignContent="center">
+        <Autocomplete
+          multiple
+          id="filters"
+          options={["18+", "21+", "other filters"]}
+          disableCloseOnSelect
+          renderOption={(props, option, { selected }) => (
+            <li {...props}>
+              <Checkbox
+                icon={icon}
+                checkedIcon={checkedIcon}
+                style={{ marginRight: 8 }}
+                checked={selected}
+              />
+              {option}
+            </li>
+          )}
+          style={{ width: 200 }}
+          renderInput={(params) => (
+            <TextField {...params} label="Filter By..." placeholder="Filters" />
+          )}
+        />
+        <FormControl sx={{ ml: 2 }}>
+          <InputLabel id="sort-by-label">Sort By:</InputLabel>
+          <Select
+            labelId="sort-by-label"
+            id="sort-by"
+            value={sortBy}
+            onChange={handleSortByChange}
+          >
+            <MenuItem value="likes">Most Liked</MenuItem>
+            <MenuItem value="date">Event Date</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
       <Container sx={{ py: 3 }} maxWidth="md">
-        <Grid container spacing={4}>
-          {filteredEvents.map((event) => (
-            <Grid item key={event.eventId} xs={12} sm={6} md={4}>
-              <Card
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <CardHeader
-                  avatar={<Avatar></Avatar>}
-                  sx={{ height: "60px" }}
-                  title={`Host: @${event.createdBy}`}
-                />
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={`${event.image}`}
-                  alt="Event Image"
-                />
-                <CardContent>
-                  <Typography variant="body1" color="text.primary">
-                    {event.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {event.address}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {new Date(event.date).toLocaleString("en-US", {
-                      dateStyle: "long",
-                      timeStyle: "short",
-                    })}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {event.description}
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <Typography variant="body2" color="text.secondary">
-                    {event.likes}
-                  </Typography>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+        {events.length === 0 ? (
+          <Typography variant="body1" color="text.primary">
+            No events found for the selected date.
+          </Typography>
+        ) : (
+          <Grid container spacing={4}>
+            {events.map((event) => (
+              <Grid item key={event.eventId} xs={12} sm={6} md={4}>
+                <Card
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <CardHeader
+                    avatar={<Avatar>{event.hostPic}</Avatar>}
+                    sx={{ height: "60px" }}
+                    title={`Host: @${event.hostName}`}
+                  />
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={`${event.image}`}
+                    alt="Event Image"
+                  />
+                  <CardContent>
+                    <Typography variant="body1" color="text.primary">
+                      {event.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {event.address}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {new Date(event.date).toLocaleString("en-US", {
+                        dateStyle: "long",
+                        timeStyle: "short",
+                      })}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {event.description}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {event.ages}+
+                    </Typography>
+                  </CardContent>
+                  <CardActions
+                    disableSpacing
+                    sx={{
+                      marginTop: "auto",
+                    }}
+                  >
+                    <IconButton aria-label="add to favorites">
+                      <FavoriteIcon />
+                    </IconButton>
+                    <Typography variant="body2" color="text.secondary">
+                      {event.likes}
+                    </Typography>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        )}
       </Container>
     </>
   );
