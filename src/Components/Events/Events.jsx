@@ -20,6 +20,8 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
 import Grid from "@mui/material/Grid";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -36,6 +38,7 @@ const Events = () => {
   const { profile } = useProfileStore();
   const [selectedDate, setSelectedDate] = useState(null);
   const [sortBy, setSortBy] = useState("likes");
+  const [filterBy, setFilterBy] = useState([]);
 
   const sortEvents = (events, sortBy) => {
     events.sort((a, b) => {
@@ -55,11 +58,15 @@ const Events = () => {
     setSortBy(event.target.value);
   };
 
+  const handleFilterByChange = (event, value) => {
+    setFilterBy(value);
+  };
+
   useEffect(() => {
     axios
       .get("/api/events")
       .then((response) => {
-        let fetchedEvents = response.data;
+        const fetchedEvents = response.data;
         sortEvents(fetchedEvents, sortBy);
         setEvents(fetchedEvents);
       })
@@ -74,8 +81,15 @@ const Events = () => {
 
   useEffect(() => {
     let filteredEvents = events;
-    if (selectedDate) {
+
+    if (filterBy.includes("My Events")) {
       filteredEvents = events.filter(
+        (event) => event.hostName === profile.username
+      );
+    }
+
+    if (selectedDate) {
+      filteredEvents = filteredEvents.filter(
         (event) =>
           new Date(event.date).toLocaleDateString() ===
           selectedDate.$d.toLocaleDateString()
@@ -83,7 +97,9 @@ const Events = () => {
     }
     sortEvents(filteredEvents, sortBy);
     setEvents(filteredEvents);
-  }, [selectedDate, sortBy]);
+  }, [selectedDate, sortBy, filterBy]);
+
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -101,8 +117,9 @@ const Events = () => {
         <Autocomplete
           multiple
           id="filters"
-          options={["18+", "21+", "other filters"]}
+          options={["18+", "21+", "My Events"]}
           disableCloseOnSelect
+          onChange={handleFilterByChange}
           renderOption={(props, option, { selected }) => (
             <li {...props}>
               <Checkbox
@@ -185,9 +202,7 @@ const Events = () => {
                       marginTop: "auto",
                     }}
                   >
-                    <IconButton aria-label="add to favorites">
-                      <FavoriteIcon />
-                    </IconButton>
+                    <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite style={{color: 'red'}} />}/>
                     <Typography variant="body2" color="text.secondary">
                       {event.likes}
                     </Typography>
