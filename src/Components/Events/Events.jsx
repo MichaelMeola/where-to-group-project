@@ -149,9 +149,9 @@ const Events = () => {
                   }}
                 >
                   <CardHeader
-                    avatar={<Avatar></Avatar>}
+                    avatar={<Avatar>{event.hostPic}</Avatar>}
                     sx={{ height: "60px" }}
-                    title={`Host: @${event.createdBy}`}
+                    title={`Host: @${event.hostName}`}
                   />
                   <CardMedia
                     component="img"
