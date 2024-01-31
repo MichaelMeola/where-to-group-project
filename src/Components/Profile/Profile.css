@@ -20,12 +20,12 @@
     align-content: flex-start;
 }
 
-.profile-pic{
+/* .profile-pic{
     display: flex;
     height: 80px;
     width: 80px;
     padding: 10px
-}
+} */
 
 .profile-username{
     display: flex;
