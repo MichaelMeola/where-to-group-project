@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
@@ -9,7 +10,9 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useEventsStore, useProfileStore } from "../../globalState.jsx";
+import Alert from "@mui/material/Alert";
+import { useProfileStore } from "../../globalState.jsx";
+import CircularProgress from "@mui/material/CircularProgress";
 
 
 export default function Create() {
@@ -20,43 +23,83 @@ export default function Create() {
   const [ages, setAges] = useState("");
   const [description, setDescription] = useState("");
   const [dateTime, setDateTime] = useState(null);
+  const [errorMessage, setErrorMessge] = useState("");
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const timer = React.useRef();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
+  const handleButtonClick = () => {
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+      timer.current = window.setTimeout(() => {
+        setSuccess(true);
+        setLoading(false);
+        navigate("/events");
+      }, 1200);
+    }
+  };
 
   const handleCreateEvent = async () => {
-    const newEvent = {
-      hostName: profile.username,
-      hostPic: profile.profilePic,
-      name: eventName,
-      date: dateTime,
-      address,
-      description,
-      image: imageUrl,
-      ages: +ages,
-    };
+    if (
+      !eventName ||
+      !address ||
+      !imageUrl ||
+      !ages ||
+      !description ||
+      !dateTime
+    ) {
+      setErrorMessge(
+        "Please fill out all of the input fields before adding an event."
+      );
+    } else {
+      const newEvent = {
+        hostName: profile.username,
+        hostPic: profile.profilePic,
+        name: eventName,
+        date: dateTime,
+        address,
+        description,
+        image: imageUrl,
+        ages: +ages,
+      };
 
-    try {
-      const response = await fetch("/api/events", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newEvent),
-      });
+      try {
+        const response = await fetch("/api/events", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newEvent),
+        });
 
-      if (response.ok) {
-        const createdEvent = await response.json();
-        console.log("Event created:", createdEvent);
-        setEventName("");
-        setAddress("");
-        setImageUrl("");
-        setAges("");
-        setDescription("");
-        setDateTime("");
-      } else {
-        console.error("Failed to create event:", response.status);
+        if (response.ok) {
+          const createdEvent = await response.json();
+          console.log("Event created:", createdEvent);
+          setEventName("");
+          setAddress("");
+          setImageUrl("");
+          setAges("");
+          setDescription("");
+          setDateTime("");
+          handleButtonClick();
+        } else {
+          console.error("Failed to create event:", response.status);
+        }
+      } catch (error) {
+        console.error("Error", error);
       }
-    } catch (error) {
-      console.error("Error", error);
     }
   };
 
@@ -68,7 +111,7 @@ export default function Create() {
         title="green iguana"
       />
       <CardContent>
-        <Typography gutterBottom variant="h3" component="div" >
+        <Typography gutterBottom variant="h3" component="div">
           {eventName}
         </Typography>
       </CardContent>
@@ -82,43 +125,48 @@ export default function Create() {
         autoComplete="on"
       >
         <TextField
-        label='Event Name'
-        value={eventName}
-        onChange={(e) => setEventName(e.target.value)}
-        required
+          label="Event Name"
+          value={eventName}
+          onChange={(e) => setEventName(e.target.value)}
+          required
         />
         <TextField
-        label='Address'
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-        required
+          label="Address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          required
         />
         <TextField
-        label='Image URL'
-        value={imageUrl}
-        onChange={(e) => setImageUrl(e.target.value)}
-        required
+          label="Image URL"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+          required
         />
         <TextField
-        label='Ages'
-        value={ages}
-        onChange={(e) => setAges(e.target.value)}
-        required
+          label="Ages"
+          value={ages}
+          onChange={(e) => setAges(e.target.value)}
+          required
         />
         <TextField
-        label='Description'
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        required
+          label="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
         />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateTimePicker
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimePicker
             label="Date & Time"
             value={dateTime}
             onChange={(newValue) => setDateTime(newValue)}
-            />
-          </LocalizationProvider>
+          />
+        </LocalizationProvider>
       </Box>
+      {errorMessage && (
+        <Alert severity="error" sx={{ mb: 2, textAlign: "center" }}>
+          {errorMessage}
+        </Alert>
+      )}
       <Button
         type="submit"
         color="secondary"
@@ -126,8 +174,17 @@ export default function Create() {
         size="large"
         sx={{ mt: 3, mb: 5 }}
         onClick={handleCreateEvent}
-        >
-        Create Event
+      >
+        {loading ? (
+          <CircularProgress
+            size={26}
+            sx={{
+              color: 'white',
+            }}
+          />
+        ) : (
+          "Create Event"
+        )}
       </Button>
     </Card>
   );
