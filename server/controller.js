@@ -1,5 +1,5 @@
 import { User, Event } from "./db/models.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { Op } from "sequelize";
 
 const handlerFunctions = {
@@ -31,6 +31,9 @@ const handlerFunctions = {
 
   register: async (req, res) => {
     const { username, password, email } = req.body;
+
+    
+
     console.log(email);
     const findUser = await User.findOne({
       where: {
@@ -43,7 +46,10 @@ const handlerFunctions = {
 
       res.send({ success: false, message: "email or username already in use!" });
     } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // const hashedPassword = await bcrypt.hash(password, 10);
+      const salt = bcrypt.genSaltSync(10);
+      const hashedPassword = bcrypt.hashSync(password, salt);
 
       const newUser = await User.create({
         username: username,
@@ -78,12 +84,8 @@ const handlerFunctions = {
 
     if(findUser){
       console.log(email);
-      bcrypt.compare(password, findUser.password, (err, result) => {
-        if (err) {
-          console.log(err);
-        }
-        if (result) {
-          console.log(result);
+      const passwordCheck = bcrypt.compareSync(password, findUser.password)
+        if(passwordCheck) {
         res.send({
           success: true,
           message: "login successful",
@@ -91,13 +93,14 @@ const handlerFunctions = {
             username: findUser.username,
             age: findUser.age,
             profilePic: findUser.profilePic,
-            userId: findUser.userId 
+            userId: findUser.userId,
+            email: findUser.email
           },
         });
       } else {
         res.send({ success: false, message: "login unsuccessful" });
       }
-    });
+    ;
   } 
   },
   deleteUser: async (req, res) => {
@@ -111,18 +114,46 @@ const handlerFunctions = {
     }
   },
   editUser: async (req, res) => {
-    const { userId, username, password } = req.params;
+
+    const { userId, username, password, profilePic, age } = req.body;
+    // console.log(req.body);
     const foundUser = await User.findOne({ where: { userId: userId } });
     if (!foundUser) {
       res.send({ success: false, message: "user not found" });
     } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // const hashedPassword = await bcrypt.hash(password, 10);
       const editUser = await User.update(
-        { username: username, password: hashedPassword },
+        { username: username, profilePic: profilePic, age: age},
         { where: { userId: userId } }
       );
-      res.send({ success: true, message: "user updated" });
+      let profile = foundUser
+      console.log(profile);
+      res.send({ success: true, message: "user updated", profile });
     }
+  },
+  verifyUser: async (req, res) => {
+    const { userId, password } = req.body;
+    console.log(req.body);
+    const findUser = await User.findOne({ where: { userId: userId } });
+    // console.log(findUser);
+    const passwordCheck = bcrypt.compareSync(password, findUser.password)
+    if(passwordCheck) {
+      res.send({ success: true, message: "password verified" });
+    } else {
+      res.send({ success: false, message: "password incorrect" });
+    }
+  },
+  newPass: async (req, res) => {
+    const { userId, password } = req.body;
+    console.log(req.body);
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    const findUser = await User.findOne({ where: { userId: userId } });
+    const editUser = await User.update(
+      { password: hashedPassword },
+      { where: { userId: userId } }
+    );
+    res.send({ success: true, message: "password updated" });
   }
 };
 
