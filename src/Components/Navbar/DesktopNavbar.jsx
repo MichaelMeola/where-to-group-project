@@ -59,7 +59,7 @@ export default function DesktopNavbar() {
               as={customToggle}
             >
               <Image
-                className="profilepic"
+                className="desktop-navbar-profilepic"
                 src={`${profile.profilePic}`}
                 roundedCircle
               />
