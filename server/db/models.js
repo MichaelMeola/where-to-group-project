@@ -75,7 +75,7 @@ Event.init(
     },
     address: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     date: {
       type: DataTypes.DATE,
@@ -117,19 +117,11 @@ Liked.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    likeCount: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    likeCount: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    userId: {
+    eventId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -141,6 +133,9 @@ Liked.init(
 
 Event.hasMany(Liked, { foreignKey: "eventId" });
 Liked.belongsTo(Event, { foreignKey: "eventId" });
+User.hasMany(Liked, { foreignKey: "userId" });
+Liked.belongsTo(User, { foreignKey: "userId" });
+
 User.belongsToMany(Event, { through: "saved_events" });
 Event.belongsToMany(User, { through: "saved_events" });
 
