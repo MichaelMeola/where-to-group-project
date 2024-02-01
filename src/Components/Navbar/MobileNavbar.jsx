@@ -10,8 +10,8 @@ export default function MobileNavbar() {
   const [show, setShow] = useState(false);
   let dropDown = null;
   
-  console.log(show);
-  console.log(dropDown);
+  // console.log(show);
+  // console.log(dropDown);
   if(show){
      dropDown = (
       <div className="dropdown-parent">

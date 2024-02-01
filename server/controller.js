@@ -114,21 +114,21 @@ const handlerFunctions = {
     }
   },
   editUser: async (req, res) => {
+    console.log(req.body);
 
-    const { userId, username, password, profilePic, age } = req.body;
-    // console.log(req.body);
+    const { userId, username, profilePic, age } = req.body;
     const foundUser = await User.findOne({ where: { userId: userId } });
     if (!foundUser) {
       res.send({ success: false, message: "user not found" });
     } else {
-      // const hashedPassword = await bcrypt.hash(password, 10);
+      
       const editUser = await User.update(
         { username: username, profilePic: profilePic, age: age},
         { where: { userId: userId } }
       );
       let profile = foundUser
-      console.log(profile);
-      res.send({ success: true, message: "user updated", profile });
+      console.log("edit user", profile)
+      res.send({ success: true, message: "user updated", profile: {userId: profile.userId, username: profile.username, profilePic: profile.profilePic, age: profile.age}});
     }
   },
   verifyUser: async (req, res) => {

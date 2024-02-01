@@ -12,12 +12,13 @@
     width: 80vw;
     height: 225px;
     margin: 30px;
-    padding: 0;
+    padding: 6px;
     background-color: white;
     display: flex;
     border-radius: 5px;
     flex-wrap: wrap;
     align-content: flex-start;
+    flex-direction: column ;
 }
 
 .profile-pic{
@@ -37,10 +38,15 @@
 }
 
 .profile-template-text{
-    /* bottom: 5px; */
+    display: inline-block;
     position: relative;
-    /* left: 5px; */
-    padding: 5px;
+    align-content: center;
+    padding: 0px;
+    flex-wrap: wrap ;
+    border: 1px solid transparent;
+    transition: border-color 0.2s ease-in-out;
+    border-radius: 5px;
+    /* background-color: red; */
 }
 
 .profile-pic-btn {
@@ -49,10 +55,48 @@
 
 .edit-hover:hover{
     background-color: rgb(227, 227, 227);
-    border-radius: 8px;
-    padding: 5px;
-    display: flex;
-    align-items: center;
+    border-radius: 5px;
+    /* max-width: 120px;; */
+    padding:0 5px;
+    /* display: flex;
+    align-items: center; */
 }
 
+.proile-pic-edit-hover:hover{
+    
+    border-radius: 1px;
+    border-width: 1px;
+    padding: 5px;
+    display: flex;
+    /* align-items: center; */
+    border-color: black;
+    position: inherit;
+}
 
+.profile-parent-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    max-width: 80vw;
+}
+
+.proile-pen{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: -99px;
+    left: 65px;
+}
+
+.profile-user-info{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+    /* padding: 20px; */
+    max-width: 80vw;
+    background-color: red;;
+}

@@ -12,9 +12,7 @@ export const useProfileStore = create(
   persist(
     (set) => ({
       profile: {},
-
       setProfile: (newProfile) => set({ profile: newProfile }),
-
       logout: () => set({ profile: {} }),
     }),
     {
