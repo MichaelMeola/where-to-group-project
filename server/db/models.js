@@ -37,7 +37,7 @@ User.init(
       allowNull: true,
     },
     profilePic: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       defaultValue:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
@@ -61,21 +61,13 @@ Event.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    hostName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    hostPic: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     address: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     date: {
       type: DataTypes.DATE,
@@ -117,21 +109,24 @@ Liked.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    likeCount: {
+  },
+  {
+    sequelize: db,
+  }
+);
+
+class SavedEvent extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
+
+SavedEvent.init(
+  {
+    savedEventId: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    likeCount: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
     },
   },
   {
@@ -139,10 +134,16 @@ Liked.init(
   }
 );
 
+User.belongsToMany(Event, { through: SavedEvent, foreignKey: "userId" });
+Event.belongsToMany(User, { through: SavedEvent, foreignKey: "eventId" });
+
 Event.hasMany(Liked, { foreignKey: "eventId" });
 Liked.belongsTo(Event, { foreignKey: "eventId" });
-User.belongsToMany(Event, { through: "saved_events" });
-Event.belongsToMany(User, { through: "saved_events" });
+User.hasMany(Liked, { foreignKey: "userId" });
+Liked.belongsTo(User, { foreignKey: "userId" });
+
+User.hasMany(Event, {foreignKey: "userId"})
+Event.belongsTo(User, { foreignKey: "userId", as: 'user' })
 
 if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
   console.log("Syncing database...");
@@ -150,4 +151,4 @@ if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
   console.log("Finished syncing database!");
 }
 
-export { User, Event, Liked };
+export { User, Event, Liked, SavedEvent };
