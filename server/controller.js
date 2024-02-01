@@ -9,16 +9,22 @@ const handlerFunctions = {
   },
 
   getEvents: async (req, res) => {
-    const allEvents = await Event.findAll();
+    const allEvents = await Event.findAll({
+      include: {
+        model: User,
+        as: 'user',
+        attributes: {include: [ 'username', 'profilePic']}
+      }
+    })
     res.send(allEvents);
   },
 
   addEvent: async (req, res) => {
-    const { hostName, name, date, address, description, image, ages } =
+    const { userId, name, date, address, description, image, ages } =
       req.body;
 
     const newEvent = await Event.create({
-      hostName,
+      userId,
       name,
       date,
       address,

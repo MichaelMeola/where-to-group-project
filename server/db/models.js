@@ -37,7 +37,7 @@ User.init(
       allowNull: true,
     },
     profilePic: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       defaultValue:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
@@ -60,14 +60,6 @@ Event.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-    },
-    hostName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    hostPic: {
-      type: DataTypes.STRING,
-      allowNull: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -117,14 +109,6 @@ Liked.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    eventId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
   },
   {
     sequelize: db,
@@ -157,6 +141,9 @@ Event.hasMany(Liked, { foreignKey: "eventId" });
 Liked.belongsTo(Event, { foreignKey: "eventId" });
 User.hasMany(Liked, { foreignKey: "userId" });
 Liked.belongsTo(User, { foreignKey: "userId" });
+
+User.hasMany(Event, {foreignKey: "userId"})
+Event.belongsTo(User, { foreignKey: "userId", as: 'user' })
 
 if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
   console.log("Syncing database...");

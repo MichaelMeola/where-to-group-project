@@ -19,14 +19,13 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import CheckIcon from "@mui/icons-material/Check";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import Favorite from "@mui/icons-material/Favorite";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
 import Grid from "@mui/material/Grid";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { MobileDatePicker } from "@mui/x-date-pickers";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -36,7 +35,7 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 const Events = () => {
   const navigate = useNavigate();
   const { events, setEvents } = useEventsStore();
-  const { profile, likedEvents, setLikedEvents } = useProfileStore();
+  const { profile } = useProfileStore();
   const [selectedDate, setSelectedDate] = useState(null);
   const [sortBy, setSortBy] = useState("likes");
   const [filterBy, setFilterBy] = useState([]);
@@ -63,24 +62,6 @@ const Events = () => {
     setFilterBy(value);
   };
 
-  const handleLike = (eventId) => {
-    if (likedEvents[eventId]) {
-      const updatedLikedEvents = { ...likedEvents };
-      updatedLikedEvents[eventId] -= 1;
-
-      if (updatedLikedEvents[eventId] === 0) {
-        delete updatedLikedEvents[eventId];
-      }
-
-      setLikedEvents(updatedLikedEvents);
-      axios.put(`/api/events/${eventId}/like`, { increment: -1 });
-    } else {
-      const updatedLikedEvents = { ...likedEvents, [eventId]: 1 };
-      setLikedEvents(updatedLikedEvents);
-      axios.put(`/api/events/${eventId}/like`, { increment: 1 });
-    }
-  };
-
   useEffect(() => {
     axios
       .get("/api/events")
@@ -88,16 +69,6 @@ const Events = () => {
         const fetchedEvents = response.data;
         sortEvents(fetchedEvents, sortBy);
         setEvents(fetchedEvents);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axios
-      .get("/api/user/liked-events")
-      .then((response) => {
-        const userLikedEvents = response.data;
-        setLikedEvents(userLikedEvents);
       })
       .catch((error) => {
         console.log(error);
@@ -113,7 +84,7 @@ const Events = () => {
 
     if (filterBy.includes("My Events")) {
       filteredEvents = events.filter(
-        (event) => event.hostName === profile.username
+        (event) => event.user.username === profile.username
       );
     }
 
@@ -128,15 +99,17 @@ const Events = () => {
     setEvents(filteredEvents);
   }, [selectedDate, sortBy, filterBy]);
 
-  const icon = <CheckBoxOutlineBlankIcon />;
-  const checkedIcon = <CheckBoxIcon />;
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+  const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
   return (
     <>
       <Box display="flex" justifyContent="center" alignItems="center" py={1}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Container components={["DatePicker"]}>
-            <DatePicker label="Choose Event Date" onChange={handleDateChange} />
+            <MobileDatePicker label="Choose Event Date" onChange={handleDateChange} />
           </Container>
         </LocalizationProvider>
       </Box>
@@ -193,9 +166,9 @@ const Events = () => {
                   }}
                 >
                   <CardHeader
-                    avatar={<Avatar>{event.hostPic}</Avatar>}
+                    avatar={<Avatar>{event.user.profilePic}</Avatar>}
                     sx={{ height: "60px" }}
-                    title={`Host: @${event.hostName}`}
+                    title={`Host: @${event.user.username}`}
                   />
                   <CardMedia
                     component="img"
@@ -220,31 +193,19 @@ const Events = () => {
                       {event.description}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      ages: {event.ages}+
+                      {event.ages}+
                     </Typography>
                   </CardContent>
                   <CardActions
                     disableSpacing
                     sx={{
                       marginTop: "auto",
-                      display: "flex",
-                      justifyContent: "space-between",
                     }}
                   >
-                    <Box style={{ display: "flex", alignItems: "center" }}>
-                      <Checkbox
-                        icon={<FavoriteBorder />}
-                        checkedIcon={<Favorite style={{ color: "red" }} />}
-                        onChange={() => handleLike(event.eventId)}
-                      />
-                      <Typography variant="body2" color="text.secondary">
-                        {event.likes}
-                      </Typography>
-                    </Box>
-                    <Checkbox
-                      icon={<ControlPointIcon />}
-                      checkedIcon={<CheckIcon style={{ color: "green" }} />}
-                    />
+                    <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite style={{color: 'red'}} />}/>
+                    <Typography variant="body2" color="text.secondary">
+                      {event.likes}
+                    </Typography>
                   </CardActions>
                 </Card>
               </Grid>
