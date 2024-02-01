@@ -40,7 +40,7 @@ const Events = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [sortBy, setSortBy] = useState("likes");
   const [filterBy, setFilterBy] = useState([]);
-
+  
   const sortEvents = (events, sortBy) => {
     events.sort((a, b) => {
       if (sortBy === "date") {
