@@ -114,7 +114,7 @@ const handlerFunctions = {
     }
   },
   editUser: async (req, res) => {
-    console.log(req.body);
+    
 
     const { userId, username, profilePic, age } = req.body;
     const foundUser = await User.findOne({ where: { userId: userId } });
@@ -133,7 +133,7 @@ const handlerFunctions = {
   },
   verifyUser: async (req, res) => {
     const { userId, password } = req.body;
-    console.log(req.body);
+    
     const findUser = await User.findOne({ where: { userId: userId } });
     // console.log(findUser);
     const passwordCheck = bcrypt.compareSync(password, findUser.password)
@@ -145,7 +145,7 @@ const handlerFunctions = {
   },
   newPass: async (req, res) => {
     const { userId, password } = req.body;
-    console.log(req.body);
+    
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
     const findUser = await User.findOne({ where: { userId: userId } });

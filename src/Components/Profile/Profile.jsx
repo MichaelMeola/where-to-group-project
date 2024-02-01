@@ -21,7 +21,7 @@ export default function Profile() {
   const [passModal, setPassModal] = useState(false);
   const [verifyPass, setVerifyPass] = useState("");
   const [newPassModal, setNewPassModal] = useState(false);
-
+  let you = "You";
   const style = {
     position: "absolute",
     top: "50%",
