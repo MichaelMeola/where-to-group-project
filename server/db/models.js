@@ -131,13 +131,32 @@ Liked.init(
   }
 );
 
+class SavedEvent extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
+
+SavedEvent.init(
+  {
+    savedEventId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+  },
+  {
+    sequelize: db,
+  }
+);
+
+User.belongsToMany(Event, { through: SavedEvent, foreignKey: "userId" });
+Event.belongsToMany(User, { through: SavedEvent, foreignKey: "eventId" });
+
 Event.hasMany(Liked, { foreignKey: "eventId" });
 Liked.belongsTo(Event, { foreignKey: "eventId" });
 User.hasMany(Liked, { foreignKey: "userId" });
 Liked.belongsTo(User, { foreignKey: "userId" });
-
-User.belongsToMany(Event, { through: "saved_events" });
-Event.belongsToMany(User, { through: "saved_events" });
 
 if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
   console.log("Syncing database...");
@@ -145,4 +164,4 @@ if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
   console.log("Finished syncing database!");
 }
 
-export { User, Event, Liked };
+export { User, Event, Liked, SavedEvent };
