@@ -5,7 +5,7 @@ import './MobileFooter.css'
 
 export default function MobileFooter() {
   return (
-    <footer className="mobile-page-footer font-small footer-style" style={{ backgroundColor: 'white', padding: '0px 0px 0px 0px'}}>
+    <footer className="mobile-page-footer font-small footer-style" style={{ backgroundColor: 'white', padding: '0px 0px 0px 0px', zIndex: '1'}}>
       <div className="text-center m-auto">
         <div className="row" >
           <div className="col-4 m-auto">

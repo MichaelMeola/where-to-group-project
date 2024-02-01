@@ -20,8 +20,8 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import Favorite from "@mui/icons-material/Favorite";
 import Grid from "@mui/material/Grid";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -99,7 +99,7 @@ const Events = () => {
     setEvents(filteredEvents);
   }, [selectedDate, sortBy, filterBy]);
 
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -202,7 +202,11 @@ const Events = () => {
                       marginTop: "auto",
                     }}
                   >
-                    <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite style={{color: 'red'}} />}/>
+                    <Checkbox
+                      {...label}
+                      icon={<FavoriteBorder />}
+                      checkedIcon={<Favorite style={{ color: "red" }} />}
+                    />
                     <Typography variant="body2" color="text.secondary">
                       {event.likes}
                     </Typography>

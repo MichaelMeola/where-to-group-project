@@ -104,7 +104,7 @@ export default function Create() {
   };
 
   return (
-    <Card sx={{ maxWidth: 800, mb: 20, mt: 2 }}>
+    <Card sx={{maxWidth: 800, mb: 20, mt: 2 }}>
       <CardMedia
         sx={{ height: 240 }}
         image="https://img.freepik.com/premium-vector/event-planner-template-hand-drawn-cartoon-illustration-with-planning-schedule-calendar-concept_2175-7747.jpg"
@@ -119,7 +119,7 @@ export default function Create() {
       <Box
         component="form"
         sx={{
-          "& > :not(style)": { m: 1, s: 1, width: "33ch" },
+          "& > :not(style)": { m: 1, s: 1, width: "32ch" },
         }}
         noValidate
         autoComplete="on"

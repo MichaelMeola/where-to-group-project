@@ -1,4 +1,4 @@
-import { User, Event, saved_events } from "./db/models.js";
+import { User, Event } from "./db/models.js";
 import bcrypt from "bcryptjs";
 import { Op } from "sequelize";
 
