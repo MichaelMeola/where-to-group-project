@@ -64,7 +64,6 @@ const Events = () => {
   };
 
   const handleLike = (eventId) => {
-
     if (likedEvents[eventId]) {
       const updatedLikedEvents = { ...likedEvents };
       updatedLikedEvents[eventId] -= 1;
