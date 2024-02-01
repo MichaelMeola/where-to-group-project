@@ -1,4 +1,4 @@
-import { User, Event } from "./db/models.js";
+import { User, Event, SavedEvent } from "./db/models.js";
 import bcrypt from "bcryptjs";
 import { Op } from "sequelize";
 
@@ -9,44 +9,69 @@ const handlerFunctions = {
   },
 
   getEvents: async (req, res) => {
-    const allEvents = await Event.findAll();
+    const allEvents = await Event.findAll({
+      include: {
+        model: User,
+        as: 'user',
+        attributes: {include: [ 'username', 'profilePic']}
+      }
+    })
     res.send(allEvents);
   },
 
   addEvent: async (req, res) => {
-    const { hostName, name, date, address, description, image, ages } = req.body
+    const { userId, name, date, address, description, image, ages } =
+      req.body;
 
     const newEvent = await Event.create({
-      hostName,
+      userId,
       name,
       date,
       address,
-      description, 
-      image, 
-      ages
-    })
+      description,
+      image,
+      ages,
+    });
 
-    res.send(newEvent)
+    res.send(newEvent);
+  },
+
+  addEventToCalendar: async (req, res) => {
+    const { userId, eventId } = req.body;
+
+    const savedEvent = await SavedEvent.create({
+      userId,
+      eventId,
+    });
+
+    const userSavedEvents = await SavedEvent.findAll({
+      where: {
+        userId: userId,
+      },
+      include: Event,
+    });
+
+    res.send(userSavedEvents);
   },
 
   register: async (req, res) => {
     const { username, password, email } = req.body;
 
-    
-
     console.log(email);
     const findUser = await User.findOne({
       where: {
-        [Op.or]: [{ email: email }, { username: username }]
-      }
+        [Op.or]: [{ email: email }, { username: username }],
+      },
     });
-    
+
     if (findUser) {
       console.log("user found, ", findUser);
 
-      res.send({ success: false, message: "email or username already in use!" });
+      res.send({
+        success: false,
+        message: "email or username already in use!",
+      });
     } else {
-
       // const hashedPassword = await bcrypt.hash(password, 10);
       const salt = bcrypt.genSaltSync(10);
       const hashedPassword = bcrypt.hashSync(password, salt);
@@ -56,61 +81,63 @@ const handlerFunctions = {
         password: hashedPassword,
         email: email,
       });
-      
-      console.log('find user', findUser);
+
+      console.log("find user", findUser);
       console.log("user created, ", newUser);
       res.send({
         success: true,
         message: "registration successful",
-        profile: { 
+        profile: {
           username: newUser.username,
           age: newUser.age,
           profilePic: newUser.profilePic,
-          userId: newUser.userId 
+          userId: newUser.userId,
         },
       });
     }
   },
-  
+
   login: async (req, res) => {
     const { email, password } = req.body;
     const findUser = await User.findOne({ where: { email: email } });
     // const { username, age, profilePic, userId } = findUser;
     console.log(findUser);
-    if(!findUser) {
-      console.log('hit');
-      res.send({ success: false, message: "login unsuccessful, no email found" });
+    if (!findUser) {
+      console.log("hit");
+      res.send({
+        success: false,
+        message: "login unsuccessful, no email found",
+      });
     }
 
-    if(findUser){
+    if (findUser) {
       console.log(email);
-      const passwordCheck = bcrypt.compareSync(password, findUser.password)
-        if(passwordCheck) {
+      const passwordCheck = bcrypt.compareSync(password, findUser.password);
+      if (passwordCheck) {
         res.send({
           success: true,
           message: "login successful",
-          profile: { 
+          profile: {
             username: findUser.username,
             age: findUser.age,
             profilePic: findUser.profilePic,
             userId: findUser.userId,
-            email: findUser.email
+            email: findUser.email,
           },
         });
       } else {
         res.send({ success: false, message: "login unsuccessful" });
       }
-    ;
-  } 
+    }
   },
   deleteUser: async (req, res) => {
     const { userId } = req.params;
     const findUser = await User.findOne({ where: { userId: userId } });
-    if(!findUser) {
+    if (!findUser) {
       res.send({ success: false, message: "user not found" });
-    } else{
-    const deleteUser = await User.destroy({ where: { userId: userId } });
-    res.send({ success: true, message: "user deleted" });
+    } else {
+      const deleteUser = await User.destroy({ where: { userId: userId } });
+      res.send({ success: true, message: "user deleted" });
     }
   },
   editUser: async (req, res) => {
@@ -123,12 +150,12 @@ const handlerFunctions = {
     } else {
       // const hashedPassword = await bcrypt.hash(password, 10);
       const editUser = await User.update(
-        { username: username, profilePic: profilePic, age: age},
+        { username: username, profilePic: profilePic, age: age },
         { where: { userId: userId } }
-        );
-        // let profile = foundUser
-        // console.log('PROF UPDATED ', editUser);
-      res.send({ success: true, message: "user updated", profile: {userId, username, profilePic, age} });
+      );
+      let profile = foundUser
+      console.log(profile);
+      res.send({ success: true, message: "user updated", profile });
     }
   },
   verifyUser: async (req, res) => {
@@ -136,8 +163,8 @@ const handlerFunctions = {
     console.log(req.body);
     const findUser = await User.findOne({ where: { userId: userId } });
     // console.log(findUser);
-    const passwordCheck = bcrypt.compareSync(password, findUser.password)
-    if(passwordCheck) {
+    const passwordCheck = bcrypt.compareSync(password, findUser.password);
+    if (passwordCheck) {
       res.send({ success: true, message: "password verified" });
     } else {
       res.send({ success: false, message: "password incorrect" });
@@ -154,7 +181,7 @@ const handlerFunctions = {
       { where: { userId: userId } }
     );
     res.send({ success: true, message: "password updated" });
-  }
+  },
 };
 
 export default handlerFunctions;

@@ -14,7 +14,7 @@ for (let i = 0; i < 5; i++) {
 
 const events = [
   {
-    hostName: "PibleJib",
+    userId: 3,
     name: `Rikki's House Party`,
     date: new Date("2024-12-31"),
     address: "123 Fake St, Salt Lake City, Utah",
@@ -24,7 +24,7 @@ const events = [
     ages: 21,
   },
   {
-    hostName: "Assistant",
+    userId: 1,
     name: `Summer BBQ Bash`,
     date: new Date("2024-07-15"),
     address: "456 Main St, Park City, Utah",
@@ -35,7 +35,7 @@ const events = [
     ages: 18,
   },
   {
-    hostName: "JohnDoe",
+    userId:  2,
     name: `Movie Night Under the Stars`,
     date: new Date("2024-08-20"),
     address: "789 Oak Ave, Provo, Utah",
@@ -46,7 +46,7 @@ const events = [
     ages: 12,
   },
   {
-    hostName: "JaneSmith",
+    userId:  4,
     name: `Art Workshop`,
     date: new Date("2024-09-05"),
     address: "321 Elm St, Ogden, Utah",
@@ -57,7 +57,7 @@ const events = [
     ages: 16,
   },
   {
-    hostName: "EventPlanner123",
+    userId:  5,
     name: `Charity Gala`,
     date: new Date("2024-11-10"),
     address: "654 Pine Dr, Logan, Utah",
@@ -67,7 +67,7 @@ const events = [
     ages: 21,
   },
   {
-    hostName: "EventOrganizer456",
+    userId: 1,
     name: `Fitness Bootcamp`,
     date: new Date("2024-06-05"),
     address: "987 Maple Ave, St. George, Utah",
@@ -77,7 +77,7 @@ const events = [
     ages: 18,
   },
   {
-    hostName: "PartyMaster789",
+    userId: 5,
     name: `Neon Glow Party`,
     date: new Date("2024-10-12"),
     address: "456 Oak St, Salt Lake City, Utah",
@@ -87,7 +87,7 @@ const events = [
     ages: 18,
   },
   {
-    hostName: "ArtEnthusiast",
+    userId: 2,
     name: `Paint and Sip`,
     date: new Date("2024-09-25"),
     address: "789 Elm Ave, Park City, Utah",
@@ -98,7 +98,7 @@ const events = [
     ages: 21,
   },
   {
-    hostName: "MusicLover321",
+    userId: 3,
     name: `Concert in the Park`,
     date: new Date("2024-08-08"),
     address: "123 Pine Dr, Provo, Utah",
@@ -108,7 +108,7 @@ const events = [
     ages: 12,
   },
   {
-    hostName: "FoodieGuru",
+    userId: 4,
     name: `Food Festival`,
     date: new Date("2024-07-28"),
     address: "456 Oak Ave, Ogden, Utah",
@@ -119,7 +119,7 @@ const events = [
     ages: 18,
   },
   {
-    hostName: "AdventureSeeker",
+    userId: 2,
     name: `Hiking Expedition`,
     date: new Date("2024-09-14"),
     address: "987 Elm St, Logan, Utah",
@@ -130,7 +130,7 @@ const events = [
     ages: 16,
   },
   {
-    hostName: "BookClubMember",
+    userId: 3,
     name: `Literary Discussion`,
     date: new Date("2024-08-02"),
     address: "321 Maple Ave, St. George, Utah",
@@ -141,7 +141,7 @@ const events = [
     ages: 18,
   },
   {
-    hostName: "TechEnthusiast",
+    userId: 5,
     name: `Hackathon`,
     date: new Date("2024-10-20"),
     address: "654 Pine Dr, Salt Lake City, Utah",
@@ -152,7 +152,7 @@ const events = [
     ages: 16,
   },
   {
-    hostName: "YogaLover",
+    userId: 1,
     name: `Sunrise Yoga`,
     date: new Date("2024-07-19"),
     address: "789 Elm Ave, Park City, Utah",

@@ -65,8 +65,7 @@ export default function Create() {
       );
     } else {
       const newEvent = {
-        hostName: profile.username,
-        hostPic: profile.profilePic,
+        userId: profile.userId,
         name: eventName,
         date: dateTime,
         address,

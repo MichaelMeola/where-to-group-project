@@ -25,7 +25,7 @@ import Favorite from '@mui/icons-material/Favorite';
 import Grid from "@mui/material/Grid";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { MobileDatePicker } from "@mui/x-date-pickers";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -84,7 +84,7 @@ const Events = () => {
 
     if (filterBy.includes("My Events")) {
       filteredEvents = events.filter(
-        (event) => event.hostName === profile.username
+        (event) => event.user.username === profile.username
       );
     }
 
@@ -109,7 +109,7 @@ const Events = () => {
       <Box display="flex" justifyContent="center" alignItems="center" py={1}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Container components={["DatePicker"]}>
-            <DatePicker label="Choose Event Date" onChange={handleDateChange} />
+            <MobileDatePicker label="Choose Event Date" onChange={handleDateChange} />
           </Container>
         </LocalizationProvider>
       </Box>
@@ -166,9 +166,9 @@ const Events = () => {
                   }}
                 >
                   <CardHeader
-                    avatar={<Avatar>{event.hostPic}</Avatar>}
+                    avatar={<Avatar>{event.user.profilePic}</Avatar>}
                     sx={{ height: "60px" }}
-                    title={`Host: @${event.hostName}`}
+                    title={`Host: @${event.user.username}`}
                   />
                   <CardMedia
                     component="img"
