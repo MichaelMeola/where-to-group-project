@@ -10,12 +10,13 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 
-const { getUsers, getEvents, register, login, deleteUser, editUser, addEvent, verifyUser, newPass } = handlerFunctions;
+const { getUsers, getEvents, register, login, deleteUser, editUser, addEvent, verifyUser, newPass, addEventToCalendar } = handlerFunctions;
 
 app.get("/api/users", getUsers);
 app.get("/api/events", getEvents);
 app.post("/api/events", addEvent)
 app.post("/api/register", register);
+app.post('/api/addToCalendar', addEventToCalendar)
 app.post("/api/login", login)
 app.delete("/api/delete/:userId", deleteUser);
 app.post("/api/edit", editUser)

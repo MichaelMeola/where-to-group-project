@@ -1,4 +1,4 @@
-import { User, Event } from "./db/models.js";
+import { User, Event, saved_events } from "./db/models.js";
 import bcrypt from "bcryptjs";
 import { Op } from "sequelize";
 
@@ -28,6 +28,19 @@ const handlerFunctions = {
 
     res.send(newEvent)
   },
+
+
+  addEventToCalendar: async (req, res) => {
+    const { userId, eventId } = req.body
+    
+    const savedEvent = await saved_events.create({
+        userId, 
+        eventId
+    })
+    res.send(savedEvent)
+  },
+
+
 
   register: async (req, res) => {
     const { username, password, email } = req.body;
