@@ -115,7 +115,7 @@ const handlerFunctions = {
   },
   editUser: async (req, res) => {
 
-    const { userId, username, password, profilePic, age } = req.body;
+    const { userId, username, profilePic, age } = req.body;
     // console.log(req.body);
     const foundUser = await User.findOne({ where: { userId: userId } });
     if (!foundUser) {
