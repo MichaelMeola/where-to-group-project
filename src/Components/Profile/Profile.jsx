@@ -33,8 +33,8 @@ export default function Profile() {
   const [passModal, setPassModal] = useState(false);
   const [verifyPass, setVerifyPass] = useState("");
   const [newPassModal, setNewPassModal] = useState(false);
-  console.log(profile);
-  console.log(emailValue);
+  // console.log(profile);
+  // console.log(emailValue);
   const style = {
     position: "absolute",
     top: "50%",
@@ -80,7 +80,10 @@ export default function Profile() {
     flexDirection: "column",
     alignItems: "flex-start",
     elevation: "24",
-    maxWidth: "800",
+    // maxWidth: "800",
+    [theme.breakpoints.down("sm")]:{
+      padding: 5,     
+    },
   }));
 
   const ProfBox = styled(Box)(({ theme }) => ({
@@ -89,14 +92,16 @@ export default function Profile() {
     justifyContent: "center",
     padding: "20px",
     [theme.breakpoints.down("sm")]: {
-      width: "60%",
-      pb: "5px",
+      // width: "60%",
+      pb: "15px",
       pt: "5px",
-
-      backgroundColor: "blue",
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "flex-start",
+      
+      // backgroundColor: "blue",
+    },
+    [theme.breakpoints.up("md")]: {
+      pb: "50px",
+      minWidth: 600,
+      maxWidth: 800,
     },
     "& > :not(style)": { width: "100%", minWidth: 300, maxWidth: 800 },
   }));
@@ -171,7 +176,7 @@ export default function Profile() {
   // console.log(usernameValue);
   if (!edit) {
     return (
-        <Container sx={{pt: 15, pb: 15}}>
+        <Container sx={{pb: 25}}>
       <ThemeProvider theme={theme}>
         <Typography variant="h3">Edit Profile</Typography>
         <PurpSwitch onChange={openEdit} />
@@ -242,7 +247,7 @@ export default function Profile() {
               flexWrap: "wrap",
               justifyContent: "center",
               padding: "20px",
-              "& > :not(style)": { width: "100%", maxHeight: 1 / 3 },
+              "& > :not(style)": { maxHeight: 1 / 3 },
             }}
           >
             <ProfPaper elevation={15}>
@@ -285,7 +290,7 @@ export default function Profile() {
   } else {
     return (
       <>
-      <Container sx={{pt: 15, pb: 15}}>
+      <Container sx={{pb: 17}}>
         <ThemeProvider theme={theme}>
         <Typography variant="h3">Edit Profile</Typography>
           <PurpSwitch onChange={openEdit} defaultChecked />

@@ -22,9 +22,9 @@ export default function App() {
         case '/signup':
             landingNav = null
             landingFooter = null
-        case '/profile':
-            landingNav = null
-            landingFooter = null
+        // case '/profile':
+        //     landingNav = null
+        //     landingFooter = null
     }
     return (
         <>

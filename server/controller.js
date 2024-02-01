@@ -155,7 +155,7 @@ const handlerFunctions = {
       );
       let profile = foundUser
       console.log(profile);
-      res.send({ success: true, message: "user updated", profile });
+      res.send({ success: true, message: "user updated", profile: {userId, username, profilePic, age} });
     }
   },
   verifyUser: async (req, res) => {
