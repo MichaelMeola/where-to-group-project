@@ -18,10 +18,11 @@ import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
+import { useNavigate }from "react-router-dom";
+import AddIcon from '@mui/icons-material/Add';
+import CheckIcon from '@mui/icons-material/Check';
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import Favorite from "@mui/icons-material/Favorite";
 import Grid from "@mui/material/Grid";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -99,7 +100,7 @@ const Events = () => {
     setEvents(filteredEvents);
   }, [selectedDate, sortBy, filterBy]);
 
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -109,7 +110,10 @@ const Events = () => {
       <Box display="flex" justifyContent="center" alignItems="center" py={1}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Container components={["DatePicker"]}>
-            <MobileDatePicker label="Choose Event Date" onChange={handleDateChange} />
+            <MobileDatePicker
+              label="Choose Event Date"
+              onChange={handleDateChange}
+            />
           </Container>
         </LocalizationProvider>
       </Box>
@@ -200,12 +204,25 @@ const Events = () => {
                     disableSpacing
                     sx={{
                       marginTop: "auto",
+                      display: "flex",
+                      justifyContent: "space-between",
                     }}
                   >
-                    <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite style={{color: 'red'}} />}/>
-                    <Typography variant="body2" color="text.secondary">
-                      {event.likes}
-                    </Typography>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <Checkbox
+                        {...label}
+                        icon={<FavoriteBorder />}
+                        checkedIcon={<Favorite style={{ color: "red" }} />}
+                      />
+                      <Typography variant="body2" color="text.secondary">
+                        {event.likes}
+                      </Typography>
+                    </div>
+                    <Checkbox
+                      {...label}
+                      icon={<AddIcon />}
+                      checkedIcon={<CheckIcon style={{ color: "green" }} />}
+                    />
                   </CardActions>
                 </Card>
               </Grid>
