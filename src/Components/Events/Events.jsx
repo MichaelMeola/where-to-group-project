@@ -18,9 +18,9 @@ import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { useNavigate }from "react-router-dom";
-import AddIcon from '@mui/icons-material/Add';
-import CheckIcon from '@mui/icons-material/Check';
+import { useNavigate } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import CheckIcon from "@mui/icons-material/Check";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import Grid from "@mui/material/Grid";
@@ -40,7 +40,7 @@ const Events = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [sortBy, setSortBy] = useState("likes");
   const [filterBy, setFilterBy] = useState([]);
-  
+
   const sortEvents = (events, sortBy) => {
     events.sort((a, b) => {
       if (sortBy === "date") {
@@ -61,6 +61,17 @@ const Events = () => {
 
   const handleFilterByChange = (event, value) => {
     setFilterBy(value);
+  };
+
+  const handleAddEventToCalendar = (event) => {
+    const { eventId } = event;
+
+    axios
+      .post("/api/addToCalendar", { userId: profile.userId, eventId })
+      .then((response) => {})
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -219,6 +230,7 @@ const Events = () => {
                       </Typography>
                     </div>
                     <Checkbox
+                      onClick={() => handleAddEventToCalendar(event)}
                       {...label}
                       icon={<AddIcon />}
                       checkedIcon={<CheckIcon style={{ color: "green" }} />}

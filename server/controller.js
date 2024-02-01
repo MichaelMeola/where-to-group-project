@@ -13,7 +13,7 @@ const handlerFunctions = {
       include: {
         model: User,
         as: 'user',
-        attributes: {include: [ 'username', 'profilePic']}
+        attributes: {include: [ 'username', 'profilePic' ]}
       }
     })
     res.send(allEvents);
@@ -44,12 +44,15 @@ const handlerFunctions = {
       eventId,
     });
 
-    const userSavedEvents = await SavedEvent.findAll({
-      where: {
-        userId: userId,
-      },
-      include: Event,
-    });
+    // const userSavedEvents = await SavedEvent.findAll({
+    //   where: {
+    //     userId: userId,
+    //   },
+    //   include: {
+    //     model: Event,
+    //     as: "event",
+    //   },
+    // });
 
     res.send(userSavedEvents);
   },
