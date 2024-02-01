@@ -115,8 +115,8 @@ const handlerFunctions = {
   },
   editUser: async (req, res) => {
 
+    console.log(req.body);
     const { userId, username, profilePic, age } = req.body;
-    // console.log(req.body);
     const foundUser = await User.findOne({ where: { userId: userId } });
     if (!foundUser) {
       res.send({ success: false, message: "user not found" });
@@ -125,10 +125,10 @@ const handlerFunctions = {
       const editUser = await User.update(
         { username: username, profilePic: profilePic, age: age},
         { where: { userId: userId } }
-      );
-      let profile = foundUser
-      console.log(profile);
-      res.send({ success: true, message: "user updated", profile });
+        );
+        // let profile = foundUser
+        // console.log('PROF UPDATED ', editUser);
+      res.send({ success: true, message: "user updated", profile: {userId, username, profilePic, age} });
     }
   },
   verifyUser: async (req, res) => {
