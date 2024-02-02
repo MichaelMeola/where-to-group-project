@@ -1,8 +1,9 @@
 import React from "react";
+import { useState } from "react";
 import { Box, Container } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useTheme } from '@mui/material/styles';
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -15,7 +16,19 @@ import IconButton from '@mui/material/IconButton';
 
 
 export default function MyCalendar() {
+  const [ savedEvents, setSavedEvents ] = useState()
   const theme = useTheme();
+
+  const sortEvents = (savedEvents, sortBy) => {
+    savedEvents.sort((a, b) => {
+      if (sortBy === "date") {
+        return new Date(a.date) - new Date(b.date);
+      } else {
+        return b.likes - a.likes;
+      }
+    });
+  };
+
   return (
     <>
     <Box 
@@ -31,7 +44,7 @@ export default function MyCalendar() {
     >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Container>
-          <MobileDatePicker label="My Calendar" />
+          <DateTimePicker label="My Calendar" />
         </Container>
       </LocalizationProvider>
     </Box>

@@ -89,17 +89,17 @@ export default function Login() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs" sx={{ backgroundColor: 'white', height: '500px', border: ''}}>
+      <Container component="main" maxWidth="xs" sx={{ backgroundColor: 'white', height: '540px', mb: 13}}>
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 9,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 3, bgcolor: "primary.main"}}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5" color='black'>
@@ -109,7 +109,7 @@ export default function Login() {
             component="form"
             onSubmit={handleSubmit}
             noValidate
-            sx={{ mt: 1 }}
+            sx={{ mt: 2 }}
           >
             <TextField
               margin="normal"
@@ -164,7 +164,7 @@ export default function Login() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Copyright sx={{ mt: 8, mb: 4, color: 'gray' }} />
       </Container>
     </ThemeProvider>
   );
