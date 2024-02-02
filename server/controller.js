@@ -1,5 +1,6 @@
 import { User, Event, SavedEvent } from "./db/models.js";
 import bcrypt from "bcryptjs";
+import session from "express-session";
 import { Op } from "sequelize";
 
 const handlerFunctions = {
@@ -10,18 +11,23 @@ const handlerFunctions = {
 
   getEvents: async (req, res) => {
     const allEvents = await Event.findAll({
-      include: {
-        model: User,
-        as: 'user',
-        attributes: {include: [ 'username', 'profilePic' ]}
-      }
-    })
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: { include: ["username", "profilePic"] },
+        },
+        {
+          model: SavedEvent,
+          as: "savedEvent",
+        },
+      ],
+    });
     res.send(allEvents);
   },
 
   addEvent: async (req, res) => {
-    const { userId, name, date, address, description, image, ages } =
-      req.body;
+    const { userId, name, date, address, description, image, ages } = req.body;
 
     const newEvent = await Event.create({
       userId,
@@ -44,21 +50,32 @@ const handlerFunctions = {
       eventId,
     });
 
-    // const userSavedEvents = await SavedEvent.findAll({
-    //   where: {
-    //     userId: userId,
-    //   },
-    //   include: {
-    //     model: Event,
-    //     as: "event",
-    //   },
-    // });
+    res.send(savedEvent);
+  },
 
+  deleteEventFromCalendar: async (req, res) => {},
+
+  getCalendarEvents: async (req, res) => {
+    const { userId } = req.params;
+
+    const userSavedEvents = await SavedEvent.findAll({
+      where: {
+        userId,
+      },
+      include: [
+        {
+          model: Event,
+          as: "event",
+        },
+      ],
+    });
     res.send(userSavedEvents);
   },
 
   register: async (req, res) => {
     const { username, password, email } = req.body;
+
+    const session = req.session;
 
     console.log(email);
     const findUser = await User.findOne({
@@ -87,6 +104,11 @@ const handlerFunctions = {
 
       console.log("find user", findUser);
       console.log("user created, ", newUser);
+
+      session.email = newUser.email;
+      session.username = newUser.username;
+      session.userId = newUser.userId;
+      
       res.send({
         success: true,
         message: "registration successful",
@@ -102,6 +124,9 @@ const handlerFunctions = {
 
   login: async (req, res) => {
     const { email, password } = req.body;
+
+    const session = req.session;
+
     const findUser = await User.findOne({ where: { email: email } });
     // const { username, age, profilePic, userId } = findUser;
     console.log(findUser);
@@ -117,6 +142,9 @@ const handlerFunctions = {
       console.log(email);
       const passwordCheck = bcrypt.compareSync(password, findUser.password);
       if (passwordCheck) {
+        session.email = findUser.email;
+        session.username = findUser.username;
+        session.userId = findUser.userId;
         res.send({
           success: true,
           message: "login successful",
@@ -144,7 +172,6 @@ const handlerFunctions = {
     }
   },
   editUser: async (req, res) => {
-
     console.log(req.body);
     const { userId, username, profilePic, age } = req.body;
     const foundUser = await User.findOne({ where: { userId: userId } });
@@ -156,9 +183,13 @@ const handlerFunctions = {
         { username: username, profilePic: profilePic, age: age },
         { where: { userId: userId } }
       );
-      let profile = foundUser
+      let profile = foundUser;
       console.log(profile);
-      res.send({ success: true, message: "user updated", profile: {userId, username, profilePic, age} });
+      res.send({
+        success: true,
+        message: "user updated",
+        profile: { userId, username, profilePic, age },
+      });
     }
   },
   verifyUser: async (req, res) => {
