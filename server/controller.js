@@ -166,14 +166,13 @@ const handlerFunctions = {
     // console.log(findUser);
     const passwordCheck = bcrypt.compareSync(password, findUser.password);
     if (passwordCheck) {
-      res.send({ success: true, message: "password verified" });
+      res.send({ passCheck: true, message: "password verified" });
     } else {
-      res.send({ success: false, message: "password incorrect" });
+      res.send({ passCheck: false, message: "password incorrect" });
     }
   },
   newPass: async (req, res) => {
     const { userId, password } = req.body;
-    console.log(req.body);
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
     const findUser = await User.findOne({ where: { userId: userId } });

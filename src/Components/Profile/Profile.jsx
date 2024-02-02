@@ -20,6 +20,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { purple } from "@mui/material/colors";
 import Container from "@mui/material/Container";
+import EditIcon from '@mui/icons-material/Edit';
+import IconButton from "@mui/material/IconButton";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 const style = {
   position: "absolute",
@@ -105,11 +109,22 @@ const PurpSwitch = styled(Switch)(({ theme }) => ({
     backgroundColor: purple[600],
   },
 }));
+const ProfEditBtn = styled(IconButton)(({ theme }) => ({
+  color: "black",
+  backgroundColor: "white",
+  borderRadius: 5,
+  padding: -5,
+  "&:hover": {
+    backgroundColor: purple[700],
+    borderRadius: 5,
+    color: "white",
+  },
+}))
 
 const PurpButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(purple[500]),
   backgroundColor: purple[500],
-  // fontColor: "white",
+  borderRadious: 0,
   "&:hover": {
     backgroundColor: purple[700],
   },
@@ -136,7 +151,8 @@ export default function Profile() {
   const [verifyPass, setVerifyPass] = useState("");
   const [newPassModal, setNewPassModal] = useState(false);
   const [error , setError] = useState(false);
-
+  const [verifyAlert, setVerifyAlert] = useState(false);
+  const [verifyFail, setVerifyFail] = useState(false);
   let penI = (
     <Icon className="material-icons mobile-icons" sx={{ font_size: "medium" }}>
       edit_icon
@@ -160,18 +176,31 @@ export default function Profile() {
       console.log("changes made: ", res.data.profile);
       setChangeModal(true);
     }
+    if(res.data.passCheck){
+      alert(res.data.message);
+    }
   };
 
   const verifyPassword = async (e, data) => {
     console.log("hit");
     e.preventDefault();
     const res = await axios.post("/api/verify", data);
+    console.log(res.data);
     if (res.data.success) {
       console.log("verified");
-      setPassModal(false);
+      
       setNewPassModal(true);
-    } else {
-      alert(res.data.message);
+    } 
+    else if(res.data.passCheck){
+      setVerifyAlert(true);
+      setPassModal(true);
+      setVerifyFail(false)
+      console.log(verifyFail);
+    }
+    else {
+      setVerifyFail(true);
+      setVerifyAlert(false);
+      console.log(verifyFail);
     }
   };
 
@@ -206,13 +235,14 @@ export default function Profile() {
           </Modal>
           <Modal
             open={passModal}
-            onClose={() => setPassModal(false)}
+            onClose={() => {setPassModal(false), setVerifyFail(false), setVerifyAlert(false)}}
             // alignItems="center"
           >
             <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
+                  e.stopPropagation()
                   verifyPassword(
                     e,
                     (data = { password: verifyPass, userId: profile.userId })
@@ -225,7 +255,11 @@ export default function Profile() {
                   placeholder="Enter old password"
                   onChange={(e) => setVerifyPass(e.target.value)}
                 />
-                <button type="submit">Submit</button>
+                {verifyAlert && <Alert severity="info"><AlertTitle>Success</AlertTitle>Password Verified, create new password</Alert>}
+                {!verifyAlert && <button type="submit">Submit</button>}
+                {verifyAlert && <button type="submit" onClick={() => setNewPassModal(!newPassModal)}>Create new password</button>}
+                {verifyFail ? <Alert severity="error"><AlertTitle>Error</AlertTitle>Incorrect password</Alert> : ""}
+                {/* {!verifyFail && ""} */}
               </form>
             </Box>
           </Modal>
@@ -238,6 +272,9 @@ export default function Profile() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
+                  e.stopPropagation()
+                  setChangeModal(true)
+                  setPassModal(false);
                   newPassword(
                     e,
                     (data = { password: passwordValue, userId: profile.userId })
@@ -271,12 +308,11 @@ export default function Profile() {
                 roundedCircle
               />
               
-              <Typography variant="h3" className="profile-template-text">
+              <Typography variant="h3" >
                 Username:
               </Typography>
               <Typography
                 variant="p"
-                className="profile-username edit-hover"
                 onClick={() => openEdit()}
               >
                 {usernameValue}
@@ -291,12 +327,15 @@ export default function Profile() {
               {!ageValue && <Typography variant="p" sx={{color: "grey"}}>Enter age</Typography>}
               <Typography variant="p">{ageValue}</Typography>
               <Typography variant="h3">Password:</Typography>
-              <Typography
+              <ProfEditBtn onClick={() => {setPassModal(true), setVerifyAlert(false), setVerifyFail(false)}}>
+                *****<EditIcon/>
+                </ProfEditBtn>
+              {/* <Typography
                 className="edit-hover"
                 onClick={() => setPassModal(true)}
               >
                 ********{penI}
-              </Typography>
+              </Typography> */}
             </ProfPaper>
           </ProfBox>
         </div>
@@ -337,13 +376,15 @@ export default function Profile() {
             </Modal>
             <Modal
               open={passModal}
-              onClose={() => setPassModal(false)}
+              onClose={() => {setPassModal(false), setVerifyFail(false), setVerifyAlert(false)}}
+              
               // alignItems="center"
             >
               <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
+                    e.stopPropagation()
                     verifyPassword(
                       e,
                       (data = { password: verifyPass, userId: profile.userId })
@@ -356,7 +397,10 @@ export default function Profile() {
                     placeholder="Enter old password"
                     onChange={(e) => setVerifyPass(e.target.value)}
                   />
-                  <button type="submit">Submit</button>
+                  {verifyAlert && <Alert severity="info"><AlertTitle>Success</AlertTitle>Password Verified, create new password</Alert>}
+                {!verifyAlert && <button type="submit">Submit</button>}
+                {verifyAlert && <button type="submit" onClick={() => {setNewPassModal(!newPassModal), setVerifyAlert(!verifyAlert)}}>Create new password</button>}
+                {verifyFail ? <Alert severity="error"><AlertTitle>Error</AlertTitle>Incorrect password</Alert> : ""}
                 </form>
               </Box>
             </Modal>
@@ -369,6 +413,9 @@ export default function Profile() {
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
+                    e.stopPropagation()
+                    setChangeModal(true)
+                    setPassModal(false);
                     newPassword(
                       e,
                       (data = {
@@ -400,7 +447,7 @@ export default function Profile() {
               }}
             >
               {/* {!error ? <PurpButton type="submit">Save</PurpButton> : ""} */}
-              {profilePicValue.length > 3 && usernameValue.length >= 3 && emailValue.length > 3 && <PurpButton type="submit">Save</PurpButton>}
+              {(profilePicValue.length > 3 && usernameValue.length >= 3 && emailValue.length > 3 && ageValue) && <PurpButton type="submit">Save</PurpButton>}
               {(profilePicValue.length <= 3 || usernameValue.length <= 2 || emailValue.length <= 3 || !ageValue) && <DisabledPurpButton disabled type="submit">Save</DisabledPurpButton>}
 
               <ProfPaper elevation={15}>
@@ -452,13 +499,10 @@ export default function Profile() {
                   required
                 />
                 <Typography variant="h3">Password:</Typography>
-                <Typography
-                  className="edit-hover"
-                  onClick={() => setPassModal(true)}
-                  required
-                >
-                  ********{penI}
-                </Typography>
+                <ProfEditBtn onClick={() => {setPassModal(true), setVerifyAlert(false), setVerifyFail(false)}}>
+                *****<EditIcon/>
+                </ProfEditBtn>
+                
               </ProfPaper>
             </ProfBox>
           </Box>
