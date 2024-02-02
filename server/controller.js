@@ -92,6 +92,7 @@ const handlerFunctions = {
           age: newUser.age,
           profilePic: newUser.profilePic,
           userId: newUser.userId,
+          email: newUser.email,
         },
       });
     }

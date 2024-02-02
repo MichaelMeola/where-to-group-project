@@ -56,6 +56,8 @@ theme.typography.h3 = {
 theme.typography.p = {
   color: "black",
 };
+// theme.typography.h2 = {
+//   color: "black",
 
 const ProfPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -107,6 +109,7 @@ const PurpSwitch = styled(Switch)(({ theme }) => ({
 const PurpButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(purple[500]),
   backgroundColor: purple[500],
+  // fontColor: "white",
   "&:hover": {
     backgroundColor: purple[700],
   },
@@ -285,6 +288,7 @@ export default function Profile() {
               <Typography variant="h3">Email:</Typography>
               <Typography variant="p">{emailValue}</Typography>
               <Typography variant="h3">Age:</Typography>
+              {!ageValue && <Typography variant="p" sx={{color: "grey"}}>Enter age</Typography>}
               <Typography variant="p">{ageValue}</Typography>
               <Typography variant="h3">Password:</Typography>
               <Typography
@@ -396,8 +400,8 @@ export default function Profile() {
               }}
             >
               {/* {!error ? <PurpButton type="submit">Save</PurpButton> : ""} */}
-              {profilePicValue.length > 3 && usernameValue.length > 3 && emailValue.length > 3 && <PurpButton type="submit">Save</PurpButton>}
-              {profilePicValue.length <= 3 || usernameValue.length <= 3 || emailValue.length <= 3 || !ageValue && <PurpButton disabled type="submit">Save</PurpButton>}
+              {profilePicValue.length > 3 && usernameValue.length >= 3 && emailValue.length > 3 && <PurpButton type="submit">Save</PurpButton>}
+              {(profilePicValue.length <= 3 || usernameValue.length <= 2 || emailValue.length <= 3 || !ageValue) && <DisabledPurpButton disabled type="submit">Save</DisabledPurpButton>}
 
               <ProfPaper elevation={15}>
                 <Image
