@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -19,13 +19,7 @@ import { useProfileStore } from "../../globalState.jsx";
 
 function Copyright(props) {
   return (
-    <Typography
-      variant="body2"
-      color="#bf00ff"
-      align="center"
-      {...props}
-
-    >
+    <Typography variant="body2" color="#bf00ff" align="center" {...props}>
       {"Copyright Â© "}
       <Link color="inherit" href="https://mui.com/">
         Your Website
@@ -41,15 +35,15 @@ function Copyright(props) {
 const defaultTheme = createTheme({
   palette: {
     primary: {
-      main: '#bf00ff'
+      main: "#bf00ff",
     },
     secondary: {
-      main: '#ac00e6'
+      main: "#ac00e6",
     },
     background: {
-      main: "#99D5C9"
-    }
-  }
+      main: "#99D5C9",
+    },
+  },
 });
 
 export default function SignUp() {
@@ -104,10 +98,15 @@ export default function SignUp() {
         </Modal.Footer>
       </Modal>
 
-      <Container 
-      component="main" 
-      maxWidth="xs"
-      sx={{ height: '520px', backgroundColor: 'white', mb:14, color: '#bf00ff'}}
+      <Container
+        component="main"
+        maxWidth="xs"
+        sx={{
+          height: "520px",
+          backgroundColor: "white",
+          mb: 14,
+          color: "#bf00ff",
+        }}
       >
         <CssBaseline />
         <Box
@@ -116,7 +115,7 @@ export default function SignUp() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            padding: '16px 0px 0px 0px'
+            padding: "16px 0px 0px 0px",
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "#bf00ff" }}>
@@ -127,7 +126,7 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleReg} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} >
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
                   name="username"
@@ -137,15 +136,13 @@ export default function SignUp() {
                   label="username"
                   autoFocus
                   sx={{
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': {
-                        
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {},
+                      "&:hover fieldset": {
+                        borderColor: "red",
                       },
-                      '&:hover fieldset': {
-                        borderColor: 'red',
-                      },
-                      '&.Mui-focused fieldset': {
-                        borderColor: '#bf00ff',
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#bf00ff",
                       },
                     },
                   }}
@@ -175,15 +172,13 @@ export default function SignUp() {
                   onChange={(e) => setEmailValue(e.target.value)}
                   value={emailValue}
                   sx={{
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': {
-                        
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {},
+                      "&:hover fieldset": {
+                        borderColor: "red",
                       },
-                      '&:hover fieldset': {
-                        borderColor: 'red',
-                      },
-                      '&.Mui-focused fieldset': {
-                        borderColor: '#bf00ff',
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#bf00ff",
                       },
                     },
                   }}
@@ -201,14 +196,13 @@ export default function SignUp() {
                   onChange={(e) => setPasswordValue(e.target.value)}
                   value={passwordValue}
                   sx={{
-                    '& .MuiOutlinedInput-root': {
-                      '& fieldset': {
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {},
+                      "&:hover fieldset": {
+                        borderColor: "red",
                       },
-                      '&:hover fieldset': {
-                        borderColor: 'red',
-                      },
-                      '&.Mui-focused fieldset': {
-                        borderColor: '#bf00ff',
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#bf00ff",
                       },
                     },
                   }}
@@ -219,7 +213,7 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, color: 'white', bgcolor: '#bf00ff' }}
+              sx={{ mt: 3, mb: 2, color: "white", bgcolor: "#bf00ff" }}
               color="secondary"
             >
               Sign Up
@@ -229,7 +223,7 @@ export default function SignUp() {
                 <Link
                   href="/login"
                   variant="body2"
-                  style={{ color: '#bf00ff' }}
+                  style={{ color: "#bf00ff" }}
                 >
                   Already have an account? Sign in
                 </Link>
@@ -237,7 +231,7 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5, mb: 2, color: 'gray' }} />
+        <Copyright sx={{ mt: 5, mb: 2, color: "gray" }} />
       </Container>
     </ThemeProvider>
   );
@@ -347,3 +341,6 @@ export default function SignUp() {
   //     );
   //   }
 }
+
+
+

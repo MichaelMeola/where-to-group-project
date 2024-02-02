@@ -11,7 +11,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockPersonSharpIcon from '@mui/icons-material/LockPersonSharp';
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -100,7 +100,7 @@ export default function Login() {
           }}
         >
           <Avatar sx={{ m: 3, bgcolor: "primary.main"}}>
-            <LockOutlinedIcon />
+            <LockPersonSharpIcon />
           </Avatar>
           <Typography component="h1" variant="h5" color='black'>
             Sign in
