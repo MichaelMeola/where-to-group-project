@@ -73,7 +73,7 @@ export default function SignUp() {
     }
     if (res.data.success) {
       modalChange();
-      console.log(res.data.profile);
+      console.log('registered: ', res.data.profile);
       setProfile(res.data.profile);
     }
     console.log(res.data.success);
