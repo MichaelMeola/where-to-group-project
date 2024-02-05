@@ -31,6 +31,7 @@ const {
   addEventToCalendar,
   getCalendarEvents,
   deleteEventFromCalendar,
+  checkSession
 } = handlerFunctions;
 
 app.get("/api/events", getEvents);
@@ -45,6 +46,7 @@ app.post("/api/edit", editUser);
 app.delete("/api/delete/:userId", deleteUser);
 app.post("/api/verify", verifyUser);
 app.post("/api/newPass", newPass);
+app.get("/api/session", checkSession );
 
 ViteExpress.listen(app, 9999, () =>
   console.log(`Server running on http://localhost:9999`)

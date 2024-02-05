@@ -6,16 +6,21 @@ import "./DesktopNavbar.css";
 import { useProfileStore } from "../../globalState.jsx";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownMenu from "react-bootstrap/DropdownMenu";
+import axios from "axios";
 
 export default function DesktopNavbar() {
   const { profile, logout } = useProfileStore();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (!userId) {
-  //     navigate("/")
-  //   }
-  // },[])
+  useEffect(() => {
+    axios.get("/api/session")
+      .then(res => {
+        if (!res.data.loggedIn) {
+          console.log('hittington');
+          navigate('/');
+        }
+      });
+  }, []);
 
   const handleLogout = () => {
     axios

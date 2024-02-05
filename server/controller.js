@@ -11,6 +11,10 @@ const handlerFunctions = {
 
   getEvents: async (req, res) => {
     // console.log(req.session);
+    if(!req.session.userId) {
+      res.status(404).send("User not logged in")
+      return
+    }
     const allEvents = await Event.findAll({
       include: [
         {
@@ -26,6 +30,7 @@ const handlerFunctions = {
         },
       ],
     });
+
     res.send(allEvents);
   },
 
@@ -228,6 +233,7 @@ const handlerFunctions = {
       res.send({ success: false, message: "user not found" });
     } 
     else {
+      
       const deleteUser = await User.destroy({ where: { userId: userId } });
           res.send({ success: true, message: "user deleted" });
     }
@@ -276,6 +282,14 @@ const handlerFunctions = {
     );
     res.send({ success: true, message: "password updated" });
   },
+  checkSession: async (req, res) => {
+    console.log(req.session);
+    if (!req.session.userId) {
+      res.send({ loggedIn: false });
+    } else {
+      res.send({ loggedIn: true });
+    }
+  }
 };
 
 export default handlerFunctions;
