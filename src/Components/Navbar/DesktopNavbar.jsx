@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Nav, Navbar, Image, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./DesktopNavbar.css";
@@ -8,6 +9,25 @@ import DropdownMenu from "react-bootstrap/DropdownMenu";
 
 export default function DesktopNavbar() {
   const { profile, logout } = useProfileStore();
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (!userId) {
+  //     navigate("/")
+  //   }
+  // },[])
+
+  const handleLogout = () => {
+    axios
+      .post("/api/logout")
+      .then((response) => {
+        console.log(response.data.message);
+        logout();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const customToggle = React.forwardRef(({ children, onClick }, ref) => (
     <a
@@ -76,7 +96,7 @@ export default function DesktopNavbar() {
               <Dropdown.Item href="/profile">
                 Settings
               </Dropdown.Item>
-              <Dropdown.Item href="/" onClick={logout}>
+              <Dropdown.Item href="/" onClick={handleLogout}>
                 Logout
               </Dropdown.Item>
             </DropdownMenu>

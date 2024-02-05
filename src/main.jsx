@@ -15,12 +15,14 @@ import About from './Components/About/About.jsx'
 import Goal from './Components/Goal/Goal.jsx'
 import Team from './Components/Team/Team.jsx'
 import Contact from './Components/Contact/Contact.jsx'
+import Testing from './Components/Testing/Testing.jsx'
 import { createTheme, ThemeProvider } from '@mui/material'
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
+      <Route path='/testing' element={<Testing />}/>
       <Route index element={<Home />}/>
       <Route path='/events' element={<Events />}/>
       <Route path='/signup' element={<SignUp/>}/>

@@ -20,10 +20,13 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { purple } from "@mui/material/colors";
 import Container from "@mui/material/Container";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
+
 
 const style = {
   position: "absolute",
@@ -42,6 +45,17 @@ const style = {
 };
 
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#bf00ff",
+    },
+    secondary: {
+      main: "#ac00e6",
+    },
+    background: {
+      main: "#99D5C9",
+    },
+  },
   typography: {
     fontSize: 13,
     display: "flex",
@@ -60,6 +74,10 @@ theme.typography.h3 = {
 theme.typography.p = {
   color: "black",
 };
+
+const CustomTextField = styled(TextField)(({ theme }) => ({
+  padding: "7px 0px 7px 0px",
+}));
 // theme.typography.h2 = {
 //   color: "black",
 
@@ -73,8 +91,8 @@ const ProfPaper = styled(Paper)(({ theme }) => ({
   alignItems: "flex-start",
   elevation: "24",
   // maxWidth: "800",
-  [theme.breakpoints.down("sm")]:{
-    padding: 5,     
+  [theme.breakpoints.down("sm")]: {
+    padding: 5,
   },
 }));
 
@@ -87,7 +105,7 @@ const ProfBox = styled(Box)(({ theme }) => ({
     // width: "60%",
     pb: "15px",
     pt: "5px",
-    
+
     // backgroundColor: "blue",
   },
   [theme.breakpoints.up("md")]: {
@@ -119,7 +137,7 @@ const ProfEditBtn = styled(IconButton)(({ theme }) => ({
     borderRadius: 5,
     color: "white",
   },
-}))
+}));
 
 const PurpButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(purple[500]),
@@ -150,9 +168,14 @@ export default function Profile() {
   const [passModal, setPassModal] = useState(false);
   const [verifyPass, setVerifyPass] = useState("");
   const [newPassModal, setNewPassModal] = useState(false);
-  const [error , setError] = useState(false);
+  const [deleteAlert, setDeleteAlert] = useState(false);
   const [verifyAlert, setVerifyAlert] = useState(false);
   const [verifyFail, setVerifyFail] = useState(false);
+  const [deleteVerifyModal, setDeleteVerifyModal] = useState(false);
+  const [verified, setVerified] = useState(false);
+
+  let navigate = useNavigate();
+
   let penI = (
     <Icon className="material-icons mobile-icons" sx={{ font_size: "medium" }}>
       edit_icon
@@ -176,7 +199,7 @@ export default function Profile() {
       console.log("changes made: ", res.data.profile);
       setChangeModal(true);
     }
-    if(res.data.passCheck){
+    if (res.data.passCheck) {
       alert(res.data.message);
     }
   };
@@ -188,16 +211,14 @@ export default function Profile() {
     console.log(res.data);
     if (res.data.success) {
       console.log("verified");
-      
+
       setNewPassModal(true);
-    } 
-    else if(res.data.passCheck){
+    } else if (res.data.passCheck) {
       setVerifyAlert(true);
       setPassModal(true);
-      setVerifyFail(false)
+      setVerifyFail(false);
       console.log(verifyFail);
-    }
-    else {
+    } else {
       setVerifyFail(true);
       setVerifyAlert(false);
       console.log(verifyFail);
@@ -213,158 +234,56 @@ export default function Profile() {
     }
   };
 
+  const verifyPasswordDelete = async (e, data) => {
+    console.log("hit");
+    e.preventDefault();
+    const res = await axios.post("/api/verify", data);
+    console.log(res.data);
+
+    if (res.data.passCheck) {
+      deleteAccount(e, data);
+      // logout();
+      // setVerifyAlert(true);
+    } else {
+      setVerifyFail(true);
+      setVerifyAlert(false);
+      console.log(verifyFail);
+    }
+  };
+
+  const deleteAccount = async (e, data) => {
+    e.preventDefault();
+    const res = await axios.delete(`/api/delete/${profile.userId}`, data);
+    if (res.data.success) {
+      setDeleteVerifyModal(false);
+      setDeleteAlert(true);
+      console.log("account deleted");
+      // navigate("/");
+    } else {
+      alert(res.data.message);
+    }
+  };
   // if(!profilePicValue || !usernameValue || usernameValue.length < 3 || !emailValue || !emailValue.includes("@") || !ageValue){
   // setError(true);
   // }
 
   if (!edit) {
     return (
-        <Container sx={{pb: 25}}>
-      <ThemeProvider theme={theme}>
-        <Typography variant="h3">Edit Profile</Typography>
-        <PurpSwitch onChange={openEdit} />
-        <div>
-          <Modal
-            open={changeModal}
-            onClose={() => setChangeModal(false)}
-            // alignItems="center"
-          >
-            <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
-              Changes successfully made to account
-            </Box>
-          </Modal>
-          <Modal
-            open={passModal}
-            onClose={() => {setPassModal(false), setVerifyFail(false), setVerifyAlert(false)}}
-            // alignItems="center"
-          >
-            <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation()
-                  verifyPassword(
-                    e,
-                    (data = { password: verifyPass, userId: profile.userId })
-                  );
-                }}
-              >
-                <h2>Enter current password</h2>
-                <input
-                  type="password"
-                  placeholder="Enter old password"
-                  onChange={(e) => setVerifyPass(e.target.value)}
-                />
-                {verifyAlert && <Alert severity="info"><AlertTitle>Success</AlertTitle>Password Verified, create new password</Alert>}
-                {!verifyAlert && <button type="submit">Submit</button>}
-                {verifyAlert && <button type="submit" onClick={() => setNewPassModal(!newPassModal)}>Create new password</button>}
-                {verifyFail ? <Alert severity="error"><AlertTitle>Error</AlertTitle>Incorrect password</Alert> : ""}
-                {/* {!verifyFail && ""} */}
-              </form>
-            </Box>
-          </Modal>
-          <Modal
-            open={newPassModal}
-            onClose={() => setNewPassModal(false)}
-            // alignItems="center"
-          >
-            <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation()
-                  setChangeModal(true)
-                  setPassModal(false);
-                  newPassword(
-                    e,
-                    (data = { password: passwordValue, userId: profile.userId })
-                  );
-                }}
-              >
-                <h2>Password verified! Please enter new password</h2>
-                <input
-                  type="password"
-                  placeholder="Enter new password"
-                  onChange={(e) => setPasswordValue(e.target.value)}
-                />
-                <button type="submit">Submit</button>
-              </form>
-            </Box>
-          </Modal>
-
-          <ProfBox
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              padding: "20px",
-              "& > :not(style)": { maxHeight: 1 / 3 },
-            }}
-          >
-            <ProfPaper elevation={15}>
-              <Image
-                src={profilePicValue}
-                className="profile-pic"
-                roundedCircle
-              />
-              
-              <Typography variant="h3" >
-                Username:
-              </Typography>
-              <Typography
-                variant="p"
-                onClick={() => openEdit()}
-              >
-                {usernameValue}
-              </Typography>
-            </ProfPaper>
-          </ProfBox>
-          <ProfBox>
-            <ProfPaper elevation={15}>
-              <Typography variant="h3">Email:</Typography>
-              <Typography variant="p">{emailValue}</Typography>
-              <Typography variant="h3">Age:</Typography>
-              {!ageValue && <Typography variant="p" sx={{color: "grey"}}>Enter age</Typography>}
-              <Typography variant="p">{ageValue}</Typography>
-              <Typography variant="h3">Password:</Typography>
-              <ProfEditBtn onClick={() => {setPassModal(true), setVerifyAlert(false), setVerifyFail(false)}}>
-                *****<EditIcon/>
-                </ProfEditBtn>
-              {/* <Typography
-                className="edit-hover"
-                onClick={() => setPassModal(true)}
-              >
-                ********{penI}
-              </Typography> */}
-            </ProfPaper>
-          </ProfBox>
-        </div>
-      </ThemeProvider>
-      </Container>
-    );
-  } else {
-    return (
-      <>
-      <Container sx={{pb: 17}}>
+      <Container sx={{ pb: 25 }}>
         <ThemeProvider theme={theme}>
-        <Typography variant="h3">Edit Profile</Typography>
-          <PurpSwitch onChange={openEdit} checked />
-          <Box
-            component="form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              onEditProfile(
-                e,
-                (data = {
-                  username: usernameValue,
-                  profilePic: profilePicValue,
-                  email: emailValue,
-                  age: ageValue,
-                  userId: profile.userId,
-                })
-              );
-            }}
-          >
+          <Typography variant="h3">Edit Profile</Typography>
+          <PurpSwitch onChange={openEdit} />
+          <div>
+            <Modal
+              open={deleteAlert}
+              onClose={() => {
+                navigate("/"), setDeleteAlert(false);
+              }}
+            >
+              <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
+                Account successfully deleted, redirecting to login...
+              </Box>
+            </Modal>
             <Modal
               open={changeModal}
               onClose={() => setChangeModal(false)}
@@ -376,34 +295,112 @@ export default function Profile() {
             </Modal>
             <Modal
               open={passModal}
-              onClose={() => {setPassModal(false), setVerifyFail(false), setVerifyAlert(false)}}
-              
+              onClose={() => {
+                setPassModal(false),
+                  setVerifyFail(false),
+                  setVerifyAlert(false);
+              }}
               // alignItems="center"
             >
               <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    e.stopPropagation()
+                    e.stopPropagation();
                     verifyPassword(
                       e,
                       (data = { password: verifyPass, userId: profile.userId })
                     );
                   }}
                 >
-                  <h2>Confirm password</h2>
+                  <h2>Enter current password</h2>
                   <input
                     type="password"
                     placeholder="Enter old password"
                     onChange={(e) => setVerifyPass(e.target.value)}
                   />
-                  {verifyAlert && <Alert severity="info"><AlertTitle>Success</AlertTitle>Password Verified, create new password</Alert>}
-                {!verifyAlert && <button type="submit">Submit</button>}
-                {verifyAlert && <button type="submit" onClick={() => {setNewPassModal(!newPassModal), setVerifyAlert(!verifyAlert)}}>Create new password</button>}
-                {verifyFail ? <Alert severity="error"><AlertTitle>Error</AlertTitle>Incorrect password</Alert> : ""}
+                  {verifyAlert && (
+                    <Alert severity="info">
+                      <AlertTitle>Success</AlertTitle>Password Verified, create
+                      new password
+                    </Alert>
+                  )}
+                  {!verifyAlert && <button type="submit">Submit</button>}
+                  {verifyAlert && (
+                    <button
+                      type="submit"
+                      onClick={() => setNewPassModal(!newPassModal)}
+                    >
+                      Create new password
+                    </button>
+                  )}
+                  {verifyFail ? (
+                    <Alert severity="error">
+                      <AlertTitle>Error</AlertTitle>Incorrect password
+                    </Alert>
+                  ) : (
+                    ""
+                  )}
+                  {/* {!verifyFail && ""} */}
                 </form>
               </Box>
             </Modal>
+            <Modal
+              open={passModal}
+              onClose={() => {
+                setPassModal(false),
+                  setVerifyFail(false),
+                  setVerifyAlert(false);
+              }}
+              // alignItems="center"
+            >
+              <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    verifyPassword(
+                      e,
+                      (data = {
+                        password: verifyPass,
+                        userId: profile.userId,
+                      })
+                    );
+                  }}
+                >
+                  <h2>Enter current password</h2>
+                  <input
+                    type="password"
+                    placeholder="Enter old password"
+                    onChange={(e) => setVerifyPass(e.target.value)}
+                  />
+                  {verifyAlert && (
+                    <Alert severity="info">
+                      <AlertTitle>Success</AlertTitle>Password Verified, create
+                      new password
+                    </Alert>
+                  )}
+                  {!verifyAlert && <button type="submit">Submit</button>}
+                  {verifyAlert && (
+                    <button
+                      type="submit"
+                      onClick={() => setNewPassModal(!newPassModal)}
+                    >
+                      Create new password
+                    </button>
+                  )}
+                  {verifyFail ? (
+                    <Alert severity="error">
+                      <AlertTitle>Error</AlertTitle>Incorrect password
+                    </Alert>
+                  ) : (
+                    ""
+                  )}
+                  {/* {!verifyFail && ""} */}
+                </form>
+              </Box>
+            </Modal>
+
             <Modal
               open={newPassModal}
               onClose={() => setNewPassModal(false)}
@@ -413,8 +410,8 @@ export default function Profile() {
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    e.stopPropagation()
-                    setChangeModal(true)
+                    e.stopPropagation();
+                    setChangeModal(true);
                     setPassModal(false);
                     newPassword(
                       e,
@@ -430,9 +427,47 @@ export default function Profile() {
                     type="password"
                     placeholder="Enter new password"
                     onChange={(e) => setPasswordValue(e.target.value)}
-                    required
                   />
                   <button type="submit">Submit</button>
+                </form>
+              </Box>
+            </Modal>
+            <Modal
+              open={deleteVerifyModal}
+              onClose={() => {
+                setDeleteVerifyModal(false), setVerifyFail(false);
+              }}
+
+              // alignItems="center"
+            >
+              <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    verifyPasswordDelete(
+                      e,
+                      (data = {
+                        password: verifyPass,
+                        userId: profile.userId,
+                      })
+                    );
+                  }}
+                >
+                  <h2>To delete account, confirm password</h2>
+                  <input
+                    type="password"
+                    placeholder="Enter old password"
+                    onChange={(e) => setVerifyPass(e.target.value)}
+                  />
+                  {!verifyAlert && <button type="submit">Submit</button>}
+                  {verifyFail ? (
+                    <Alert severity="error">
+                      <AlertTitle>Error</AlertTitle>Incorrect password
+                    </Alert>
+                  ) : (
+                    ""
+                  )}
                 </form>
               </Box>
             </Modal>
@@ -443,72 +478,278 @@ export default function Profile() {
                 flexWrap: "wrap",
                 justifyContent: "center",
                 padding: "20px",
-                "& > :not(style)": { width: "100%", maxHeight: 1 / 3 },
+                "& > :not(style)": { maxHeight: 1 / 3 },
               }}
             >
-              {/* {!error ? <PurpButton type="submit">Save</PurpButton> : ""} */}
-              {(profilePicValue.length > 3 && usernameValue.length >= 3 && emailValue.length > 3 && ageValue) && <PurpButton type="submit">Save</PurpButton>}
-              {(profilePicValue.length <= 3 || usernameValue.length <= 2 || emailValue.length <= 3 || !ageValue) && <DisabledPurpButton disabled type="submit">Save</DisabledPurpButton>}
-
               <ProfPaper elevation={15}>
                 <Image
                   src={profilePicValue}
                   className="profile-pic"
                   roundedCircle
                 />
-                
-                  
-                  <TextField
-                    error={!profilePicValue}
-                    helperText={!profilePicValue ? "Profile image link requried" : ""}
-                    value={profilePicValue}
-                    onChange={(e) => {
-                      console.log('profpic change ' + profilePicValue);
-                      setProfilePicValue(e.target.value)}}
-                  />
-             
-                <Typography variant="h3" className="profile-template-text">
-                  Username:
+
+                <Typography variant="h3">Username:</Typography>
+                <Typography variant="p" onClick={() => openEdit()}>
+                  {usernameValue}
                 </Typography>
-                <TextField
-                  error={!usernameValue || usernameValue.length < 3}  
-                  helperText={!usernameValue ? "Username required" : usernameValue.length < 3 ? "Username must be at least 3 characters long" : ""}
-                  value={usernameValue}
-                  onChange={(e) => setUsernameValue(e.target.value)}
-                  required
-                />
               </ProfPaper>
             </ProfBox>
             <ProfBox>
               <ProfPaper elevation={15}>
                 <Typography variant="h3">Email:</Typography>
-                <TextField
-                  type="email"
-                  error={!emailValue}
-                  helperText={!emailValue ? "Email required" : ""}
-                  value={emailValue}
-                  onChange={(e) => setEmailValue(e.target.value)}
-                  required
-                />
+                <Typography variant="p">{emailValue}</Typography>
                 <Typography variant="h3">Age:</Typography>
-                <TextField
-                  error={!ageValue}
-                  helperText={!ageValue ? "Age required" : ""}
-                  value={ageValue}
-                  onChange={(e) => setAgeValue(e.target.value)}
-                  required
-                />
-                <Typography variant="h3">Password:</Typography>
-                <ProfEditBtn onClick={() => {setPassModal(true), setVerifyAlert(false), setVerifyFail(false)}}>
-                *****<EditIcon/>
+                {!ageValue && (
+                  <Typography variant="p" sx={{ color: "grey" }}>
+                    Enter age
+                  </Typography>
+                )}
+                <Typography variant="p">{ageValue}</Typography>
+                <Typography variant="h3" label="">
+                  Password:
+                </Typography>
+                <ProfEditBtn
+                  onClick={() => {
+                    setPassModal(true),
+                      setVerifyAlert(false),
+                      setVerifyFail(false);
+                  }}
+                >
+                  *****
+                  <EditIcon />
                 </ProfEditBtn>
-                
+                <Button
+                  startIcon={<DeleteIcon />}
+                  onClick={() => setDeleteVerifyModal(true)}
+                  color="error"
+                >
+                  Delete Account
+                </Button>
               </ProfPaper>
             </ProfBox>
-          </Box>
+          </div>
         </ThemeProvider>
+      </Container>
+    );
+  } else {
+    return (
+      <>
+        <Container sx={{ pb: 17 }}>
+          <ThemeProvider theme={theme}>
+            <Typography variant="h3">Edit Profile</Typography>
+            <PurpSwitch onChange={openEdit} checked />
+            <Box
+              component="form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                onEditProfile(
+                  e,
+                  (data = {
+                    username: usernameValue,
+                    profilePic: profilePicValue,
+                    email: emailValue,
+                    age: ageValue,
+                    userId: profile.userId,
+                  })
+                );
+              }}
+            >
+              <Modal
+                open={deleteAlert}
+                onClose={() => {
+                  navigate("/"), setDeleteAlert(false);
+                }}
+              >
+                <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
+                  Account successfully deleted, redirecting to login...
+                </Box>
+              </Modal>
+              <Modal
+                open={changeModal}
+                onClose={() => setChangeModal(false)}
+                // alignItems="center"
+              >
+                <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
+                  Changes successfully made to account
+                </Box>
+              </Modal>
+              <Modal
+              open={deleteVerifyModal}
+              onClose={() => {
+                setDeleteVerifyModal(false), setVerifyFail(false);
+              }}
+
+              // alignItems="center"
+            >
+              <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    verifyPasswordDelete(
+                      e,
+                      (data = {
+                        password: verifyPass,
+                        userId: profile.userId,
+                      })
+                    );
+                  }}
+                >
+                  <h2>To delete account, confirm password</h2>
+                  <input
+                    type="password"
+                    placeholder="Enter old password"
+                    onChange={(e) => setVerifyPass(e.target.value)}
+                  />
+                  {!verifyAlert && <button type="submit">Submit</button>}
+                  {verifyFail ? (
+                    <Alert severity="error">
+                      <AlertTitle>Error</AlertTitle>Incorrect password
+                    </Alert>
+                  ) : (
+                    ""
+                  )}
+                </form>
+              </Box>
+            </Modal>
+              <Modal
+                open={newPassModal}
+                onClose={() => setNewPassModal(false)}
+                // alignItems="center"
+              >
+                <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setChangeModal(true);
+                      setPassModal(false);
+                      newPassword(
+                        e,
+                        (data = {
+                          password: passwordValue,
+                          userId: profile.userId,
+                        })
+                      );
+                    }}
+                  >
+                    <h2>Password verified! Please enter new password</h2>
+                    <input
+                      type="password"
+                      placeholder="Enter new password"
+                      onChange={(e) => setPasswordValue(e.target.value)}
+                      required
+                    />
+                    <button type="submit">Submit</button>
+                  </form>
+                </Box>
+              </Modal>
+
+              <ProfBox
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                  padding: "20px",
+                  "& > :not(style)": { width: "100%", maxHeight: 1 / 3 },
+                }}
+              >
+                {/* {!error ? <PurpButton type="submit">Save</PurpButton> : ""} */}
+                {profilePicValue.length > 3 &&
+                  usernameValue.length >= 3 &&
+                  emailValue.length > 3 &&
+                  ageValue && <PurpButton type="submit">Save</PurpButton>}
+                {(profilePicValue.length <= 3 ||
+                  usernameValue.length <= 2 ||
+                  emailValue.length <= 3 ||
+                  !ageValue) && (
+                  <DisabledPurpButton disabled type="submit">
+                    Save
+                  </DisabledPurpButton>
+                )}
+
+                <ProfPaper elevation={15}>
+                  <Image
+                    src={profilePicValue}
+                    className="profile-pic"
+                    roundedCircle
+                  />
+
+                  <CustomTextField
+                    color="primary"
+                    label="URL"
+                    error={!profilePicValue}
+                    helperText={
+                      !profilePicValue ? "Profile image link requried" : ""
+                    }
+                    value={profilePicValue}
+                    onChange={(e) => {
+                      console.log("profpic change " + profilePicValue);
+                      setProfilePicValue(e.target.value);
+                    }}
+                  />
+
+                  {/* <Typography variant="h3" className="profile-template-text" label="username">
+                                          Username:
+                                        </Typography> */}
+                  <CustomTextField
+                    label="Username"
+                    error={!usernameValue || usernameValue.length < 3}
+                    helperText={
+                      !usernameValue
+                        ? "Username required"
+                        : usernameValue.length < 3
+                        ? "Username must be at least 3 characters long"
+                        : ""
+                    }
+                    value={usernameValue}
+                    onChange={(e) => setUsernameValue(e.target.value)}
+                    required
+                  />
+                </ProfPaper>
+              </ProfBox>
+              <ProfBox>
+                <ProfPaper elevation={15}>
+                  {/* <Typography variant="h3" label="email">Email:</Typography> */}
+                  <CustomTextField
+                    label="Email"
+                    type="email"
+                    error={!emailValue}
+                    helperText={!emailValue ? "Email required" : ""}
+                    value={emailValue}
+                    onChange={(e) => setEmailValue(e.target.value)}
+                    required
+                  />
+                  {/* <Typography label ="age" variant="h3">Age:</Typography> */}
+                  <CustomTextField
+                    label="Age"
+                    error={!ageValue}
+                    helperText={!ageValue ? "Age required" : ""}
+                    value={ageValue}
+                    onChange={(e) => setAgeValue(e.target.value)}
+                    required
+                  />
+                  <Typography variant="h3" label="password">
+                    Password:
+                  </Typography>
+                  <ProfEditBtn
+                    onClick={() => {
+                      setPassModal(true),
+                        setVerifyAlert(false),
+                        setVerifyFail(false);
+                    }}
+                  >
+                    *****
+                    <EditIcon />
+                  </ProfEditBtn>
+                  <Button startIcon={<DeleteIcon />} color="error">
+                    Delete Account
+                  </Button>
+                </ProfPaper>
+              </ProfBox>
+            </Box>
+          </ThemeProvider>
         </Container>
-    
       </>
     );
   }

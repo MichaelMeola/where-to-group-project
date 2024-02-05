@@ -19,7 +19,8 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import AddIcon from "@mui/icons-material/Add";
+import CheckIcon from "@mui/icons-material/Check";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import Grid from "@mui/material/Grid";
@@ -39,7 +40,6 @@ const Events = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [sortBy, setSortBy] = useState("likes");
   const [filterBy, setFilterBy] = useState([]);
-  
   const sortEvents = (events, sortBy) => {
     events.sort((a, b) => {
       if (sortBy === "date") {
@@ -53,23 +53,23 @@ const Events = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-
+  
   const handleSortByChange = (event) => {
     setSortBy(event.target.value);
   };
-
+  
   const handleFilterByChange = (event, value) => {
     setFilterBy(value);
   };
 
   useEffect(() => {
     axios
-      .get("/api/events")
-      .then((response) => {
+    .get("/api/events")
+    .then((response) => {
         const fetchedEvents = response.data;
         sortEvents(fetchedEvents, sortBy);
         setEvents(fetchedEvents);
-        console.log(events)
+        console.log(fetchedEvents);
       })
       .catch((error) => {
         console.log(error);
@@ -82,35 +82,39 @@ const Events = () => {
 
   useEffect(() => {
     let filteredEvents = events;
-
+    
     if (filterBy.includes("My Events")) {
       filteredEvents = events.filter(
         (event) => event.user.username === profile.username
-      );
-    }
-
-    if (selectedDate) {
-      filteredEvents = filteredEvents.filter(
+        );
+      }
+      
+      if (selectedDate) {
+        filteredEvents = filteredEvents.filter(
         (event) =>
-          new Date(event.date).toLocaleDateString() ===
+        new Date(event.date).toLocaleDateString() ===
           selectedDate.$d.toLocaleDateString()
-      );
+          );
     }
     sortEvents(filteredEvents, sortBy);
     setEvents(filteredEvents);
   }, [selectedDate, sortBy, filterBy]);
-
+  
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
+  
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
+  console.log(events.user);
+  
   return (
     <>
       <Box display="flex" justifyContent="center" alignItems="center" py={1}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Container components={["DatePicker"]}>
-            <MobileDatePicker label="Choose Event Date" onChange={handleDateChange} />
+            <MobileDatePicker
+              label="Choose Event Date"
+              onChange={handleDateChange}
+            />
           </Container>
         </LocalizationProvider>
       </Box>
@@ -204,16 +208,33 @@ const Events = () => {
                     disableSpacing
                     sx={{
                       marginTop: "auto",
+                      display: "flex",
+                      justifyContent: "space-between",
                     }}
                   >
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <Checkbox
+                        {...label}
+                        icon={<FavoriteBorder />}
+                        checkedIcon={<Favorite style={{ color: "red" }} />}
+                      />
+                      <Typography variant="body2" color="text.secondary">
+                        {event.likes}
+                      </Typography>
+                    </div>
                     <Checkbox
+                      onClick={() => {
+                        if (event.SavedEvents[0]) {
+                          handleDeleteFromCalendar(event);
+                        } else {
+                          handleAddToCalendar(event);
+                        }
+                      }}
                       {...label}
-                      icon={<FavoriteBorder />}
-                      checkedIcon={<Favorite style={{ color: "red" }} />}
+                      defaultChecked={event.SavedEvents[0] ? true : false}
+                      icon={<AddIcon />}
+                      checkedIcon={<CheckIcon style={{ color: "green" }} />}
                     />
-                    <Typography variant="body2" color="text.secondary">
-                      {event.likes}
-                    </Typography>
                   </CardActions>
                 </Card>
               </Grid>
