@@ -26,7 +26,7 @@ export default function MyCalendar() {
   };
 
   useEffect(() => {
-    axios.get('/api/events')
+    axios.get(`/api/calendarEvents`)
     .then((res) => {
       console.log(res.data)
       setCurrentEvents(res.data)
