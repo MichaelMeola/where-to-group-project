@@ -69,6 +69,7 @@ const Events = () => {
         const fetchedEvents = response.data;
         sortEvents(fetchedEvents, sortBy);
         setEvents(fetchedEvents);
+        console.log(events)
       })
       .catch((error) => {
         console.log(error);
@@ -155,7 +156,7 @@ const Events = () => {
             No events found for the selected date.
           </Typography>
         ) : (
-          <Grid container spacing={4}>
+          <Grid container spacing={1}>
             {events.map((event) => (
               <Grid item key={event.eventId} xs={12} sm={6} md={4}>
                 <Card
@@ -163,18 +164,21 @@ const Events = () => {
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
+                    borderRadius: '3px',
+                    boxShadow: '0px 0px 0px 1px'
                   }}
                 >
                   <CardHeader
-                    avatar={<Avatar>{event.user.profilePic}</Avatar>}
+                    // avatar={<Avatar>{event.user.profilePic}</Avatar>}
                     sx={{ height: "60px" }}
-                    title={`Host: @${event.user.username}`}
+                    // title={`Host: @${event.user.username}`}
                   />
                   <CardMedia
                     component="img"
                     height="200"
                     image={`${event.image}`}
                     alt="Event Image"
+                    sx={{borderRadius: '0px'}}
                   />
                   <CardContent>
                     <Typography variant="body1" color="text.primary">
