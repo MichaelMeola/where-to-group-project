@@ -111,7 +111,6 @@ export default function SignUpHTML() {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
-                            style={{ backgroundColor: '#99D5C9' }}
                         >
                             Sign Up
                         </Button>

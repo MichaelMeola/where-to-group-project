@@ -11,7 +11,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockPersonSharpIcon from '@mui/icons-material/LockPersonSharp';
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -89,18 +89,18 @@ export default function Login() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs" sx={{ backgroundColor: 'white', height: '500px', border: ''}}>
+      <Container component="main" maxWidth="xs" sx={{ backgroundColor: 'white', height: '540px', mb: 13}}>
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 9,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 3, bgcolor: "primary.main"}}>
+            <LockPersonSharpIcon />
           </Avatar>
           <Typography component="h1" variant="h5" color='black'>
             Sign in
@@ -109,7 +109,7 @@ export default function Login() {
             component="form"
             onSubmit={handleSubmit}
             noValidate
-            sx={{ mt: 1 }}
+            sx={{ mt: 2 }}
           >
             <TextField
               margin="normal"
@@ -164,7 +164,7 @@ export default function Login() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Copyright sx={{ mt: 8, mb: 4, color: 'gray' }} />
       </Container>
     </ThemeProvider>
   );
