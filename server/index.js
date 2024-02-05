@@ -36,7 +36,7 @@ const {
 
 app.get("/api/events", getEvents);
 app.post("/api/events", addEvent);
-app.get("/api/calendarEvents/:userId", getCalendarEvents);
+app.get("/api/calendarEvents", getCalendarEvents);
 app.post("/api/addToCalendar", addEventToCalendar);
 app.delete("/api/deleteFromCalendar/:eventId", deleteEventFromCalendar);
 app.post("/api/login", login);

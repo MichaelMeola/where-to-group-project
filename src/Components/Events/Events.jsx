@@ -40,6 +40,7 @@ const Events = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [sortBy, setSortBy] = useState("likes");
   const [filterBy, setFilterBy] = useState([]);
+
   const sortEvents = (events, sortBy) => {
     events.sort((a, b) => {
       if (sortBy === "date") {
@@ -53,19 +54,46 @@ const Events = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-  
+
   const handleSortByChange = (event) => {
     setSortBy(event.target.value);
   };
-  
+
   const handleFilterByChange = (event, value) => {
     setFilterBy(value);
   };
 
+  const handleAddToCalendar = (event) => {
+    const { eventId } = event;
+
+    axios
+      .post("/api/addToCalendar", { eventId })
+      .then((response) => {
+        console.log(response.data);
+        setEvents(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleDeleteFromCalendar = (event) => {
+    const { eventId } = event;
+  
+    axios
+      .delete(`/api/deleteFromCalendar/${eventId}`)
+      .then((response) => {
+        setEvents(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     axios
-    .get("/api/events")
-    .then((response) => {
+      .get("/api/events")
+      .then((response) => {
         const fetchedEvents = response.data;
         sortEvents(fetchedEvents, sortBy);
         setEvents(fetchedEvents);
@@ -79,30 +107,29 @@ const Events = () => {
 
   useEffect(() => {
     let filteredEvents = events;
-    
+
     if (filterBy.includes("My Events")) {
       filteredEvents = events.filter(
         (event) => event.user.username === profile.username
-        );
-      }
-      
-      if (selectedDate) {
-        filteredEvents = filteredEvents.filter(
+      );
+    }
+
+    if (selectedDate) {
+      filteredEvents = filteredEvents.filter(
         (event) =>
-        new Date(event.date).toLocaleDateString() ===
+          new Date(event.date).toLocaleDateString() ===
           selectedDate.$d.toLocaleDateString()
-          );
+      );
     }
     sortEvents(filteredEvents, sortBy);
     setEvents(filteredEvents);
   }, [selectedDate, sortBy, filterBy]);
-  
+
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-  
+
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
-  console.log(events.user);
-  
+
   return (
     <>
       <Box display="flex" justifyContent="center" alignItems="center" py={1}>
@@ -168,7 +195,7 @@ const Events = () => {
                   }}
                 >
                   <CardHeader
-                    avatar={<Avatar>{event.user.profilePic}</Avatar>}
+                    avatar={<Avatar src={event.user.profilePic} />}
                     sx={{ height: "60px" }}
                     title={`Host: @${event.user.username}`}
                   />
