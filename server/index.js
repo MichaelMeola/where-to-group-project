@@ -19,10 +19,10 @@ app.use(
 );
 
 const {
-  getUsers,
   getEvents,
   register,
   login,
+  logout,
   deleteUser,
   editUser,
   addEvent,
@@ -30,17 +30,19 @@ const {
   newPass,
   addEventToCalendar,
   getCalendarEvents,
+  deleteEventFromCalendar,
 } = handlerFunctions;
 
-app.get("/api/users", getUsers);
 app.get("/api/events", getEvents);
 app.post("/api/events", addEvent);
-app.post("/api/register", register);
-app.post("/api/addToCalendar", addEventToCalendar);
 app.get("/api/calendarEvents/:userId", getCalendarEvents);
+app.post("/api/addToCalendar", addEventToCalendar);
+app.delete("/api/deleteFromCalendar/:eventId", deleteEventFromCalendar);
 app.post("/api/login", login);
-app.delete("/api/delete/:userId", deleteUser);
+app.post("/api/logout", logout);
+app.post("/api/register", register);
 app.post("/api/edit", editUser);
+app.delete("/api/delete/:userId", deleteUser);
 app.post("/api/verify", verifyUser);
 app.post("/api/newPass", newPass);
 

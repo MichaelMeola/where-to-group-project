@@ -10,16 +10,19 @@ const handlerFunctions = {
   },
 
   getEvents: async (req, res) => {
+    // console.log(req.session);
     const allEvents = await Event.findAll({
       include: [
         {
           model: User,
           as: "user",
-          attributes: { include: ["username", "profilePic"] },
+          attributes: { exclude: ["email", "password", "age"] },
         },
         {
           model: SavedEvent,
-          as: "savedEvent",
+          where: { userId: req.session.userId },
+          attributes: ["userId", "eventId"],
+          required: false,
         },
       ],
     });
@@ -43,17 +46,61 @@ const handlerFunctions = {
   },
 
   addEventToCalendar: async (req, res) => {
-    const { userId, eventId } = req.body;
+    const { userId } = req.session
+    const { eventId } = req.body;
 
     const savedEvent = await SavedEvent.create({
       userId,
       eventId,
     });
 
-    res.send(savedEvent);
+    const allEvents = await Event.findAll({
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: { exclude: ["email", "password", "age"] },
+        },
+        {
+          model: SavedEvent,
+          where: { userId: req.session.userId },
+          attributes: ["userId", "eventId"],
+          required: false,
+        },
+      ],
+    });
+    res.send(allEvents);
   },
 
-  deleteEventFromCalendar: async (req, res) => {},
+  deleteEventFromCalendar: async (req, res) => {
+    const { userId } = req.session;
+    const { eventId } = req.params;
+
+    const savedEvent = await SavedEvent.findOne({
+      where: {
+        userId,
+        eventId,
+      },
+    });
+    await savedEvent.destroy();
+
+    const allEvents = await Event.findAll({
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: { exclude: ["email", "password", "age"] },
+        },
+        {
+          model: SavedEvent,
+          where: { userId: req.session.userId },
+          attributes: ["userId", "eventId"],
+          required: false,
+        },
+      ],
+    });
+    res.send(allEvents);
+  },
 
   getCalendarEvents: async (req, res) => {
     const { userId } = req.params;
@@ -108,7 +155,7 @@ const handlerFunctions = {
       session.email = newUser.email;
       session.username = newUser.username;
       session.userId = newUser.userId;
-      
+
       res.send({
         success: true,
         message: "registration successful",
@@ -161,6 +208,16 @@ const handlerFunctions = {
       }
     }
   },
+
+  logout: (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.log("Error destroying session:", err);
+      }
+      res.redirect("/");
+    });
+  },
+
   deleteUser: async (req, res) => {
     const { userId } = req.params;
     const findUser = await User.findOne({ where: { userId: userId } });

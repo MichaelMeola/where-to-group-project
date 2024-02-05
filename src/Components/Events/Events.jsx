@@ -63,12 +63,28 @@ const Events = () => {
     setFilterBy(value);
   };
 
-  const handleAddEventToCalendar = (event) => {
+  const handleAddToCalendar = (event) => {
     const { eventId } = event;
 
     axios
-      .post("/api/addToCalendar", { userId: profile.userId, eventId })
-      .then((response) => {})
+      .post("/api/addToCalendar", { eventId })
+      .then((response) => {
+        console.log(response.data);
+        setEvents(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleDeleteFromCalendar = (event) => {
+    const { eventId } = event;
+  
+    axios
+      .delete(`/api/deleteFromCalendar/${eventId}`)
+      .then((response) => {
+        setEvents(response.data)
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -81,6 +97,7 @@ const Events = () => {
         const fetchedEvents = response.data;
         sortEvents(fetchedEvents, sortBy);
         setEvents(fetchedEvents);
+        console.log(fetchedEvents);
       })
       .catch((error) => {
         console.log(error);
@@ -181,7 +198,7 @@ const Events = () => {
                   }}
                 >
                   <CardHeader
-                    avatar={<Avatar>{event.user.profilePic}</Avatar>}
+                    avatar={<Avatar src={event.user.profilePic} />}
                     sx={{ height: "60px" }}
                     title={`Host: @${event.user.username}`}
                   />
@@ -230,8 +247,15 @@ const Events = () => {
                       </Typography>
                     </div>
                     <Checkbox
-                      onClick={() => handleAddEventToCalendar(event)}
+                      onClick={() => {
+                        if (event.SavedEvents[0]) {
+                          handleDeleteFromCalendar(event);
+                        } else {
+                          handleAddToCalendar(event);
+                        }
+                      }}
                       {...label}
+                      defaultChecked={event.SavedEvents[0] ? true : false}
                       icon={<AddIcon />}
                       checkedIcon={<CheckIcon style={{ color: "green" }} />}
                     />
