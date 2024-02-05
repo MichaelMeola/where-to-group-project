@@ -133,12 +133,15 @@ const handlerFunctions = {
   },
   deleteUser: async (req, res) => {
     const { userId } = req.params;
+    console.log(userId);
     const findUser = await User.findOne({ where: { userId: userId } });
+    console.log(findUser);
     if (!findUser) {
       res.send({ success: false, message: "user not found" });
-    } else {
+    } 
+    else {
       const deleteUser = await User.destroy({ where: { userId: userId } });
-      res.send({ success: true, message: "user deleted" });
+          res.send({ success: true, message: "user deleted" });
     }
   },
   editUser: async (req, res) => {
