@@ -46,7 +46,7 @@ const handlerFunctions = {
   },
 
   addEventToCalendar: async (req, res) => {
-    const { userId } = req.session
+    const { userId } = req.session;
     const { eventId } = req.body;
 
     const savedEvent = await SavedEvent.create({
@@ -103,20 +103,24 @@ const handlerFunctions = {
   },
 
   getCalendarEvents: async (req, res) => {
-    const { userId } = req.params;
+    const { userId } = req.session;
 
-    const userSavedEvents = await SavedEvent.findAll({
-      where: {
-        userId,
-      },
+    const allEvents = await Event.findAll({
       include: [
         {
-          model: Event,
-          as: "event",
+          model: User,
+          as: "user",
+          attributes: { exclude: ["email", "password", "age"] },
+        },
+        {
+          model: SavedEvent,
+          where: { userId: req.session.userId },
+          attributes: ["userId", "eventId"],
+          required: false,
         },
       ],
     });
-    res.send(userSavedEvents);
+    res.send(allEvents);
   },
 
   register: async (req, res) => {
@@ -226,10 +230,9 @@ const handlerFunctions = {
     console.log(findUser);
     if (!findUser) {
       res.send({ success: false, message: "user not found" });
-    } 
-    else {
+    } else {
       const deleteUser = await User.destroy({ where: { userId: userId } });
-          res.send({ success: true, message: "user deleted" });
+      res.send({ success: true, message: "user deleted" });
     }
   },
   editUser: async (req, res) => {
