@@ -13,11 +13,15 @@ export default function MobileNavbar() {
   const userId = sessionStorage.getItem("userId");
   let dropDown = null;
 
-  // useEffect(() => {
-  //   if (!userId) {
-  //     navigate("/")
-  //   }
-  // },[])
+  useEffect(() => {
+    axios.get("/api/session")
+      .then(res => {
+        if (!res.data.loggedIn) {
+          console.log('hittington');
+          navigate('/');
+        }
+      });
+  }, []);
 
   const handleLogout = () => {
     axios

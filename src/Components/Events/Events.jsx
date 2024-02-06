@@ -103,9 +103,6 @@ const Events = () => {
         console.log(error);
       });
 
-    if (!profile.username) {
-      navigate("/");
-    }
   }, []);
 
   useEffect(() => {

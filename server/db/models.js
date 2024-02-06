@@ -134,8 +134,8 @@ SavedEvent.init(
   }
 );
 
-User.belongsToMany(Event, { through: SavedEvent, foreignKey: "userId" });
-Event.belongsToMany(User, { through: SavedEvent, foreignKey: "eventId", as: 'savedEvents' });
+User.belongsToMany(Event, { through: SavedEvent, foreignKey: "userId"});
+Event.belongsToMany(User, { through: SavedEvent, foreignKey: "eventId", as: 'savedEvents'});
 User.hasMany(SavedEvent, { foreignKey: "userId" });
 SavedEvent.belongsTo(User, { foreignKey: "userId" })
 Event.hasMany(SavedEvent, { foreignKey: "eventId" });
