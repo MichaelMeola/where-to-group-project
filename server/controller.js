@@ -80,6 +80,8 @@ const handlerFunctions = {
   deleteEventFromCalendar: async (req, res) => {
     const { userId } = req.session;
     const { eventId } = req.params;
+    console.log(userId)
+    console.log(eventId)
 
     const savedEvent = await SavedEvent.findOne({
       where: {
@@ -99,8 +101,7 @@ const handlerFunctions = {
         {
           model: SavedEvent,
           where: { userId: req.session.userId },
-          attributes: ["userId", "eventId"],
-          required: false,
+          attributes: ["userId", "eventId"]
         },
       ],
     });

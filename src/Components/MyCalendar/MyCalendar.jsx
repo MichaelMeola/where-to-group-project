@@ -15,15 +15,6 @@ export default function MyCalendar() {
   const theme = useTheme();
   const [sortBy, setSortBy] = useState("date");
 
-  const sortEvents = (savedEvents, sortBy) => {
-    savedEvents.sort((a, b) => {
-      if (sortBy === "date") {
-        return new Date(a.date) - new Date(b.date);
-      } else {
-        return b.likes - a.likes;
-      }
-    });
-  };
 
   useEffect(() => {
     axios.get(`/api/calendarEvents`)
