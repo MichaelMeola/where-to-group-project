@@ -229,6 +229,7 @@ const handlerFunctions = {
   },
 
   deleteUser: async (req, res) => {
+    let count = 0
     const { userId } = req.params;
     console.log(userId);
     const findUser = await User.findOne({ where: { userId: userId } });
@@ -236,7 +237,19 @@ const handlerFunctions = {
     if (!findUser) {
       res.send({ success: false, message: "user not found" });
     } else {
-      const deleteUser = await User.destroy({ where: { userId: userId } });
+      const salt = bcrypt.genSaltSync(10);
+      const hashedPassword = bcrypt.hashSync("admin1234", salt);
+      const defaultUser = await User.update(
+        {
+          username: `deletedUser${count}`,
+          email: `deleteUser${count}@mail.com`,
+          age: null,
+          profilePic:
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+          password: hashedPassword,
+        },
+        { where: { userId: userId } }
+      );
       res.send({ success: true, message: "user deleted" });
     }
   },
