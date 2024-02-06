@@ -12,12 +12,17 @@ export const useProfileStore = create(
   persist(
     (set) => ({
       profile: {},
-      
+
       setProfile: (newProfile) => set({ profile: newProfile }),
+
+      savedEvents: [],
+
+      setSavedEvents: (savedEvents) => set({ savedEvents: savedEvents }),
 
       likedEvents: {},
 
-      setLikedEvents: (updatedLikedEvents) => set({ likedEvents: updatedLikedEvents}),
+      setLikedEvents: (updatedLikedEvents) =>
+        set({ likedEvents: updatedLikedEvents }),
 
       logout: () => set({ profile: {}, likedEvents: {} }),
     }),

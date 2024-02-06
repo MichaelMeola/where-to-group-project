@@ -11,6 +11,10 @@ const handlerFunctions = {
 
   getEvents: async (req, res) => {
     // console.log(req.session);
+    if(!req.session.userId) {
+      res.status(404).send("User not logged in")
+      return
+    }
     const allEvents = await Event.findAll({
       include: [
         {
@@ -26,6 +30,7 @@ const handlerFunctions = {
         },
       ],
     });
+
     res.send(allEvents);
   },
 
@@ -106,22 +111,13 @@ const handlerFunctions = {
     const { userId } = req.session;
 
     const allEvents = await Event.findAll({
-      where: {  
-        '$SavedEvent.userId$': req.session.userId,
-        include: [
-          {
-            model: User,
-            as: "user",
-            attributes: { exclude: ["email", "password", "age"] },
-          },
-          {
-            model: SavedEvent,
-            where: { userId: req.session.userId },
-            attributes: ["userId", "eventId"],
-            required: false,
-          },
-        ],
-      }
+      include: [
+        {
+          model: SavedEvent,
+          where: { userId: req.session.userId },
+          attributes: ["userId"],
+        },
+      ],
     });
     res.send(allEvents);
   },
@@ -227,6 +223,7 @@ const handlerFunctions = {
   },
 
   deleteUser: async (req, res) => {
+    let count = 0
     const { userId } = req.params;
     console.log(userId);
     const findUser = await User.findOne({ where: { userId: userId } });
@@ -234,7 +231,19 @@ const handlerFunctions = {
     if (!findUser) {
       res.send({ success: false, message: "user not found" });
     } else {
-      const deleteUser = await User.destroy({ where: { userId: userId } });
+      const salt = bcrypt.genSaltSync(10);
+      const hashedPassword = bcrypt.hashSync("admin1234", salt);
+      const defaultUser = await User.update(
+        {
+          username: `deletedUser${count}`,
+          email: `deleteUser${count}@mail.com`,
+          age: null,
+          profilePic:
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+          password: hashedPassword,
+        },
+        { where: { userId: userId } }
+      );
       res.send({ success: true, message: "user deleted" });
     }
   },
@@ -282,6 +291,14 @@ const handlerFunctions = {
     );
     res.send({ success: true, message: "password updated" });
   },
+  checkSession: async (req, res) => {
+    console.log(req.session);
+    if (!req.session.userId) {
+      res.send({ loggedIn: false });
+    } else {
+      res.send({ loggedIn: true });
+    }
+  }
 };
 
 export default handlerFunctions;
