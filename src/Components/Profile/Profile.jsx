@@ -176,6 +176,8 @@ export default function Profile() {
 
   let navigate = useNavigate();
 
+ 
+  
   let penI = (
     <Icon className="material-icons mobile-icons" sx={{ font_size: "medium" }}>
       edit_icon
@@ -263,9 +265,6 @@ export default function Profile() {
       alert(res.data.message);
     }
   };
-  // if(!profilePicValue || !usernameValue || usernameValue.length < 3 || !emailValue || !emailValue.includes("@") || !ageValue){
-  // setError(true);
-  // }
 
   if (!edit) {
     return (
