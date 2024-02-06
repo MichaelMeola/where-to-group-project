@@ -113,15 +113,9 @@ const handlerFunctions = {
     const allEvents = await Event.findAll({
       include: [
         {
-          model: User,
-          as: "user",
-          attributes: { exclude: ["email", "password", "age"] },
-        },
-        {
           model: SavedEvent,
           where: { userId: req.session.userId },
-          attributes: ["userId", "eventId"],
-          required: false,
+          attributes: ["userId"],
         },
       ],
     });

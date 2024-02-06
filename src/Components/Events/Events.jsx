@@ -70,7 +70,8 @@ const Events = () => {
       .post("/api/addToCalendar", { eventId })
       .then((response) => {
         console.log(response.data);
-        setEvents(response.data)
+        sortEvents(response.data,  sortBy);
+        setEvents(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -83,7 +84,8 @@ const Events = () => {
     axios
       .delete(`/api/deleteFromCalendar/${eventId}`)
       .then((response) => {
-        setEvents(response.data)
+        sortEvents(response.data,  sortBy);
+        setEvents(response.data);
       })
       .catch((error) => {
         console.log(error);
