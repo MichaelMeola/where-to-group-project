@@ -106,19 +106,22 @@ const handlerFunctions = {
     const { userId } = req.session;
 
     const allEvents = await Event.findAll({
-      include: [
-        {
-          model: User,
-          as: "user",
-          attributes: { exclude: ["email", "password", "age"] },
-        },
-        {
-          model: SavedEvent,
-          where: { userId: req.session.userId },
-          attributes: ["userId", "eventId"],
-          required: false,
-        },
-      ],
+      where: {  
+        '$SavedEvent.userId$': req.session.userId,
+        include: [
+          {
+            model: User,
+            as: "user",
+            attributes: { exclude: ["email", "password", "age"] },
+          },
+          {
+            model: SavedEvent,
+            where: { userId: req.session.userId },
+            attributes: ["userId", "eventId"],
+            required: false,
+          },
+        ],
+      }
     });
     res.send(allEvents);
   },
