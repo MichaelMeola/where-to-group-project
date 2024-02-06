@@ -8,8 +8,22 @@ import CancelSharpIcon from "@mui/icons-material/CancelSharp";
 import IconButton from "@mui/material/IconButton";
 import CardActions from "@mui/material/CardActions";
 import Grid from "@mui/material/Grid";
+import axios from "axios";
 
-const MyCalendarCard = ({ initialEventData }) => {
+const MyCalendarCard = ({ initialEventData, event }) => {
+
+  const handleDeleteFromCalendar = (initialEventData) => {
+    const { eventId } = initialEventData;
+  
+    axios
+      .delete(`/api/deleteFromCalendar/${eventId}`)
+      .then((response) => {
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <Grid item xs={12} sm={6} md={4}>
 
@@ -78,6 +92,7 @@ const MyCalendarCard = ({ initialEventData }) => {
       <CardActions>
         <IconButton
           sx={{ mb: "150px", color: "red", width: "20px", height: "5px" }}
+          onClick={() => handleDeleteFromCalendar(initialEventData)}
         >
           <CancelSharpIcon />
         </IconButton>
