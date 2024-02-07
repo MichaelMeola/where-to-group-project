@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useEventsStore } from "../../globalState.jsx";
 import { Box, Container } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -11,6 +12,8 @@ import Grid from "@mui/material/Grid";
 import axios from "axios";
 
 const MyCalendarCard = ({ initialEventData, event, onDelete }) => {
+  const { events, setEvents } = useEventsStore();
+
   const handleDeleteFromCalendar = (initialEventData) => {
     const { eventId } = initialEventData;
 
@@ -18,6 +21,7 @@ const MyCalendarCard = ({ initialEventData, event, onDelete }) => {
       .delete(`/api/deleteFromCalendar/${eventId}`)
       .then((response) => {
         onDelete(eventId);
+        setEvents(response.data)
       })
       .catch((error) => {
         console.log(error);

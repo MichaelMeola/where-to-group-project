@@ -1,13 +1,10 @@
-import { User, Event, SavedEvent } from "./db/models.js";
+import { User, Event, SavedEvent, Liked } from "./db/models.js";
+import sequelize from 'sequelize'
 import bcrypt from "bcryptjs";
 import session from "express-session";
 import { Op } from "sequelize";
 
 const handlerFunctions = {
-  getUsers: async (req, res) => {
-    const allUsers = await User.findAll();
-    res.send(allUsers);
-  },
 
   getEvents: async (req, res) => {
     // console.log(req.session);
@@ -26,6 +23,12 @@ const handlerFunctions = {
           model: SavedEvent,
           where: { userId: req.session.userId },
           attributes: ["userId", "eventId"],
+          required: false,
+        },
+        {
+          model: Liked,
+          where: { userId: req.session.userId },
+          attributes: ["userId", "likeId"],
           required: false,
         },
       ],
@@ -73,6 +76,12 @@ const handlerFunctions = {
           attributes: ["userId", "eventId"],
           required: false,
         },
+        {
+          model: Liked,
+          where: { userId: req.session.userId },
+          attributes: ["userId", "likeId"],
+          required: false,
+        },
       ],
     });
     res.send(allEvents);
@@ -105,6 +114,12 @@ const handlerFunctions = {
           attributes: ["userId", "eventId"],
           required: false,
         },
+        {
+          model: Liked,
+          where: { userId: req.session.userId },
+          attributes: ["userId", "likeId"],
+          required: false,
+        },
       ],
     });
     res.send(allEvents);
@@ -119,6 +134,95 @@ const handlerFunctions = {
           model: SavedEvent,
           where: { userId: req.session.userId },
           attributes: ["userId"],
+        },
+        {
+          model: Liked,
+          where: { userId: req.session.userId },
+          attributes: ["userId", "likeId"],
+          required: false,
+        },
+      ],
+    });
+    res.send(allEvents);
+  },
+
+  addLike: async (req, res) => {
+    const { userId } = req.session;
+    const { eventId } = req.body;
+
+    const likedEvent = await Liked.create({
+      userId,
+      eventId,
+    });
+
+    let selectedEvent =  await Event.findByPk(eventId)
+
+    selectedEvent.likes++
+
+    await selectedEvent.save()
+
+    const allEvents = await Event.findAll({
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: { exclude: ["email", "password", "age"] },
+        },
+        {
+          model: Liked,
+          where: { userId: req.session.userId },
+          attributes: ["userId", "likeId", "count"],
+          required: false,
+        },
+        {
+          model: SavedEvent,
+          where: { userId: req.session.userId },
+          attributes: ["userId", "eventId"],
+          required: false,
+        },
+      ],
+    });
+    res.send(allEvents);
+  },
+
+  deleteLike: async (req, res) => {
+    const { userId } = req.session;
+    const { eventId } = req.params;
+    console.log(userId)
+    console.log(eventId)
+
+    const likedEvent = await Liked.findOne({
+      where: {
+        userId,
+        eventId,
+      },
+    });
+    await likedEvent.destroy();
+
+    let selectedEvent =  await Event.findByPk(eventId)
+
+    selectedEvent.likes--
+
+    await selectedEvent.save()
+
+    const allEvents = await Event.findAll({
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: { exclude: ["email", "password", "age"] },
+        },
+        {
+          model: Liked,
+          where: { userId: req.session.userId },
+          attributes: ["userId", "likeId", "count"],
+          required: false,
+        },
+        {
+          model: SavedEvent,
+          where: { userId: req.session.userId },
+          attributes: ["userId", "eventId"],
+          required: false,
         },
       ],
     });

@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useEventsStore, useProfileStore, useMapStore } from "../../globalState.jsx";
+import {
+  useEventsStore,
+  useProfileStore,
+  useMapStore,
+} from "../../globalState.jsx";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import {
@@ -18,7 +22,6 @@ import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
@@ -34,9 +37,7 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import MapModal from "../Testing/Testing.jsx";
 
-
 const Events = () => {
-  const navigate = useNavigate();
   const { events, setEvents } = useEventsStore();
   const { profile } = useProfileStore();
   const { isToggle, toggle } = useMapStore();
@@ -45,7 +46,6 @@ const Events = () => {
   const [filterBy, setFilterBy] = useState([]);
   const [toggleMap, setToggleMap] = useState(false);
   const [mapAddress, setMapAddress] = useState(null);
-
 
   const sortEvents = (events, sortBy) => {
     events.sort((a, b) => {
@@ -98,7 +98,37 @@ const Events = () => {
       });
   };
 
+  const handleAddLike = (event) => {
+    const { eventId } = event;
+
+    axios
+      .post("/api/addLike", { eventId })
+      .then((response) => {
+        console.log(response.data);
+        sortEvents(response.data, sortBy);
+        setEvents(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleDeleteLike = (event) => {
+    const { eventId } = event;
+
+    axios
+      .delete(`/api/deleteLike/${eventId}`)
+      .then((response) => {
+        sortEvents(response.data, sortBy);
+        setEvents(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
+    console.log('hit')
     axios
       .get("/api/events")
       .then((response) => {
@@ -139,7 +169,7 @@ const Events = () => {
 
   return (
     <>
-    <MapModal address={mapAddress} />
+      <MapModal address={mapAddress} />
       <Box display="flex" justifyContent="center" alignItems="center" py={1}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Container components={["DatePicker"]}>
@@ -202,8 +232,8 @@ const Events = () => {
                     flexDirection: "column",
                   }}
                   onClick={() => {
-                    toggle()
-                    setMapAddress(event.address)
+                    toggle();
+                    setMapAddress(event.address);
                   }}
                 >
                   <CardHeader
@@ -247,7 +277,16 @@ const Events = () => {
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <Checkbox
+                        onClick={(evt) => {
+                          evt.stopPropagation()
+                          if (event.Likeds[0]) {
+                            handleDeleteLike(event);
+                          } else {
+                            handleAddLike(event);
+                          }
+                        }}
                         {...label}
+                        defaultChecked={event.Likeds[0] ? true : false}
                         icon={<FavoriteBorder />}
                         checkedIcon={<Favorite style={{ color: "red" }} />}
                       />
@@ -256,7 +295,8 @@ const Events = () => {
                       </Typography>
                     </div>
                     <Checkbox
-                      onClick={() => {
+                      onClick={(evt) => {
+                        evt.stopPropagation()
                         if (event.SavedEvents[0]) {
                           handleDeleteFromCalendar(event);
                         } else {

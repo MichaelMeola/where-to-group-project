@@ -15,20 +15,14 @@ import CardActions from "@mui/material/CardActions";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
-import {
-  createTheme,
-  ThemeProvider,
-  styled,
-} from "@mui/material/styles";
-import { CircularProgress } from '@mui/material';
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { CircularProgress } from "@mui/material";
 import { useMapStore } from "../../globalState.jsx";
-
 
 function MapModal(props) {
   const { events, setEvents } = useEventsStore();
   const { isToggle, toggle } = useMapStore();
-  const { address } = props
-  
+  const { address } = props;
 
   console.log(address);
   console.log(isToggle, "isToggle");
@@ -51,13 +45,13 @@ function MapModal(props) {
     },
     modal: {
       padding: 0,
-    }
+    },
   });
-  
+
   theme.typography.h3 = {
     color: "#ac00e6",
     padding: "5px 0px 5px 0px",
-  
+
     fontSize: "1.2rem",
     display: "flex",
     flexDirection: "column",
@@ -65,7 +59,7 @@ function MapModal(props) {
   theme.typography.p = {
     color: "black",
   };
-  
+
   const MapBox = styled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: "flex-start",
@@ -89,31 +83,28 @@ function MapModal(props) {
     },
     "& > :not(style)": { width: "100%", minWidth: 300, maxWidth: 800 },
   }));
-  
-  
+
   const MapModal = styled(Modal)(({ theme }) => ({
-    display: "flex", 
-    justifyContent: "center", 
-    alignItems: "center", 
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   }));
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 767 && window.innerHeight > 400);
-  
+  const [isDesktop, setIsDesktop] = useState(
+    window.innerWidth > 767 && window.innerHeight > 400
+  );
+
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktop(window.innerWidth > 1024 && window.innerHeight > 400)
-    }
+      setIsDesktop(window.innerWidth > 1024 && window.innerHeight > 400);
+    };
 
-    window.addEventListener('resize', handleResize)
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
- 
-  
-
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const style = {
     position: "absolute",
@@ -127,55 +118,41 @@ function MapModal(props) {
     textAlign: "center",
     borderRadius: 3,
   };
- 
 
+  let mapHeight = "";
+  let mapWidth = "";
 
-  let mapHeight = ""
-  let mapWidth = ""
-
-  if(isDesktop) {
-    mapHeight = "350", 
-    mapWidth = "350" 
-  }else
-  {
-    mapHeight = "100", 
-    mapWidth = "5%"
+  if (isDesktop) {
+    (mapHeight = "350"), (mapWidth = "350");
+  } else {
+    (mapHeight = "100"), (mapWidth = "5%");
   }
-  if(isToggle && address) {
-      let currAddress = address.replaceAll(" ", "+");
-      
+  if (isToggle && address) {
+    let currAddress = address.replaceAll(" ", "+");
+
     return (
       <ThemeProvider theme={theme}>
         <MapModal
-        open={isToggle}
-        onClose={() => toggle()}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+          open={isToggle}
+          onClose={() => toggle()}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
         >
-                <MapBox >
-                  <Typography variant="h3">{address}</Typography>
-                  <iframe
-                  width="350"
-                  height="350"
-                  referrerPolicy='no-referrer-when-downgrade'
-                  src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyC25VIhEjKJd0V1tKTNfe5B-Zl-6Ii1G8I&q=${currAddress}`}
-                  />
-                  
-                  
-            </MapBox>
-
+          <MapBox>
+            <Typography variant="h3">{address}</Typography>
+            <iframe
+              width="350"
+              height="350"
+              referrerPolicy="no-referrer-when-downgrade"
+              src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyC25VIhEjKJd0V1tKTNfe5B-Zl-6Ii1G8I&q=${currAddress}`}
+            />
+          </MapBox>
         </MapModal>
-         </ThemeProvider>
-    )
-    }
-    else {
-      return null;
-    }
+      </ThemeProvider>
+    );
+  } else {
+    return null;
   }
-  
-    
-  
- 
-
+}
 
 export default MapModal;

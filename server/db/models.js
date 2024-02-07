@@ -109,6 +109,11 @@ Liked.init(
       autoIncrement: true,
       primaryKey: true,
     },
+    count: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    }
   },
   {
     sequelize: db,
