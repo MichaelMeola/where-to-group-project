@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useEventsStore, useProfileStore, useMapStore } from "../../globalState.jsx";
-import { styled } from "@mui/material/styles";
+import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import {
   Container,
@@ -33,7 +33,9 @@ import Autocomplete from "@mui/material/Autocomplete";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import MapModal from "../Testing/Testing.jsx";
-
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import Divider from "@mui/material/Divider";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const Events = () => {
   const navigate = useNavigate();
@@ -137,14 +139,64 @@ const Events = () => {
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
+  const AllBtn = styled(IconButton)(({ theme }) => ({
+    color: "black",
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 8,
+    "&:hover": {
+      backgroundColor: "#ac00e6",
+      borderRadius: 20,
+      color: "white",
+    },
+  }));
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#bf00ff",
+      },
+      secondary: {
+        main: "#ac00e6",
+      },
+      background: {
+        main: "#99D5C9",
+      },
+    },
+    typography: {
+      fontSize: 13,
+      display: "flex",
+      flexDirection: "column",
+      h2: {
+        fontSize: "1.3rem",
+        bold: "true",
+        fontWeight: 100,
+        padding: "5px 0px 5px 0px",
+      },
+      h3: {
+        fontSize: ".8rem",
+        color: "#ac00e6",
+        "&:hover": {
+          cursor: "pointer",
+          textDecoration: "underline",
+        },
+    },
+
+    modal: {
+      padding: 0,
+    }
+    }
+});
+
   return (
     <>
+    <ThemeProvider theme={theme}>
     <MapModal address={mapAddress} />
       <Box display="flex" justifyContent="center" alignItems="center" py={1}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Container components={["DatePicker"]}>
             <MobileDatePicker
               label="Choose Event Date"
+              variant="body1"
               onChange={handleDateChange}
             />
           </Container>
@@ -188,7 +240,7 @@ const Events = () => {
       </Box>
       <Container sx={{ py: 3 }} maxWidth="md">
         {events.length === 0 ? (
-          <Typography variant="body1" color="text.primary">
+          <Typography variant="h2" color="text.primary">
             No events found for the selected date.
           </Typography>
         ) : (
@@ -201,41 +253,49 @@ const Events = () => {
                     display: "flex",
                     flexDirection: "column",
                   }}
-                  onClick={() => {
-                    toggle()
-                    setMapAddress(event.address)
-                  }}
-                >
+                  >
                   <CardHeader
                     avatar={<Avatar src={event.user.profilePic} />}
                     sx={{ height: "60px" }}
                     title={`Host: @${event.user.username}`}
-                  />
+                    />
                   <CardMedia
                     component="img"
                     height="200"
                     image={`${event.image}`}
                     alt="Event Image"
-                  />
+                    />
                   <CardContent>
-                    <Typography variant="body1" color="text.primary">
+                    <Typography variant="h2" color="text.primary">
+                    
+                      
                       {event.name}
-                    </Typography>
+                        
                     <Typography variant="body2" color="text.secondary">
+                      {event.ages}+
+                    </Typography>
+                    </Typography>
+                    <Typography variant="h3" 
+                    onClick={() => {
+                       toggle()
+                       setMapAddress(event.address)
+                      }}>
                       {event.address}
                     </Typography>
+                    <Divider sx={{bgcolor: "black", mt: 1.5, mb: 1.5}} />
                     <Typography variant="body2" color="text.secondary">
+                      <AccessTimeIcon/>
                       {new Date(event.date).toLocaleString("en-US", {
                         dateStyle: "long",
                         timeStyle: "short",
                       })}
                     </Typography>
+                      <Divider sx={{bgcolor: "black", mt: 1.5, mb: 1.5}} />
+                      
                     <Typography variant="body2" color="text.secondary">
                       {event.description}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {event.ages}+
-                    </Typography>
+                      
                   </CardContent>
                   <CardActions
                     disableSpacing
@@ -275,6 +335,7 @@ const Events = () => {
           </Grid>
         )}
       </Container>
+      </ThemeProvider>
     </>
   );
 };
