@@ -31,11 +31,12 @@ const {
   addEventToCalendar,
   getCalendarEvents,
   deleteEventFromCalendar,
+  checkSession
 } = handlerFunctions;
 
 app.get("/api/events", getEvents);
 app.post("/api/events", addEvent);
-app.get("/api/calendarEvents/:userId", getCalendarEvents);
+app.get("/api/calendarEvents", getCalendarEvents);
 app.post("/api/addToCalendar", addEventToCalendar);
 app.delete("/api/deleteFromCalendar/:eventId", deleteEventFromCalendar);
 app.post("/api/login", login);
@@ -45,6 +46,7 @@ app.post("/api/edit", editUser);
 app.delete("/api/delete/:userId", deleteUser);
 app.post("/api/verify", verifyUser);
 app.post("/api/newPass", newPass);
+app.get("/api/session", checkSession );
 
 ViteExpress.listen(app, 9999, () =>
   console.log(`Server running on http://localhost:9999`)

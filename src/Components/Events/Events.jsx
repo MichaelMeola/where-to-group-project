@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useEventsStore, useProfileStore } from "../../globalState.jsx";
+import { useEventsStore, useProfileStore, useMapStore } from "../../globalState.jsx";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import {
@@ -39,10 +39,13 @@ const Events = () => {
   const navigate = useNavigate();
   const { events, setEvents } = useEventsStore();
   const { profile } = useProfileStore();
+  const { isToggle, toggle } = useMapStore();
   const [selectedDate, setSelectedDate] = useState(null);
   const [sortBy, setSortBy] = useState("likes");
   const [filterBy, setFilterBy] = useState([]);
-  const {toggleMap, setToggleMap} = useEventsStore();
+  const [toggleMap, setToggleMap] = useState(false);
+  const [mapAddress, setMapAddress] = useState(null);
+
 
   const sortEvents = (events, sortBy) => {
     events.sort((a, b) => {
@@ -57,19 +60,48 @@ const Events = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-  
+
   const handleSortByChange = (event) => {
     setSortBy(event.target.value);
   };
-  
+
   const handleFilterByChange = (event, value) => {
     setFilterBy(value);
   };
 
+  const handleAddToCalendar = (event) => {
+    const { eventId } = event;
+
+    axios
+      .post("/api/addToCalendar", { eventId })
+      .then((response) => {
+        console.log(response.data);
+        sortEvents(response.data,  sortBy);
+        setEvents(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleDeleteFromCalendar = (event) => {
+    const { eventId } = event;
+  
+    axios
+      .delete(`/api/deleteFromCalendar/${eventId}`)
+      .then((response) => {
+        sortEvents(response.data,  sortBy);
+        setEvents(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     axios
-    .get("/api/events")
-    .then((response) => {
+      .get("/api/events")
+      .then((response) => {
         const fetchedEvents = response.data;
         sortEvents(fetchedEvents, sortBy);
         setEvents(fetchedEvents);
@@ -79,45 +111,36 @@ const Events = () => {
         console.log(error);
       });
 
-    if (!profile.username) {
-      navigate("/");
-    }
   }, []);
 
   useEffect(() => {
     let filteredEvents = events;
-    
+
     if (filterBy.includes("My Events")) {
       filteredEvents = events.filter(
         (event) => event.user.username === profile.username
-        );
-      }
-      
-      if (selectedDate) {
-        filteredEvents = filteredEvents.filter(
+      );
+    }
+
+    if (selectedDate) {
+      filteredEvents = filteredEvents.filter(
         (event) =>
-        new Date(event.date).toLocaleDateString() ===
+          new Date(event.date).toLocaleDateString() ===
           selectedDate.$d.toLocaleDateString()
-          );
+      );
     }
     sortEvents(filteredEvents, sortBy);
     setEvents(filteredEvents);
   }, [selectedDate, sortBy, filterBy]);
-  
-
-
-
-
-
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-  
+
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
-  console.log(events.user);
-  
+
   return (
     <>
+    <MapModal address={mapAddress} />
       <Box display="flex" justifyContent="center" alignItems="center" py={1}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Container components={["DatePicker"]}>
@@ -180,12 +203,12 @@ const Events = () => {
                     flexDirection: "column",
                   }}
                   onClick={() => {
-                    setToggleMap(true);
-                    setMapId(event.eventId);
+                    toggle()
+                    setMapAddress(event.address)
                   }}
                 >
                   <CardHeader
-                    avatar={<Avatar>{event.user.profilePic}</Avatar>}
+                    avatar={<Avatar src={event.user.profilePic} />}
                     sx={{ height: "60px" }}
                     title={`Host: @${event.user.username}`}
                   />

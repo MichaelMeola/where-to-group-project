@@ -11,6 +11,10 @@ const handlerFunctions = {
 
   getEvents: async (req, res) => {
     // console.log(req.session);
+    if(!req.session.userId) {
+      res.status(404).send("User not logged in")
+      return
+    }
     const allEvents = await Event.findAll({
       include: [
         {
@@ -26,6 +30,7 @@ const handlerFunctions = {
         },
       ],
     });
+
     res.send(allEvents);
   },
 
@@ -46,7 +51,7 @@ const handlerFunctions = {
   },
 
   addEventToCalendar: async (req, res) => {
-    const { userId } = req.session
+    const { userId } = req.session;
     const { eventId } = req.body;
 
     const savedEvent = await SavedEvent.create({
@@ -75,6 +80,8 @@ const handlerFunctions = {
   deleteEventFromCalendar: async (req, res) => {
     const { userId } = req.session;
     const { eventId } = req.params;
+    console.log(userId)
+    console.log(eventId)
 
     const savedEvent = await SavedEvent.findOne({
       where: {
@@ -94,8 +101,7 @@ const handlerFunctions = {
         {
           model: SavedEvent,
           where: { userId: req.session.userId },
-          attributes: ["userId", "eventId"],
-          required: false,
+          attributes: ["userId", "eventId"]
         },
       ],
     });
@@ -103,20 +109,18 @@ const handlerFunctions = {
   },
 
   getCalendarEvents: async (req, res) => {
-    const { userId } = req.params;
+    const { userId } = req.session;
 
-    const userSavedEvents = await SavedEvent.findAll({
-      where: {
-        userId,
-      },
+    const allEvents = await Event.findAll({
       include: [
         {
-          model: Event,
-          as: "event",
+          model: SavedEvent,
+          where: { userId: req.session.userId },
+          attributes: ["userId"],
         },
       ],
     });
-    res.send(userSavedEvents);
+    res.send(allEvents);
   },
 
   register: async (req, res) => {
@@ -220,16 +224,28 @@ const handlerFunctions = {
   },
 
   deleteUser: async (req, res) => {
+    let count = 0
     const { userId } = req.params;
     console.log(userId);
     const findUser = await User.findOne({ where: { userId: userId } });
     console.log(findUser);
     if (!findUser) {
       res.send({ success: false, message: "user not found" });
-    } 
-    else {
-      const deleteUser = await User.destroy({ where: { userId: userId } });
-          res.send({ success: true, message: "user deleted" });
+    } else {
+      const salt = bcrypt.genSaltSync(10);
+      const hashedPassword = bcrypt.hashSync("admin1234", salt);
+      const defaultUser = await User.update(
+        {
+          username: `deletedUser${count}`,
+          email: `deleteUser${count}@mail.com`,
+          age: null,
+          profilePic:
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+          password: hashedPassword,
+        },
+        { where: { userId: userId } }
+      );
+      res.send({ success: true, message: "user deleted" });
     }
   },
   editUser: async (req, res) => {
@@ -276,6 +292,14 @@ const handlerFunctions = {
     );
     res.send({ success: true, message: "password updated" });
   },
+  checkSession: async (req, res) => {
+    console.log(req.session);
+    if (!req.session.userId) {
+      res.send({ loggedIn: false });
+    } else {
+      res.send({ loggedIn: true });
+    }
+  }
 };
 
 export default handlerFunctions;

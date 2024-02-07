@@ -65,8 +65,6 @@ export default function Create() {
       );
     } else {
       const newEvent = {
-        hostName: profile.username,
-        hostPic: profile.profilePic,
         name: eventName,
         date: dateTime,
         address,
@@ -104,7 +102,7 @@ export default function Create() {
   };
 
   return (
-    <Card sx={{maxWidth: 800, mb: 20, mt: 2 }}>
+    <Card sx={{maxWidth: 800, mb: 20, mt: 2, borderRadius: '16px',  boxShadow: '0px 0px 0px 1px' }}>
       <CardMedia
         sx={{ height: 240 }}
         image="https://img.freepik.com/premium-vector/event-planner-template-hand-drawn-cartoon-illustration-with-planning-schedule-calendar-concept_2175-7747.jpg"

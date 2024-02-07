@@ -21,12 +21,17 @@ import {
   styled,
 } from "@mui/material/styles";
 import { CircularProgress } from '@mui/material';
+import { useMapStore } from "../../globalState.jsx";
 
 
-
-function MapModal(mapId, toggleMap) {
+function MapModal(props) {
   const { events, setEvents } = useEventsStore();
-  console.log(events);
+  const { isToggle, toggle } = useMapStore();
+  const { address } = props
+  
+
+  console.log(address);
+  console.log(isToggle, "isToggle");
   const theme = createTheme({
     palette: {
       primary: {
@@ -75,12 +80,7 @@ function MapModal(mapId, toggleMap) {
     maxHeight: 400,
     backgroundColor: "white",
     [theme.breakpoints.down("sm")]: {
-      // width: "60%",
-      // pb: "15px",
-      // pt: "5px",
       padding: 15,
-  
-      // backgroundColor: "blue",
     },
     [theme.breakpoints.up("md")]: {
       // pb: "50px",
@@ -98,7 +98,7 @@ function MapModal(mapId, toggleMap) {
     padding: 20,
   }));
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 767 && window.innerHeight > 400);
-  console.log("desktop",isDesktop);
+  
   useEffect(() => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth > 1024 && window.innerHeight > 400)
@@ -114,7 +114,7 @@ function MapModal(mapId, toggleMap) {
  
   
 
-  console.log(toggleMap);
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -133,41 +133,39 @@ function MapModal(mapId, toggleMap) {
   let mapHeight = ""
   let mapWidth = ""
 
-    // let currAddress = events[mapId].address.replaceAll(" ", "+");
-    if(isDesktop) {
-      mapHeight = "350", 
-      mapWidth = "350" 
-     }else
-     {
-      mapHeight = "100", 
-      mapWidth = "5%"
-     }
-    if(toggleMap) {
+  if(isDesktop) {
+    mapHeight = "350", 
+    mapWidth = "350" 
+  }else
+  {
+    mapHeight = "100", 
+    mapWidth = "5%"
+  }
+  if(isToggle && address) {
+      let currAddress = address.replaceAll(" ", "+");
+      
     return (
-      // <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <MapModal
-        open={toggleMap}
-        onClose={() => setToggleMap(false)}
+        open={isToggle}
+        onClose={() => toggle()}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         >
                 <MapBox >
-                {/* {loading && (
-                <CircularProgress sx={{ postition: "abosolute", top:"50vh", left: "50vw"}}/>
-                  )} */}
-                  {/* <Typography variant="h3">{events[mapId].address}</Typography> */}
+                  <Typography variant="h3">{address}</Typography>
                   <iframe
                   width="350"
                   height="350"
                   referrerPolicy='no-referrer-when-downgrade'
-                  // src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyC25VIhEjKJd0V1tKTNfe5B-Zl-6Ii1G8I&q=${currAddress}`}
+                  src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyC25VIhEjKJd0V1tKTNfe5B-Zl-6Ii1G8I&q=${currAddress}`}
                   />
                   
                   
             </MapBox>
 
         </MapModal>
-        // </ThemeProvider>
+         </ThemeProvider>
     )
     }
     else {

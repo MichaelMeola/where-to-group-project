@@ -12,14 +12,21 @@ export const useProfileStore = create(
   persist(
     (set) => ({
       profile: {},
-      
+
       setProfile: (newProfile) => set({ profile: newProfile }),
+
+      savedEvents: [],
+
+      setSavedEvents: (savedEvents) => set({ savedEvents: savedEvents }),
 
       likedEvents: {},
 
-      setLikedEvents: (updatedLikedEvents) => set({ likedEvents: updatedLikedEvents}),
+      setLikedEvents: (updatedLikedEvents) =>
+        set({ likedEvents: updatedLikedEvents }),
 
       logout: () => set({ profile: {}, likedEvents: {} }),
+
+      toggleMap: () => set((state) => ({ toggleMap: !state.toggleMap })),
     }),
     {
       name: "profile-store",
@@ -27,3 +34,8 @@ export const useProfileStore = create(
     }
   )
 );
+
+export const useMapStore = create((set) => ({
+  isToggle: false,
+  toggle: () => set((state) => ({ isToggle: !state.isToggle })),
+}));
