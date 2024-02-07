@@ -32,6 +32,8 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import MapModal from "../Testing/Testing.jsx";
+
 
 const Events = () => {
   const navigate = useNavigate();
@@ -40,6 +42,8 @@ const Events = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [sortBy, setSortBy] = useState("likes");
   const [filterBy, setFilterBy] = useState([]);
+  const {toggleMap, setToggleMap} = useEventsStore();
+
   const sortEvents = (events, sortBy) => {
     events.sort((a, b) => {
       if (sortBy === "date") {
@@ -100,6 +104,12 @@ const Events = () => {
     setEvents(filteredEvents);
   }, [selectedDate, sortBy, filterBy]);
   
+
+
+
+
+
+
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -168,6 +178,10 @@ const Events = () => {
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
+                  }}
+                  onClick={() => {
+                    setToggleMap(true);
+                    setMapId(event.eventId);
                   }}
                 >
                   <CardHeader
