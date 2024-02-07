@@ -657,11 +657,10 @@ export default function Profile() {
                 {profilePicValue.length > 3 &&
                   usernameValue.length >= 3 &&
                   emailValue.length > 3 &&
-                  ageValue && <PurpButton type="submit">Save</PurpButton>}
+                   <PurpButton type="submit">Save</PurpButton>}
                 {(profilePicValue.length <= 3 ||
                   usernameValue.length <= 2 ||
-                  emailValue.length <= 3 ||
-                  !ageValue) && (
+                  emailValue.length <= 3) && (
                   <DisabledPurpButton disabled type="submit">
                     Save
                   </DisabledPurpButton>
@@ -722,8 +721,6 @@ export default function Profile() {
                   {/* <Typography label ="age" variant="h3">Age:</Typography> */}
                   <CustomTextField
                     label="Age"
-                    error={!ageValue}
-                    helperText={!ageValue ? "Age required" : ""}
                     value={ageValue}
                     onChange={(e) => setAgeValue(e.target.value)}
                     required
