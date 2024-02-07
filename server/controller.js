@@ -35,7 +35,8 @@ const handlerFunctions = {
   },
 
   addEvent: async (req, res) => {
-    const { userId, name, date, address, description, image, ages } = req.body;
+    const { name, date, address, description, image, ages } = req.body;
+    const { userId } = req.session
 
     const newEvent = await Event.create({
       userId,
@@ -101,7 +102,8 @@ const handlerFunctions = {
         {
           model: SavedEvent,
           where: { userId: req.session.userId },
-          attributes: ["userId", "eventId"]
+          attributes: ["userId", "eventId"],
+          required: false,
         },
       ],
     });
