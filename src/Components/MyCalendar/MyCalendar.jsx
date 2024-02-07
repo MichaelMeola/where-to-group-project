@@ -27,10 +27,17 @@ export default function MyCalendar() {
     })
   }, [])
 
+  const handleDeleteEvent = (eventId) => {
+    setCurrentEvents((prevEvents) => 
+    prevEvents.filter((event) => event.eventId !== eventId )
+    )
+  }
+
   const cards = currentEvents.map((eventsObj) => 
     <MyCalendarCard
       initialEventData={eventsObj}
       key={eventsObj.id}
+      onDelete={handleDeleteEvent}
     />
   )
 
