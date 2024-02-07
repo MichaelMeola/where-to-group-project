@@ -25,6 +25,8 @@ export const useProfileStore = create(
         set({ likedEvents: updatedLikedEvents }),
 
       logout: () => set({ profile: {}, likedEvents: {} }),
+
+      toggleMap: () => set((state) => ({ toggleMap: !state.toggleMap })),
     }),
     {
       name: "profile-store",
@@ -32,3 +34,8 @@ export const useProfileStore = create(
     }
   )
 );
+
+export const useMapStore = create((set) => ({
+  isToggle: false,
+  toggle: () => set((state) => ({ isToggle: !state.isToggle })),
+}));

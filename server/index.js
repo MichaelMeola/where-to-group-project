@@ -31,6 +31,8 @@ const {
   addEventToCalendar,
   getCalendarEvents,
   deleteEventFromCalendar,
+  addLike,
+  deleteLike,
   checkSession
 } = handlerFunctions;
 
@@ -39,6 +41,8 @@ app.post("/api/events", addEvent);
 app.get("/api/calendarEvents", getCalendarEvents);
 app.post("/api/addToCalendar", addEventToCalendar);
 app.delete("/api/deleteFromCalendar/:eventId", deleteEventFromCalendar);
+app.post("/api/addLike", addLike)
+app.delete("/api/deleteLike/:eventId", deleteLike)
 app.post("/api/login", login);
 app.post("/api/logout", logout);
 app.post("/api/register", register);

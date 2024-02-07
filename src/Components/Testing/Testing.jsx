@@ -15,14 +15,97 @@ import CardActions from "@mui/material/CardActions";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { CircularProgress } from "@mui/material";
+import { useMapStore } from "../../globalState.jsx";
 
-function Testing() {
-  const [toggleMap, setToggleMap] = useState(false);
+function MapModal(props) {
   const { events, setEvents } = useEventsStore();
-  const [mapId, setMapId] = useState(null);
+  const { isToggle, toggle } = useMapStore();
+  const { address } = props;
 
+  console.log(address);
+  console.log(isToggle, "isToggle");
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#bf00ff",
+      },
+      secondary: {
+        main: "#ac00e6",
+      },
+      background: {
+        main: "#99D5C9",
+      },
+    },
+    typography: {
+      fontSize: 13,
+      display: "flex",
+      flexDirection: "column",
+    },
+    modal: {
+      padding: 0,
+    },
+  });
 
-  console.log(toggleMap);
+  theme.typography.h3 = {
+    color: "#ac00e6",
+    padding: "5px 0px 5px 0px",
+
+    fontSize: "1.2rem",
+    display: "flex",
+    flexDirection: "column",
+  };
+  theme.typography.p = {
+    color: "black",
+  };
+
+  const MapBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: 50,
+    width: "100%",
+    height: "100%",
+    maxWidth: 800,
+    minWidth: 150,
+    minHeight: 250,
+    maxHeight: 400,
+    backgroundColor: "white",
+    [theme.breakpoints.down("sm")]: {
+      padding: 15,
+    },
+    [theme.breakpoints.up("md")]: {
+      // pb: "50px",
+      minWidth: 600,
+      maxWidth: 800,
+    },
+    "& > :not(style)": { width: "100%", minWidth: 300, maxWidth: 800 },
+  }));
+
+  const MapModal = styled(Modal)(({ theme }) => ({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  }));
+  const [isDesktop, setIsDesktop] = useState(
+    window.innerWidth > 767 && window.innerHeight > 400
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 1024 && window.innerHeight > 400);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -32,145 +115,44 @@ function Testing() {
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
-    pt: 2,
-    px: 4,
-    pb: 3,
     textAlign: "center",
     borderRadius: 3,
   };
 
-  useEffect(() => {
-    axios
-      .get("/api/events")
-      .then((response) => {
-        const fetchedEvents = response.data;
-        setEvents(fetchedEvents);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  let mapHeight = "";
+  let mapWidth = "";
 
-  let GoogleEvents = events.map((event) => {
-    let currAddress = event.address.replace(" ", "+");
-    // return <p>{event.address}</p>
+  if (isDesktop) {
+    (mapHeight = "350"), (mapWidth = "350");
+  } else {
+    (mapHeight = "100"), (mapWidth = "5%");
+  }
+  if (isToggle && address) {
+    let currAddress = address.replaceAll(" ", "+");
+
     return (
-      <iframe
-        width="350"
-        height="350"
-        referrerPolicy="no-referrer-when-downgrade"
-        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyC25VIhEjKJd0V1tKTNfe5B-Zl-6Ii1G8I&q=${currAddress}`}
-      ></iframe>
-    );
-  });
-
-  const AdressViewModal = () => {
-    console.log(events[mapId]);
-    // console.log('hit');
-    let currAddress = events[mapId].address.replaceAll(" ", "+")
-
-    
-    return (
-        <Modal
-        open={toggleMap}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+      <ThemeProvider theme={theme}>
+        <MapModal
+          open={isToggle}
+          onClose={() => toggle()}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
         >
-                <Box sx={{ ...style, width: "80%" }}>
-                {/* <p>{currAddress}</p> */}
-                <iframe
-                width="350"
-                height="350"
-                referrerPolicy='no-referrer-when-downgrade'
-                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyC25VIhEjKJd0V1tKTNfe5B-Zl-6Ii1G8I&q=${currAddress}`}
-                >
-
-                </iframe>
-            </Box>
-
-        </Modal>
-    )
-    
-  };
-  return (
-    <div>
-      <main>
-        {toggleMap && AdressViewModal()}
-        <Container sx={{ py: 3 }} maxWidth="md">
-          {events.length === 0 ? (
-            <Typography variant="body1" color="text.primary">
-              No events found for the selected date.
-            </Typography>
-          ) : (
-            <Grid container spacing={4}>
-              {events.map((event) => (
-                <Grid item key={event.eventId} xs={12} sm={6} md={4}>
-                  <Card
-                    sx={{
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                    onClick={() => {
-                        console.log('hit');
-                      setToggleMap(true);
-                      setMapId(event.eventId);
-                    }}
-                  >
-                    <CardHeader
-                      // avatar={<Avatar>{event.user.profilePic}</Avatar>}
-                      sx={{ height: "60px" }}
-                      title={`Host: @${event.user.username}`}
-                    />
-                    <CardMedia
-                      component="img"
-                      height="200"
-                      image={`${event.image}`}
-                      alt="Event Image"
-                    />
-                    <CardContent>
-                      <Typography variant="body1" color="text.primary">
-                        {event.name}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {event.address}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {new Date(event.date).toLocaleString("en-US", {
-                          dateStyle: "long",
-                          timeStyle: "short",
-                        })}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {event.description}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {event.ages}+
-                      </Typography>
-                    </CardContent>
-                    <CardActions
-                      disableSpacing
-                      sx={{
-                        marginTop: "auto",
-                      }}
-                    >
-                      <Checkbox
-                        icon={<FavoriteBorder />}
-                        checkedIcon={<Favorite style={{ color: "red" }} />}
-                      />
-                      <Typography variant="body2" color="text.secondary">
-                        {event.likes}
-                      </Typography>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-        </Container>
-      </main>
-    </div>
-  );
+          <MapBox>
+            <Typography variant="h3">{address}</Typography>
+            <iframe
+              width="350"
+              height="350"
+              referrerPolicy="no-referrer-when-downgrade"
+              src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyC25VIhEjKJd0V1tKTNfe5B-Zl-6Ii1G8I&q=${currAddress}`}
+            />
+          </MapBox>
+        </MapModal>
+      </ThemeProvider>
+    );
+  } else {
+    return null;
+  }
 }
 
-export default Testing;
+export default MapModal;
