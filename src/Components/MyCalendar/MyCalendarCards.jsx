@@ -25,7 +25,7 @@ const MyCalendarCard = ({ initialEventData, event, onDelete }) => {
   };
 
   return (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid item xs={12} sm={6} md={4} lg={4}>
       <Card
         sx={{
           display: "flex",
@@ -40,15 +40,15 @@ const MyCalendarCard = ({ initialEventData, event, onDelete }) => {
       >
         <CardMedia
           component="img"
-          sx={{ maxWidth: 160, height: 180, borderRadius: "12px" }}
+          sx={{ maxWidth: 140, height: 180, borderRadius: "12px" }}
           image={`${initialEventData.image}`}
-          alt="Live from space album cover"
+          alt="Event image"
         />
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            p: "0px 0px 0px 20px",
+            p: "0px 0px 0px 0px",
             maxWidth: "190px",
           }}
         >
@@ -56,7 +56,7 @@ const MyCalendarCard = ({ initialEventData, event, onDelete }) => {
             <Typography
               component="div"
               variant="h7"
-              sx={{ fontWeight: "bold", pb: "10px" }}
+              sx={{ fontWeight: "bold", pb: "10px",display: 'flex', alignContent: 'center', alignItems: 'center' }}
             >
               {initialEventData.name}
             </Typography>
@@ -95,7 +95,7 @@ const MyCalendarCard = ({ initialEventData, event, onDelete }) => {
         </Box>
         <CardActions>
           <IconButton
-            sx={{ mb: "150px", color: "red", width: "20px", height: "5px" }}
+            sx={{ mb: "140px", color: "red", width: "20px", height: "5px" }}
             onClick={() => handleDeleteFromCalendar(initialEventData)}
           >
             <CancelSharpIcon />

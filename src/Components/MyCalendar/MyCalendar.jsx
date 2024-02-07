@@ -8,38 +8,37 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
-
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { useNavigate } from 'react-router-dom'
 
 export default function MyCalendar() {
-  const [currentEvents, setCurrentEvents] = useState([])
+  const [currentEvents, setCurrentEvents] = useState([]);
   const theme = useTheme();
   const [sortBy, setSortBy] = useState("date");
-
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`/api/calendarEvents`)
-    .then((res) => {
-      console.log(res.data)
-      setCurrentEvents(res.data)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }, [])
+    axios
+      .get(`/api/calendarEvents`)
+      .then((res) => {
+        console.log(res.data);
+        setCurrentEvents(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleDeleteEvent = (eventId) => {
-    setCurrentEvents((prevEvents) => 
-    prevEvents.filter((event) => event.eventId !== eventId )
-    )
-  }
+    setCurrentEvents((prevEvents) =>
+      prevEvents.filter((event) => event.eventId !== eventId)
+    );
+  };
 
-  const cards = currentEvents.map((eventsObj) => 
-    <MyCalendarCard
-      initialEventData={eventsObj}
-      key={eventsObj.id}
-      onDelete={handleDeleteEvent}
-    />
-  )
+  const handleClickAddEventButton = () => {
+    navigate("/events")
+  }
 
   return (
     <>
@@ -57,13 +56,34 @@ export default function MyCalendar() {
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Container>
-            <DateTimePicker label="Filter Dates" sx={{ borderRadius: "10px" }}/>
+            <DateTimePicker
+              label="Filter Dates"
+              sx={{ borderRadius: "10px" }}
+            />
           </Container>
         </LocalizationProvider>
       </Box>
-        <Grid container spacing={1}>
-          {cards}
+      <Grid container spacing={1}>
+      {currentEvents.length === 0 ? (
+        <Grid container sx={{display: 'flex', flexDirection: 'column',justifyContent: 'center', alignItems: 'center', m: '140px 0px 230px 0px'}}>
+          <Typography variant="body1" color="text.primary">
+            No events found in calendar.
+          </Typography>
+          <Button variant="contained" onClick={handleClickAddEventButton} sx={{mt: '10px'}}>
+            Add Event
+          </Button>
         </Grid>
+        ) : (
+          currentEvents.map((eventsObj) => (
+            <MyCalendarCard
+              initialEventData={eventsObj}
+              key={eventsObj.id}
+              onDelete={handleDeleteEvent}
+            />
+          ))
+        )}
+      </Grid>
+      <Box sx={{height: '70px'}}></Box>
     </>
   );
 }

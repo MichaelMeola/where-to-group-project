@@ -3,11 +3,10 @@
     text-align: center;
     padding: 100px 0px 120px 0px;
     max-width: 900px;
-    font-family: 'Comfortaa', sans-serif;
 }
 
 .about-div-border-container {
-    background-color: rgb(251, 244, 255);
+    background-color: white;
     padding: 0px 90px 0px 90px
 }
 
