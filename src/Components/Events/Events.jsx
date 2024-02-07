@@ -76,7 +76,7 @@ const Events = () => {
       .post("/api/addToCalendar", { eventId })
       .then((response) => {
         console.log(response.data);
-        sortEvents(response.data,  sortBy);
+        sortEvents(response.data, sortBy);
         setEvents(response.data);
       })
       .catch((error) => {
@@ -86,11 +86,11 @@ const Events = () => {
 
   const handleDeleteFromCalendar = (event) => {
     const { eventId } = event;
-  
+
     axios
       .delete(`/api/deleteFromCalendar/${eventId}`)
       .then((response) => {
-        sortEvents(response.data,  sortBy);
+        sortEvents(response.data, sortBy);
         setEvents(response.data);
       })
       .catch((error) => {
@@ -110,7 +110,6 @@ const Events = () => {
       .catch((error) => {
         console.log(error);
       });
-
   }, []);
 
   useEffect(() => {
