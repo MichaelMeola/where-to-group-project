@@ -215,22 +215,24 @@ const Events = () => {
 });
 
   return (
-    <>
+    <Box element='div' sx={{p: '0px 0px 60px 0px'}}>
     <ThemeProvider theme={theme}>
     <MapModal address={mapAddress} />
-      <Box display="flex" justifyContent="center" alignItems="center" py={1}>
+      <Box display="flex" justifyContent="center" alignItems="center" py={1} pb={3}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Container components={["DatePicker"]}>
             <MobileDatePicker
               label="Choose Event Date"
               variant="body1"
               onChange={handleDateChange}
+              sx={{ bgcolor: 'white'}}
             />
           </Container>
         </LocalizationProvider>
       </Box>
       <Box display="flex" justifyContent="center" alignContent="center">
         <Autocomplete
+          sx={{bgcolor: 'white'}}
           multiple
           id="filters"
           options={["18+", "21+", "My Events"]}
@@ -247,18 +249,19 @@ const Events = () => {
               {option}
             </li>
           )}
-          style={{ width: 200 }}
+          style={{ width: 180, bgcolor: 'white' }}
           renderInput={(params) => (
             <TextField {...params} label="Filter By..." placeholder="Filters" />
           )}
         />
-        <FormControl sx={{ ml: 2 }}>
-          <InputLabel id="sort-by-label">Sort By:</InputLabel>
+        <FormControl sx={{ ml: 3, borderRadius: "25px"}}>
+          <InputLabel id="sort-by-label" sx={{m: '0px 0px 0px 0px', borderRadius: "25px", bgcolor: '#787878', fontSize: '14px', p: '0px 4px 0px 4px', color: 'white'}}>Sort By: </InputLabel>
           <Select
             labelId="sort-by-label"
             id="sort-by"
             value={sortBy}
             onChange={handleSortByChange}
+            sx={{ borderRadius: '25px', bgcolor: 'white'}}
           >
             <MenuItem value="likes">Most Liked</MenuItem>
             <MenuItem value="date">Event Date</MenuItem>
@@ -271,7 +274,7 @@ const Events = () => {
             No events found for the selected date.
           </Typography>
         ) : (
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {events.map((event) => (
               <Grid item key={event.eventId} xs={12} sm={6} md={4}>
                 <Card
@@ -279,12 +282,15 @@ const Events = () => {
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
+                    borderRadius: "16px",
+                    boxShadow: "0px 0px 0px 1px",
+                    bgcolor: 'white'
                   }}
                   >
                   <CardHeader
                     avatar={<Avatar src={event.user.profilePic} />}
-                    sx={{ height: "60px" }}
-                    title={`Host: @${event.user.username}`}
+                    sx={{ height: "60px", display: 'flex', alignItems: 'start', gap: '140px', pb: '50px'}}
+                    title={`${event.user.username}`}
                     />
                   <CardMedia
                     component="img"
@@ -293,7 +299,7 @@ const Events = () => {
                     alt="Event Image"
                     />
                   <CardContent>
-                    <Typography variant="h2" color="text.primary">
+                    <Typography variant="h2" color="text.primary" >
                     
                       
                       {event.name}
@@ -303,6 +309,7 @@ const Events = () => {
                     </Typography>
                     </Typography>
                     <Typography variant="h3" 
+                    color='text.primary'
                     onClick={() => {
                        toggle()
                        setMapAddress(event.address)
@@ -330,6 +337,7 @@ const Events = () => {
                       marginTop: "auto",
                       display: "flex",
                       justifyContent: "space-between",
+                      bgcolor: '#f0f0f0'
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
@@ -373,7 +381,7 @@ const Events = () => {
         )}
       </Container>
       </ThemeProvider>
-    </>
+    </Box>
   );
 };
 

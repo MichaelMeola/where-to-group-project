@@ -29,7 +29,7 @@ const MyCalendarCard = ({ initialEventData, event, onDelete }) => {
   };
 
   return (
-    <Grid item xs={12} sm={6} md={4} lg={4}>
+    <Grid item >
       <Card
         sx={{
           display: "flex",
@@ -40,6 +40,10 @@ const MyCalendarCard = ({ initialEventData, event, onDelete }) => {
           pb: 1,
           borderRadius: "16px",
           boxShadow: "0px 0px 0px 1px",
+          bgcolor: 'white',
+          alignContent: 'center',
+          alignItems: 'center',
+          maxWidth: '365px'
         }}
       >
         <CardMedia
@@ -53,7 +57,7 @@ const MyCalendarCard = ({ initialEventData, event, onDelete }) => {
             display: "flex",
             flexDirection: "column",
             p: "0px 0px 0px 0px",
-            maxWidth: "190px",
+        
           }}
         >
           <CardContent sx={{ flex: "2 0 auto" }}>
@@ -77,7 +81,7 @@ const MyCalendarCard = ({ initialEventData, event, onDelete }) => {
                 component="div"
                 sx={{
                   textDecoration: "underline",
-                  p: "0px 2px 0px 0px",
+                  p: "0px 15px 0px 0px",
                   fontSize: "12px",
                 }}
               >
@@ -97,6 +101,7 @@ const MyCalendarCard = ({ initialEventData, event, onDelete }) => {
             </Box>
           </CardContent>
         </Box>
+        <Box>
         <CardActions>
           <IconButton
             sx={{ mb: "140px", color: "red", width: "20px", height: "5px" }}
@@ -105,6 +110,7 @@ const MyCalendarCard = ({ initialEventData, event, onDelete }) => {
             <CancelSharpIcon />
           </IconButton>
         </CardActions>
+        </Box>
       </Card>
     </Grid>
   );
