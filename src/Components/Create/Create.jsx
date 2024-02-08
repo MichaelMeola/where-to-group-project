@@ -69,6 +69,7 @@ export default function Create() {
         date: dateTime,
         address,
         description,
+        likes: 0,
         image: imageUrl,
         ages: +ages,
       };
