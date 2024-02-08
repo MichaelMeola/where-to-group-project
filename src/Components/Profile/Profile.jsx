@@ -485,6 +485,7 @@ export default function Profile() {
                   src={profilePicValue}
                   className="profile-pic"
                   roundedCircle
+                  
                 />
 
                 <Typography variant="h3">Username:</Typography>
