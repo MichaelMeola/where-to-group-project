@@ -29,19 +29,16 @@ import { useNavigate } from "react-router-dom";
 
 
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
+  display: "flex", 
+  alignItems: "center", 
+  justifyContent: "center", 
+  bgcolor: "white",
   border: "2px solid #000",
   boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
+  width: 200,
+  padding: 5,
+  borderRadius: 5,
   textAlign: "center",
-  borderRadius: 3,
 };
 
 const theme = createTheme({
@@ -293,6 +290,11 @@ export default function Profile() {
               </Box>
             </Modal>
             <Modal
+              sx={{ 
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
               open={passModal}
               onClose={() => {
                 setPassModal(false),
@@ -301,7 +303,18 @@ export default function Profile() {
               }}
               // alignItems="center"
             >
-              <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
+              <Box className="modal-success" sx={{ 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center", 
+              bgcolor: "white",
+              border: "2px solid #000",
+              boxShadow: 24,
+              padding: 5,
+              width: 1 / 2,
+              borderRadius: 5,
+              textAlign: "center",
+              }}>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -344,68 +357,30 @@ export default function Profile() {
                 </form>
               </Box>
             </Modal>
-            <Modal
-              open={passModal}
-              onClose={() => {
-                setPassModal(false),
-                  setVerifyFail(false),
-                  setVerifyAlert(false);
-              }}
-              // alignItems="center"
-            >
-              <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    verifyPassword(
-                      e,
-                      (data = {
-                        password: verifyPass,
-                        userId: profile.userId,
-                      })
-                    );
-                  }}
-                >
-                  <h2>Enter current password</h2>
-                  <input
-                    type="password"
-                    placeholder="Enter old password"
-                    onChange={(e) => setVerifyPass(e.target.value)}
-                  />
-                  {verifyAlert && (
-                    <Alert severity="info">
-                      <AlertTitle>Success</AlertTitle>Password Verified, create
-                      new password
-                    </Alert>
-                  )}
-                  {!verifyAlert && <button type="submit">Submit</button>}
-                  {verifyAlert && (
-                    <button
-                      type="submit"
-                      onClick={() => setNewPassModal(!newPassModal)}
-                    >
-                      Create new password
-                    </button>
-                  )}
-                  {verifyFail ? (
-                    <Alert severity="error">
-                      <AlertTitle>Error</AlertTitle>Incorrect password
-                    </Alert>
-                  ) : (
-                    ""
-                  )}
-                  {/* {!verifyFail && ""} */}
-                </form>
-              </Box>
-            </Modal>
+
 
             <Modal
+            sx={{ 
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
               open={newPassModal}
               onClose={() => setNewPassModal(false)}
               // alignItems="center"
             >
-              <Box className="modal-success" sx={{ ...style, width: 1 / 2 }}>
+              <Box className="modal-success" sx={{ 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center", 
+              bgcolor: "white",
+              border: "2px solid #000",
+              boxShadow: 24,
+              padding: 5,
+              width: 1 / 2,
+              borderRadius: 5,
+              textAlign: "center",
+              }}>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -425,9 +400,10 @@ export default function Profile() {
                   <input
                     type="password"
                     placeholder="Enter new password"
+                    required
                     onChange={(e) => setPasswordValue(e.target.value)}
                   />
-                  <button type="submit">Submit</button>
+                  <button type="submit" sx={{bgcolor: "white"}}>Submit</button>
                 </form>
               </Box>
             </Modal>
@@ -599,6 +575,7 @@ export default function Profile() {
                   <input
                     type="password"
                     placeholder="Enter old password"
+                    required
                     onChange={(e) => setVerifyPass(e.target.value)}
                   />
                   {!verifyAlert && <button type="submit">Submit</button>}
