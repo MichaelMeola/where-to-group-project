@@ -21,10 +21,10 @@ export default function MobileFooter() {
           <div className="col-4 m-auto">
             <Link to="/events">
               {location.pathname === "/events" ? (
-                <i className="material-icons mobile-icons" style={{ color: '#9200e0'}}>home</i> 
+                <i className="material-icons mobile-icons" style={{ color: 'black'}}>home</i> 
               ) : (
                 <i
-                  className="material-icons mobile-icons"
+                  className="material-icons mobile-icons" style={{ color: '#616161'}}
                 >
                  home
                 </i> 
@@ -34,18 +34,18 @@ export default function MobileFooter() {
           <div className="col-4 m-auto">
             <Link to='/create'>
               {location.pathname === '/create' ? (
-                <i className='material-icons mobile-icons' style={{ color: '#9200e0'}}>add</i>
+                <i className='material-icons mobile-icons' style={{ color: 'black'}}>add</i>
               ) : (
-                <i className='material-icons mobile-icons' >add</i>
+                <i className='material-icons mobile-icons' style={{ color: '#616161'}}>add</i>
               )}
             </Link>
           </div>
           <div className="col-4 m-auto">
             <Link to="/myCalendar">
               {location.pathname === '/myCalendar' ? (
-                <i className="material-icons mobile-icons" style={{ color: '#9200e0'}}>calendar_month</i>
+                <i className="material-icons mobile-icons" style={{ color: 'black'}}>calendar_month</i>
               ) : (
-                <i className="material-icons mobile-icons">calendar_month</i>
+                <i className="material-icons mobile-icons" style={{ color: '#616161'}}>calendar_month</i>
               )}
             </Link>
           </div>

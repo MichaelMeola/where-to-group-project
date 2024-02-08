@@ -47,7 +47,6 @@ export default function MyCalendar() {
           postion: "fixed",
           top: 0,
           left: 0,
-          bgcolor: "white",
           display: "flex",
           justifyContent: "center",
           py: 2,
@@ -58,7 +57,7 @@ export default function MyCalendar() {
           <Container>
             <DateTimePicker
               label="Filter Dates"
-              sx={{ borderRadius: "10px" }}
+              sx={{ bgcolor: 'white' }}
             />
           </Container>
         </LocalizationProvider>
@@ -75,10 +74,10 @@ export default function MyCalendar() {
         </Grid>
         ) : (
           currentEvents.map((eventsObj) => (
-            <MyCalendarCard
-              initialEventData={eventsObj}
-              key={eventsObj.id}
-              onDelete={handleDeleteEvent}
+              <MyCalendarCard
+                initialEventData={eventsObj}
+                key={eventsObj.id}
+                onDelete={handleDeleteEvent}    
             />
           ))
         )}
