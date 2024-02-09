@@ -268,7 +268,7 @@ export default function Profile() {
       <Container sx={{ pb: 25 }}>
         <ThemeProvider theme={theme}>
           <Typography variant="h3">Edit Profile</Typography>
-          <PurpSwitch onChange={openEdit} />
+          <PurpSwitch onChange={openEdit} checked={false} />
           <div>
             <Modal
               open={deleteAlert}
@@ -281,6 +281,11 @@ export default function Profile() {
               </Box>
             </Modal>
             <Modal
+             sx={{ 
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
               open={changeModal}
               onClose={() => setChangeModal(false)}
               // alignItems="center"
@@ -700,8 +705,9 @@ export default function Profile() {
                   <CustomTextField
                     label="Age"
                     value={ageValue}
+                    type="number"
+                    defaultValue={0}
                     onChange={(e) => setAgeValue(e.target.value)}
-                    required
                   />
                   <Typography variant="h3" label="password">
                     Password:
