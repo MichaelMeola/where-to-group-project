@@ -1,0 +1,27 @@
+.about-div-container {
+    align-items: center;
+    text-align: center;
+    padding: 100px 0px 120px 0px;
+    max-width: 900px;
+}
+
+.about-div-border-container {
+    background-color: white;
+    padding: 0px 90px 0px 90px
+}
+
+.about-label-spacing {
+    padding: 0px 0px 20px 0px
+}
+
+.about-explanation-spacing {
+    padding: 0px 0px 70px 0px
+}
+
+.about-ol {
+    text-align: left;
+}
+
+.about-ol-li {
+    padding: 0px 0px 20px 0px;
+}

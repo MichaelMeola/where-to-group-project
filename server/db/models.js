@@ -18,57 +18,29 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    firstName: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      unique: true,
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    friends: {
-      type: DataTypes.STRING,
+    age: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
-  },
-  {
-    sequelize: db,
-  }
-);
-
-class Group extends Model {
-  [util.inspect.custom]() {
-    return this.toJSON();
-  }
-}
-
-Group.init(
-  {
-    groupId: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    creatorId: {
-      type: DataTypes.INTEGER,
+    profilePic: {
+      type: DataTypes.TEXT,
       allowNull: false,
-      references: { model: User, key: "userId" },
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    zip: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      defaultValue:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     },
   },
   {
@@ -89,17 +61,16 @@ Event.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    groupId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: { model: Group, key: "groupId" },
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     date: {
-      type: DataTypes.DATETIME,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     description: {
@@ -110,7 +81,7 @@ Event.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    votes: {
+    likes: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
@@ -125,35 +96,63 @@ Event.init(
   }
 );
 
-class Winner extends Model {
+class Liked extends Model {
   [util.inspect.custom]() {
     return this.toJSON();
   }
 }
 
-Winner.init(
+Liked.init(
   {
-    winnerId: {
+    likeId: {
       type: DataTypes.INTEGER,
-      autoIncrement:true,
-      primaryKey: true
+      autoIncrement: true,
+      primaryKey: true,
     },
-    groupId: {
+    count: {
       type: DataTypes.INTEGER,
-      references: { model: Group, key: "groupId" },
-      allowNull: false
-    },
-    eventId: {
-      type: DataTypes.INTEGER,
-      references: { model: Event, key: "eventId" },
-      allowNull: false
-    },
-    winningVotes: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      defaultValue: 0
     }
+  },
+  {
+    sequelize: db,
   }
-)
+);
+
+class SavedEvent extends Model {
+  [util.inspect.custom]() {
+    return this.toJSON();
+  }
+}
+
+SavedEvent.init(
+  {
+    savedEventId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+  },
+  {
+    sequelize: db,
+  }
+);
+
+User.belongsToMany(Event, { through: SavedEvent, foreignKey: "userId"});
+Event.belongsToMany(User, { through: SavedEvent, foreignKey: "eventId", as: 'savedEvents'});
+User.hasMany(SavedEvent, { foreignKey: "userId" });
+SavedEvent.belongsTo(User, { foreignKey: "userId" })
+Event.hasMany(SavedEvent, { foreignKey: "eventId" });
+SavedEvent.belongsTo(Event, { foreignKey: "eventId" })
+
+Event.hasMany(Liked, { foreignKey: "eventId" });
+Liked.belongsTo(Event, { foreignKey: "eventId" });
+User.hasMany(Liked, { foreignKey: "userId" });
+Liked.belongsTo(User, { foreignKey: "userId" });
+
+User.hasMany(Event, {foreignKey: "userId"})
+Event.belongsTo(User, { foreignKey: "userId", as: 'user' })
 
 if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
   console.log("Syncing database...");
@@ -161,4 +160,4 @@ if (process.argv[1] === url.fileURLToPath(import.meta.url)) {
   console.log("Finished syncing database!");
 }
 
-export { User, Group, Event, Winner };
+export { User, Event, Liked, SavedEvent };

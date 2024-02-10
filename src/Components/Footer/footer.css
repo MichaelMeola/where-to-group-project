@@ -1,0 +1,31 @@
+.page-footer {
+    color: white; /* Set text color if needed */
+    padding: 20px; /* Adjust padding as needed */
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 130px;
+}
+
+.ul-link {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-link {
+    color: white; /* Set link color if needed */
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    text-decoration: underline; /* Add underline on hover if needed */
+}
+
+.cart-icon {
+    font-size: 65px;
+}
+
+.row {
+    padding: 10px 0px 0px 0px;
+}

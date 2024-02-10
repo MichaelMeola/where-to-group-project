@@ -1,0 +1,38 @@
+.desktop-footer-style {
+    text-decoration: none;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0); 
+    padding: 20px; 
+    width: 100%;
+    position: absolute;
+    left: 0;
+    height: 120px;
+}
+
+.desktop-ul-link {
+    font-size: medium;
+    margin-top:15px;
+}
+
+.desktop-footer-link:hover {
+    color: rgb(146, 146, 146);
+    text-decoration: none;
+}
+
+.desktop-footer-link {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+.desktop-row {
+    padding: 0px 0px 0px 0px
+}
+
+.copyright-div {
+    font-size: small;
+}
+
+.desktop-footer-links-div {
+    height: 40px;
+}
+

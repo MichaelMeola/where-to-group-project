@@ -1,0 +1,65 @@
+.desktop-navbar-main {
+    height: 70px;
+    padding: 10px 0px 0px 0px;
+    margin: 0px;
+    background-color: white;
+}
+
+.desktop-nav-link {
+    margin: 0px 90px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: rgb(48, 47, 47);
+}
+
+.desktop-nav-link-link {
+    font-size: medium;
+    text-decoration: none;
+    padding: 5px 0px 0px 0px;
+}
+
+.desktop-nav-link-link:hover {
+    color: rgb(146, 146, 146);
+}
+
+.desktop-navbar-brand-link {
+    padding: 0px 0px 0px 40px;
+    margin: 20px 0px 0px 0px;
+    height: 60px;
+    width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.desktop-nav-link-profile-pic {
+    padding: 0px 20px 0px 0px;
+    margin: 0px 0px 0px 0px;
+}
+
+.desktop-navbar-brand-img {
+    width: 200px;
+}
+
+.desktop-navbar-profilepic {
+    width: 45px;
+    height: 45px;
+}
+
+.desktop-navbar-profilepic:hover {
+    border-radius: 50%;
+    border: 1px solid rgb(146, 146, 146);
+    
+}
+
+.desktop-navbar-dropdown-menu {
+    margin: 0px 20px 0px 0px;
+
+}
+
+.tooltip{
+    z-index: 100
+}
